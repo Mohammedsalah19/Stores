@@ -54,5 +54,7 @@ namespace Stores.Models
         [DisplayName("انواع المصاريف")]
 
         public bool expenses_type { get; set; }
+        public virtual Users User_ID { get; set; }
+
     }
 }

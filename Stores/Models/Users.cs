@@ -45,7 +45,6 @@ namespace Stores.Models
         public HttpPostedFileBase Pic { get; set; }
 
 
-        public virtual  Users_Privileges privilageID { get; set; }
 
 
 

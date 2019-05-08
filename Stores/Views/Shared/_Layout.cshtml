@@ -6,33 +6,370 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="https://fonts.googleapis.com/css?family=Cairo" rel="stylesheet">
+
+     <script src="~/Content/all.min.js"></script>
+    <script src="~/Content/fontawesome.js"></script>
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: Cairo;
+        }
+
+        /* Style the tab */
+        .tab {
+            margin-top: 0px;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            width: 15%;
+            height: 500px;
+            position: relative;
+            float: right;
+            font-size: .99em;
+            text-align: center;
+            color: black;
+        }
+
+
+
+        .list_li {
+            display: block;
+            background-color: inherit;
+            padding: 18px 6px;
+            width: 100%;
+            border: none;
+            outline: none;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: .8em;
+            text-align: center;
+            color: black;
+            text-decoration: none;
+        }
+
+            /* Change background color of buttons on hover */
+        .card-header:hover {
+            background-color: #40BCBA;
+            color:white;
+        }
+
+        a:active {
+            color: #3F4A5D;
+        }
+
+
+        /* Create an active/current "tab button" class */
+        .list_li.active {
+            background-color: #ccc;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+            float: left;
+            padding: 0px 12px;
+            border: 1px solid #ccc;
+            width: 70%;
+            border-left: none;
+            height: 300px;
+        }
+
+        .content {
+            float: left;
+            width: 80%;
+        }
+
+        a {
+            text-decoration: none;
+        }
+        ul {
+            list-style-type: none;
+        }
+        li{
+
+            text-align:right;
+            font-size:.9em;
+             
+        }
+
+        .btn-link{
+
+            text-decoration:none;
+        }
+
+        .card-header {
+            height: 70px;
+            width: 100%;
+         }
+    </style>
+
 </head>
+
+
+
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
+    <div class="tab fixed-top">
+
+        <div class="accordion" id="accordionExample">
+
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="" aria-expanded="true" aria-controls="collapseOne">
+                            <i class="fas fa-binoculars"></i> لوحه المراقبه  
+                        </button>
+                    </h5>
+                </div>
+
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
+
+
+
+
+
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseTwo">
+                            <i class="fas fa-child"></i>  العملاء
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <ul>
+                            <li><a href="@Url.Action("about", "Home")" class="" style="">قائمه العملاء</a></li>
+
+                            <li><a href="@Url.Action("about", "Home")" class="" style="">اضافه عميل</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <i class="fas fa-user-friends"></i>   الموردين
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <ul>
+                            <li><a href="@Url.Action("about", "Home")"> قائمه الموردين</a></li>
+                            <li><a href="@Url.Action("about", "Home")">اضافه مورد</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <i class="fas fa-file-invoice"></i>   الفواتير
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+
+                    <div class="selling">
+                        <p style="font-size:.8em">  المبيعات</p>
+                        <ul>
+                            <li><a href="@Url.Action("about", "Home")">عرض فواتير </a></li>
+                            <li><a href="@Url.Action("about", "Home")">انشاء فاتوره بيع</a></li>
+
+                        </ul>
+                    </div>
+
+                    <div class="buy">
+                        <p style="font-size:.8em"> المشتريات</p>
+                        <ul>
+                            <li><a href="@Url.Action("about", "Home")">عرض فواتير الشراء</a></li>
+                            <li><a href="@Url.Action("about", "Home")">انشاء فاتوره شراء</a></li>
+                            <li><a href="@Url.Action("about", "Home")"> قائمه المرتجعات</a></li>
+                            <li><a href="@Url.Action("about", "Home")">انشاء مرتجع شراء</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" id="headingfour">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="#collapsefour" aria-expanded="false" aria-controls="collapseTwo">
+                            <i class="fas fa-shopping-basket"></i>  الدفعات
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapsefour" class="collapse" aria-labelledby="headingfour" data-parent="#accordionExample">
+                    <div class="card-body">
+
+                        <div class="selling">
+                            <p style="font-size:.8em">المبيعات</p>
+                            <ul>
+                                <li><a href="@Url.Action("about", "Home")">عرض دفعات البيع </a></li>
+                                <li><a href="@Url.Action("about", "Home")">انشاء دفع بيع</a></li>
+
+                            </ul>
+                        </div>
+
+                        <div class="buy">
+                            <p style="font-size:.8em">المشتريات</p>
+                            <ul>
+                                <li><a href="@Url.Action("about", "Home")">عرض دفعات شراء</a></li>
+                                <li><a href="@Url.Action("about", "Home")">انشاء دفع شراء</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="card">
+                <div class="card-header" id="headingfour">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="#collapsefive" aria-expanded="false" aria-controls="collapseTwo">
+                            <i class="fas fa-store-alt"></i>     المخزن
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapsefive" class="collapse" aria-labelledby="headingfive" data-parent="#accordionExample">
+                    <div class="card-body">
+
+                        <ul>
+                            <li><a href="@Url.Action("about", "Home")">عرض لائحه المنتجات </a></li>
+                            <li><a href="@Url.Action("about", "Home")">ادخال منتج جديد</a></li>
+                            <li><a href="@Url.Action("about", "Home")">عرض تنبيهات المنتجات</a></li>
+                            <li><a href="@Url.Action("about", "Home")">عرض مخازن المنتجات</a></li>
+                            <li><a href="@Url.Action("about", "Home")">انشاء محزن منتجات</a></li>
+                            <li><a href="@Url.Action("about", "Home")">نقل منتج من مخزن</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" id="headingfour">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="#collapsesix" aria-expanded="false" aria-controls="collapseTwo">
+                            <i class="fas fa-money-check-alt"></i>   المصروفات
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapsesix" class="collapse" aria-labelledby="headingsix" data-parent="#accordionExample">
+                    <div class="card-body">
+
+                        <ul>
+                            <li><a href="@Url.Action("about", "Home")">عرض ثائمه المصروفات  </a></li>
+                            <li><a href="@Url.Action("about", "Home")">ادخال مصروف </a></li>
+                            <li><a href="@Url.Action("about", "Home")">عرض تصنيفات المصروفات</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="card">
+                <div class="card-header" id="headingfour">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="#collapsesseven" aria-expanded="false" aria-controls="collapseTwo">
+                            <i class="fas fa-file-pdf"></i>   التقارير
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapsesseven" class="collapse" aria-labelledby="headingsseven" data-parent="#accordionExample">
+                    <div class="card-body">
+
+                        <ul>
+                            <li><a href="@Url.Action("about", "Home")">تقارير 1</a></li>
+                            <li><a href="@Url.Action("about", "Home")"> تقرير 2 </a></li>
+                            <li><a href="@Url.Action("about", "Home")">تقرير 3</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="card">
+                <div class="card-header" id="headingfour">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="#collapseeight" aria-expanded="false" aria-controls="collapseTwo">
+                            <i class="fas fa-cogs"></i>  الاعدادات
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseeight" class="collapse" aria-labelledby="headingeight" data-parent="#accordionExample">
+                    <div class="card-body">
+
+                        <ul>
+                            <li><a href="@Url.Action("NewEmployee", "Employee")"> قائمه الموظفين</a></li>
+                            <li><a href="@Url.Action("about", "Home")"> موظف جديد </a></li>
+                            <li><a href="@Url.Action("about", "Home")">تقرير 3</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
-    <div class="container body-content">
+
+
+
+
+
+    <nav class="navbar navbar-expand-md navbar-light bg-light font-weight-bold"
+         style="transition: all 1s ease-out;direction: rtl;">
+        <div class="container">
+
+            @Html.ActionLink("المخازن", "Index", "Home", new { area = "" }, new { @class = "navbar-brand float-right" })
+
+            <button class="navbar-toggler navbar-toggler-right" id="menubutton" type="button" data-toggle="collapse"
+                    data-target="#navbarDarkSupportedContent" aria-controls="navbar2SupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse text-center  justify-content-end" id="navbarDarkSupportedContent">
+                <form class="form-inline my-2 my-lg-0">
+                    <ul class="navbar-nav text-right">
+
+                        @Html.Partial("_LoginPartial")
+
+                    </ul>
+
+
+                </form>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container body-content content" style="margin:20px;padding:25px">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+        <center>
+ 
+            <footer class="fixed-bottom">
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>
+        </center>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
