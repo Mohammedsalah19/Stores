@@ -1,0 +1,195 @@
+﻿@model IEnumerable<Stores.Models.Users>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@*<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+<center>
+    <h4>Index</h4>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="clearTextBox();">موظف جديد</button><br /><br />
+</center>
+
+<div class="container">
+    <table class="table table-responsive table-bordered table-hover">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.national_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.active)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.printer_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.user_current_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PicPath)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.national_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.active)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.printer_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.user_current_date)
+                </td>
+                <td>
+                    <img src="@Url.Content(item.PicPath)" width="100" height="100" />
+
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <dixv class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Add Employee</h4>
+
+             </dixv>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="EmployeeId">ID</label>
+                        <input type="text" class="form-control" id="EmployeeID" placeholder="Id" disabled="disabled" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Name">username</label>
+                        <input type="text" class="form-control" id="username" placeholder="username" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Age">Password</label>
+                        <input type="text" class="form-control" id="Password" placeholder="Password" />
+                    </div>
+                    <div class="form-group">
+                        <label for="State">name</label>
+                        <input type="text" class="form-control" id="name" placeholder="name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Country">phone</label>
+                        <input type="password" class="form-control" id="phone" placeholder="phone" />
+                    </div>
+                    <div class="form-group">
+                        <label for="national_id">national_id</label>
+                        <input type="password" class="form-control" id="national_id" placeholder="national_id" />
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="active" name="active" value="True">   التنبيهات
+                            </label>
+                        </div>
+                     </div>
+
+                    <div class="form-group">
+                        <label for="Country">printer_name</label>
+                        <input type="password" class="form-control" id="printer_name" placeholder="printer_name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Country">PicPath</label>
+                        <input type="password" class="form-control" id="PicPath" placeholder="PicPath" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();">Add</button>
+                <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="Update();">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+        //Add Data Function
+    function Add() {
+        //var res = validate();
+        //if (res == false) {
+        //    return false;
+        //}
+        var empObj = {
+            EmployeeID: $('#EmployeeID').val(),
+            username: $('#username').val(),
+            Password: $('#Password').val(),
+            name: $('#name').val(),
+            phone: $('#phone').val(),
+            national_id: $('#national_id').val(),
+            active: $('#active').val(),
+            printer_name: $('#printer_name').val(),
+            PicPath: $('#PicPath').val(),
+         };
+        $.ajax({
+            url: "@Url.Action("newEmployee", "Employees")",
+
+             data: JSON.stringify(empObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                loadData();
+                $('#myModal').modal('hide');
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+
+
+</script>

@@ -173,6 +173,14 @@
     <Compile Include="Migrations\201905072353224_editusers.Designer.cs">
       <DependentUpon>201905072353224_editusers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905082127012_editprevilage.cs" />
+    <Compile Include="Migrations\201905082127012_editprevilage.Designer.cs">
+      <DependentUpon>201905082127012_editprevilage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905082132132_jjk.cs" />
+    <Compile Include="Migrations\201905082132132_jjk.Designer.cs">
+      <DependentUpon>201905082132132_jjk.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bills.cs" />
     <Compile Include="Models\BillsCategory.cs" />
@@ -180,6 +188,7 @@
     <Compile Include="Models\Clients.cs" />
     <Compile Include="Models\Clients_Type.cs" />
     <Compile Include="Models\DAL\ProjectContext.cs" />
+    <Compile Include="Models\DAL\Security.cs" />
     <Compile Include="Models\Expenses.cs" />
     <Compile Include="Models\ExpensesType.cs" />
     <Compile Include="Models\Payments.cs" />
@@ -192,6 +201,22 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\alertifyjs\alertify.css" />
+    <Content Include="Content\alertifyjs\alertify.min.css" />
+    <Content Include="Content\alertifyjs\alertify.rtl.css" />
+    <Content Include="Content\alertifyjs\alertify.rtl.min.css" />
+    <Content Include="Content\alertifyjs\themes\bootstrap.css" />
+    <Content Include="Content\alertifyjs\themes\bootstrap.min.css" />
+    <Content Include="Content\alertifyjs\themes\bootstrap.rtl.css" />
+    <Content Include="Content\alertifyjs\themes\bootstrap.rtl.min.css" />
+    <Content Include="Content\alertifyjs\themes\default.css" />
+    <Content Include="Content\alertifyjs\themes\default.min.css" />
+    <Content Include="Content\alertifyjs\themes\default.rtl.css" />
+    <Content Include="Content\alertifyjs\themes\default.rtl.min.css" />
+    <Content Include="Content\alertifyjs\themes\semantic.css" />
+    <Content Include="Content\alertifyjs\themes\semantic.min.css" />
+    <Content Include="Content\alertifyjs\themes\semantic.rtl.css" />
+    <Content Include="Content\alertifyjs\themes\semantic.rtl.min.css" />
     <Content Include="Content\all.min.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -203,6 +228,8 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\alertify.js" />
+    <Content Include="Scripts\alertify.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -269,9 +296,12 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Employee\NewEmployee.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
+    <Content Include="Views\Employee\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="images\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -308,6 +338,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905072353224_editusers.resx">
       <DependentUpon>201905072353224_editusers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905082127012_editprevilage.resx">
+      <DependentUpon>201905082127012_editprevilage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905082132132_jjk.resx">
+      <DependentUpon>201905082132132_jjk.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
