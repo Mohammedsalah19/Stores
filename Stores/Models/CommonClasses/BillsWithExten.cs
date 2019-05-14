@@ -14,6 +14,7 @@ namespace Stores.Models.CommonClasses
         public IEnumerable<Products> productX { get; set; }
         public IEnumerable<ProductCategory> prodCategoryX { get; set; }
         public IEnumerable<Bills> billsX { get; set; }
+        public IEnumerable<Clients> ClientsX{ get; set; }
 
 
     }

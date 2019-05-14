@@ -19,6 +19,8 @@ namespace Stores.Controllers
             var model = new BillsWithExten();
          //   model.billsX = _db.Bills.ToList();
             model.prodCategoryX = _db.ProductCategory.ToList();
+            model.ClientsX = _db.Clients.ToList();
+
          //   model.productX = _db.Products.ToList();
  
 
@@ -26,6 +28,33 @@ namespace Stores.Controllers
             ViewBag.productCat = new SelectList(_db.ProductCategory.ToList(), "Cate_ID", "name");
             return View(model);
 
+        }
+
+        public JsonResult FillBills(int Client_ID)
+        {
+            List<BillsContent> list = new List<BillsContent>();
+
+
+            var obj = _db.BillsContent.Where(ss => ss.Status == false).ToList();
+
+            // var obj = _db.Products.Where(p => p.Cate_ID == s.Cate_ID).ToList();
+
+            if (obj != null && obj.Count() > 0)
+            {
+                foreach (var item in obj)
+                {
+                    BillsContent model = new BillsContent();
+
+                    model.Product_ID = item.Product_ID;
+                    model.BillsContent_ID = item.BillsContent_ID;
+                    model.Price = item.Price;
+                    model.Quantity = item.Quantity;
+                    model.Status = item.Status;
+                    list.Add(model);
+                }
+            }
+
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
         #region retuern cat
 
@@ -94,5 +123,63 @@ namespace Stores.Controllers
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult SaveBillData(BillsContent model)
+        {
+            bool result = true;
+
+            try
+            {
+                _db.BillsContent.Add(model);
+                _db.SaveChanges();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult AddBillsContent(BillsContent _BillContent,Bills _bill, int pro, int ClentName)
+        {
+            _bill.date = DateTime.Now;
+            _bill.Client_ID = ClentName;
+            _bill.User_ID = 5;
+
+            _db.Bills.Add(_bill);
+            _db.SaveChanges();
+
+            _BillContent.Bill_ID = _bill.Id;
+        //    _BillContent.Price = price;
+            _BillContent.Quantity = _BillContent.Quantity;
+
+            _BillContent.Product_ID = pro;
+            _db.BillsContent.Add(_BillContent);
+            _db.SaveChanges();
+
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+
+        
+        //}
+        //public JsonResult GetBillstList()
+        //{
+        //    List<BillsContent> List = _db.BillsContent.Where(x => x.Status == false).Select(x => new BillsContent
+        //    {
+        //        BillsContent_ID = x.BillsContent_ID,
+        //        Quantity = x.Quantity,
+        //        Price = x.Price,
+        //        Status = x.Status,
+        //        Product_ID = x.Product_ID,
+
+        //        //Product_ID = _db.Products.Where(f=>f.Pro_id == x.Product_ID).Select(f=>f.name).FirstOrDefault(),
+         
+        //    }).ToList();
+
+        //    return Json(List, JsonRequestBehavior.AllowGet);
+        //}
     }
 }

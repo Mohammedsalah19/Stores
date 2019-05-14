@@ -30,10 +30,10 @@ namespace Stores.Models
         [DisplayName("الوصف")]
 
         public string Comment { get; set; }
-        public virtual Users User_ID { get; set; }
-        public virtual Clients Client_ID { get; set; }
+        public virtual int User_ID { get; set; }
+        public virtual int Client_ID { get; set; }
 
-        public virtual BillsCategory Cate_Id { get; set; }
+        public virtual int Cate_Id { get; set; }
 
 
     }

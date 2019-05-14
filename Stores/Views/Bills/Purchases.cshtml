@@ -41,7 +41,7 @@
     }
 
 
-    function ff () {
+    function AddClient () {
         var data = $("#SubmitForm").serialize();
         $.ajax({
             type: "Post",
@@ -73,8 +73,8 @@
                 success: function (data) {
  
                     $.each(data, function (index, value) {
-                        $('#quantity').val(value.Quantity);
-                        $('#price').val(value.Price);
+                        $('#elmotwafer').val(value.Quantity);
+                        $('#Price').val(value.Price);
                     });
                 }
                
@@ -91,7 +91,7 @@
         $("#amount").change(function () {
 
             var amount = $('#amount').val();
-            var price = $('#price').val();
+            var price = $('#Price').val();
             var res = amount * price;
 
             $('#Total').val("الاجمالى : " +res);
@@ -99,6 +99,70 @@
 
         });
     });
+
+ 
+
+
+    $(document).ready(function () {
+        $("#empList").change(function () {
+            var id = $(this);
+
+             $.ajax({
+                 url: '/Bills/FillBills?Client_ID=' + id.val(),
+
+                 contentType: "application/json;charset=utf-8",
+                dataType: "Json",
+                success: function (data) {
+ 
+                    for (var i = 0; i < data.length; i++) {
+                                  var SetData = $("#SetStudentList");
+
+                        var Data = "<tr class='row_" + data[i].BillsContent_ID + "'>" +
+                            "<td>" + data[i].BillsContent_ID + "</td>" +
+                            "<td>" + data[i].StudentName + "</td>" +
+                            "<td>" + data[i].Product_ID + "</td>" +
+                            "<td>" + data[i].Quantity + "</td>" +
+                            "<td>" + data[i].Price + "</td>" +
+                            "<td>" + data[i].Status + "</td>" +
+                            "<td>" + "<a href='#' class='btn btn-warning' onclick='EditStudentRecord(" + data[i].BillsContent_ID + ")' ><span class='glyphicon glyphicon-edit'></span></a>" + "</td>" +
+                            "<td>" + "<a href='#' class='btn btn-danger' onclick='DeleteStudentRecord(" + data[i].BillsContent_ID + ")'><span class='glyphicon glyphicon-trash'></span></a>" + "</td>" +
+                            "</tr>";
+                        SetData.append(Data);
+                        $("#LoadingStatus").html(" ");
+                    }
+                }
+
+            });
+        });
+    });
+
+
+
+    //$("#LoadingStatus").html("Loading....");
+    // $.get("/Bills/GetStudentList", null, DataBind);
+
+ 
+    //function DataBind(StudentList) {
+    //     var SetData = $("#SetStudentList");
+    //    for (var i = 0; i < StudentList.length; i++) {
+    //        var Data = "<tr class='row_" + StudentList[i].BillsContent_ID + "'>" +
+    //            "<td>" + StudentList[i].BillsContent_ID + "</td>" +
+    //            "<td>" + StudentList[i].StudentName + "</td>" +
+    //            "<td>" + StudentList[i].Product_ID + "</td>" +
+    //            "<td>" + StudentList[i].Quantity + "</td>" +
+    //            "<td>" + StudentList[i].Price + "</td>" +
+    //            "<td>" + "<a href='#' class='btn btn-warning' onclick='EditStudentRecord(" + StudentList[i].BillsContent_ID + ")' ><span class='glyphicon glyphicon-edit'></span></a>" + "</td>" +
+    //            "<td>" + "<a href='#' class='btn btn-danger' onclick='DeleteStudentRecord(" + StudentList[i].BillsContent_ID + ")'><span class='glyphicon glyphicon-trash'></span></a>" + "</td>" +
+    //            "</tr>";
+    //        SetData.append(Data);
+    //        $("#LoadingStatus").html(" ");
+
+    //    }
+    //}
+
+
+     
+
 </script>
 
 
@@ -111,137 +175,194 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="fatora">
+                @using (Html.BeginForm("AddBillsContent", "Bills", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <fieldset id="SubmitForm">
+                        <table style="text-align:center">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        أختر النوع
+                                    </th>
+                                    <th>
+                                        أختر المنتج
+                                    </th>
+                                    <th>
+                                        الكميه
+                                    </th>
+                                    <th>
+                                        سعر القطعه
+                                    </th>
+                                    <th>
+                                        المتوفر
+                                    </th>
+                                    <th>
+                                        اسم العميل
+                                    </th>
+                                    <th>
+                                        الحاله
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <select name="Cat" id="section" class="form-control">
+                                            <option> اختار المنتج</option>
+                                            @{
+                                                foreach (var item in Model.prodCategoryX)
+                                                {
+                                                    <option @item.Cate_ID> @item.name </option>
+                                                }
+                                            }
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="pro" id="pro" class="form-control">
+                                            <option> اختار المنتج</option>
+                                            @{
 
-                <table style="text-align:center">
-                    <thead>
-                        <tr>
-                            <th>
-                                أختر النوع
-                            </th>
-                            <th>
-                                أختر المنتج
-                            </th>
-                            <th>
-                                الكميه
-                            </th>
-                            <th>
-                                سعر القطعه
-                            </th>
-                            <th>
-                                المتوفر
-                            </th>
-                            <th>
-                                اسم العميل
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <select name="Cat" id="section" class="form-control">
-                                    <option> اختار المنتج</option>
-                                    @{
-                                        foreach (var item in Model.prodCategoryX)
-                                        {
-                                            <option @item.Cate_ID> @item.name </option>
-                                        }
-                                    }
-                                </select>
-                            </td>
-                            <td>
-                                <select name="pro" id="pro" class="form-control">
-                                    <option> اختار المنتج</option>
-                                    @{
+                                            }
+                                        </select>
+                                    </td>
+                                    <td>
 
-                                    }
-                                </select>
-                            </td>
-                            <td>
+                                        <input type="text" name="Quantity" class="form-control" id="amount" />
 
-                                <input type="text" name="amount" class="form-control" id="amount" />
+                                    </td>
+                                    <td>
 
-                            </td>
-                            <td>
+                                        <input type="text" name="Price" class="form-control" id="Price" />
 
-                                <input type="text" name="price" class="form-control" id="price" disabled />
-
-                            </td>
-                            <td>
-                                <input type="text" name="quantity" class="form-control" id="quantity" disabled />
+                                    </td>
+                                    <td>
+                                        <input type="text" name="elmotwafer" class="form-control" id="elmotwafer" disabled />
 
 
-                            </td>
-                            <td>
-                                <input type="text" class="form-control"id="ClentName"  />
+                                    </td>
+                                    <td>
+                                        <select name="empList" id="empList" class="form-control">
+                                            <option>اسم العميل</option>
+                                            @{
+                                                foreach (var item in Model.ClientsX)
+                                                {
+                                                    <option @item.Client_ID> @item.name </option>
+                                                }
+                                            }
+                                        </select>
 
-                            </td>
 
-                        </tr>
+                                        @*<input type="text" class="form-control" id="ClentName" name="ClentName" />*@
 
-                    </tbody>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" class="form-control" id="Status" name="Status" disabled  value="true"/>
 
-                </table>
-                 
- 
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+
+                    </fieldset>
+                <br />
+
+                <center>
+                    <input type="text" name="Total" class="form-control" id="Total" disabled />
+                    <br />
+                    <input type="submit" value="اضافه" class="btn btn-info" />
+
+                     <a href="#" class="btn btn-info" onclick="AddNewCustomer(0)">فاتوره جديده</a>
+
+                </center>
+               }
 
             </div>
+
+
+        </div>
 
 
     </div>
-
-
-</div>
     <br />
 
-    <center>
-      <input type="text" name="Total" class="form-control" id="Total" disabled /> 
-    </center>
+    @*<center>
+        <input type="text" name="Total" class="form-control" id="Total" disabled />
+
+        <br />
+        <a href="#" class="btn btn-info" onclick="AddBill(0)">اضافه</a>
+        <a href="#" class="btn btn-info" onclick="AddNewCustomer(0)">فاتوره جديده</a>
+
+    </center>*@
 
 
 
-@*for new customer*@
+    <br />
+    <table class="table table-striped" style="text-align:center">
+        <thead>
+            <tr>
+                <th>رقم الفاتوره</th>
+                <th>اسم العميل </th>
+                <th>المنتج</th>
 
-<div class="modal fade" id="MyModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <a href="#" class="close" data-dismiss="modal">&times;</a>
-                <h4 id="ModalTitle"></h4>
-            </div>
-            <div class="modal-body">
-                <form id="form">
-                    <fieldset id="SubmitForm">
-                        <div class="form-group">
-                            <label>اسم العميل</label>
+                <th>عدد القطع</th>
+                <th>سعر الفطع</th>
+                <th>الحاله</th>
+                <th>(تعديل)</th>
+                <th>(حذف)</th>
+            </tr>
+        </thead>
+        <tbody id="SetStudentList">
+            <tr id="LoadingStatus" style="color:red"></tr>
+        </tbody>
+    </table>
 
-                            <input type="text" name="name" id="name" value="" placeholder="اسم العميل" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label>رقم التليفون</label>
-                            <input type="text" name="phone" id="phone" value="" placeholder=" رقم التليفون" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label>العنوان</label>
-                            <input type="text" name="Address" id="Address" value="" placeholder="العنوان" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label>رقم البطاقه</label>
-                            <input type="text" name="nationalID" id="nationalID" value="" placeholder="رقم قومى" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label>الحاله</label>
-                            <input type="checkbox" name="Active" id="Active" value="true" placeholder="الحاله" class="" />
-                        </div>
-                        
-                        <div class="form-group">
-                            <a href="#" class="btn btn-block btn-info" onclick="ff()" id="SaveRecord">Save</a>
-                        </div>
 
-                    </fieldset>
-                </form>
+    @*for new customer*@
+
+    <div class="modal fade" id="MyModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <h4 id="ModalTitle"></h4>
+                </div>
+                <div class="modal-body">
+                    <form id="form">
+                        <fieldset id="SubmitForm">
+                            <div class="form-group">
+                                <label>اسم العميل</label>
+
+                                <input type="text" name="name" id="name" value="" placeholder="اسم العميل" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>رقم التليفون</label>
+                                <input type="text" name="phone" id="phone" value="" placeholder=" رقم التليفون" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>العنوان</label>
+                                <input type="text" name="Address" id="Address" value="" placeholder="العنوان" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>رقم البطاقه</label>
+                                <input type="text" name="nationalID" id="nationalID" value="" placeholder="رقم قومى" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>الحاله</label>
+                                <input type="checkbox" name="Active" id="Active" value="true" placeholder="الحاله" class="" />
+                            </div>
+
+                            <div class="form-group">
+                                <a href="#" class="btn btn-block btn-info" onclick="AddClient()" id="SaveRecord">Save</a>
+                            </div>
+
+                        </fieldset>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
- 
