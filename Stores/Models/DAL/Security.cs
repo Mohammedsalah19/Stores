@@ -11,13 +11,15 @@ namespace Stores.Models.DAL
 
         public bool Users()
         {
-            string session = HttpContext.Current.Session["userID"].ToString();
-            bool data = _db.Users_Privileges.Where(p => p.User_ID.ToString() == session).Select(f => f.users).FirstOrDefault();
-
-            if (data == true)
+            if (HttpContext.Current.Session["userName"] != null)
             {
-                return true;
+                string session = HttpContext.Current.Session["userID"].ToString();
+                bool data = _db.Users_Privileges.Where(p => p.User_ID.ToString() == session).Select(f => f.users).FirstOrDefault();
 
+                if (data == true)
+                {
+                    return true;
+                }
             }
             return false;
         }

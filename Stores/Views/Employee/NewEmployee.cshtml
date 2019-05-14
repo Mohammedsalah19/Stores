@@ -17,7 +17,7 @@
         <div class="row" style="direction:rtl;background-color:">
 
 
-            <div class="col-md-6" style="background-color:red">
+            <div class="col-md-6" style="background-color:">
 
 
                 <div class="form-horizontal text-right" dir="rtl" style="float:right">
@@ -84,7 +84,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.PicPath, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            <input type="file" name="Pic"  />
+                            <input type="file" name="Pic" />
 
                             @Html.ValidationMessageFor(model => model.PicPath, "", new { @class = "text-danger" })
                         </div>
@@ -93,10 +93,10 @@
                 </div>
             </div>
 
-            <div class="col-md-4" style="background-color:green">
+            <div class="col-md-4" style="background-color:">
 
 
-                <div class="previlages" style="float:left;display:block;">
+                <div class="previlages d-flex align-items-start flex-column" style="float:left;display:block;">
 
                     <div class="checkbox">
                         <label>
@@ -161,9 +161,10 @@
                         </label>
                     </div>
 
+                    <br />
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="حفظ" class="btn btn-default" />
+                            <input type="submit" value="حفظ" class="btn" style="background-color:#33A2FF" />
                         </div>
                     </div>
                 </div>
@@ -175,9 +176,8 @@
 }
 <br />
 <br />
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
+ 
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

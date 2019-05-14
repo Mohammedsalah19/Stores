@@ -21,7 +21,7 @@ namespace Stores.Models
 
         public bool active { get; set; }
 
-        public virtual  ProductCategory Cate_ID { get; set; }
+        public virtual  int Cate_ID { get; set; }
 
     }
 }

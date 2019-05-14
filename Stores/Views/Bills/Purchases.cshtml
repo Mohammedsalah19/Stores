@@ -1,0 +1,247 @@
+﻿@model Stores.Models.CommonClasses.BillsWithExten
+
+@{
+    ViewBag.Title = "Purchases";
+}
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+ 
+
+<script>
+    $(document).ready(function () {
+        $("#section").change(function () {
+            var id = $(this);
+            $.ajax({
+
+                url: '/Bills/GetcategoryPro?Pro_id=' + id.val(),
+                contentType: "application/json;charset=utf-8",
+                dataType: "Json",
+                success: function (data) {
+                    $('#pro').empty();
+
+                    $.each(data, function (index, value) {
+                        $('#pro').append('<option value="' + value.Pro_id + '">' + value.name + '</option>');
+                    });
+                }
+
+            });
+        });
+    });
+
+
+
+    function AddNewCustomer(StudentId) {
+        $("#form")[0].reset();
+        $("#Client_ID").val(0);
+        $("#ModalTitle").html("اضافه عميل جديد");
+        $("#ModalTitle").css("text-align:center ")
+        $("#MyModal").modal();
+
+    }
+
+
+    function ff () {
+        var data = $("#SubmitForm").serialize();
+        $.ajax({
+            type: "Post",
+
+            url: '@Url.Action("SaveClientData", "Bills")',
+            data: data,
+            success: function (result) {
+                alert("Success!..");
+               // window.location.href = "/Home/index";
+                $("#MyModal").modal("hide");
+
+            }
+        })
+    }
+
+
+    $(document).ready(function () {
+        $("#pro").change(function () {
+            var id = $(this);
+            $.ajax({
+
+                url: '/Bills/ReturnValue?Pro_id=' + id.val(),
+
+                 contentType: "application/json;charset=utf-8",
+                dataType: "Json",
+                type: 'GET',
+                async: true,
+                cache: false,
+                success: function (data) {
+ 
+                    $.each(data, function (index, value) {
+                        $('#quantity').val(value.Quantity);
+                        $('#price').val(value.Price);
+                    });
+                }
+               
+
+            });
+        });
+    });
+     
+
+     
+
+    $(document).ready(function () {
+
+        $("#amount").change(function () {
+
+            var amount = $('#amount').val();
+            var price = $('#price').val();
+            var res = amount * price;
+
+            $('#Total').val("الاجمالى : " +res);
+
+
+        });
+    });
+</script>
+
+
+
+
+<center>
+    <a href="#" class="btn btn-info" onclick="AddNewCustomer(0)">اضافه عميل</a> <br /><br />
+</center>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="fatora">
+
+                <table style="text-align:center">
+                    <thead>
+                        <tr>
+                            <th>
+                                أختر النوع
+                            </th>
+                            <th>
+                                أختر المنتج
+                            </th>
+                            <th>
+                                الكميه
+                            </th>
+                            <th>
+                                سعر القطعه
+                            </th>
+                            <th>
+                                المتوفر
+                            </th>
+                            <th>
+                                اسم العميل
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <select name="Cat" id="section" class="form-control">
+                                    <option> اختار المنتج</option>
+                                    @{
+                                        foreach (var item in Model.prodCategoryX)
+                                        {
+                                            <option @item.Cate_ID> @item.name </option>
+                                        }
+                                    }
+                                </select>
+                            </td>
+                            <td>
+                                <select name="pro" id="pro" class="form-control">
+                                    <option> اختار المنتج</option>
+                                    @{
+
+                                    }
+                                </select>
+                            </td>
+                            <td>
+
+                                <input type="text" name="amount" class="form-control" id="amount" />
+
+                            </td>
+                            <td>
+
+                                <input type="text" name="price" class="form-control" id="price" disabled />
+
+                            </td>
+                            <td>
+                                <input type="text" name="quantity" class="form-control" id="quantity" disabled />
+
+
+                            </td>
+                            <td>
+                                <input type="text" class="form-control"id="ClentName"  />
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+                 
+ 
+
+            </div>
+
+
+    </div>
+
+
+</div>
+    <br />
+
+    <center>
+      <input type="text" name="Total" class="form-control" id="Total" disabled /> 
+    </center>
+
+
+
+@*for new customer*@
+
+<div class="modal fade" id="MyModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 id="ModalTitle"></h4>
+            </div>
+            <div class="modal-body">
+                <form id="form">
+                    <fieldset id="SubmitForm">
+                        <div class="form-group">
+                            <label>اسم العميل</label>
+
+                            <input type="text" name="name" id="name" value="" placeholder="اسم العميل" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>رقم التليفون</label>
+                            <input type="text" name="phone" id="phone" value="" placeholder=" رقم التليفون" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>العنوان</label>
+                            <input type="text" name="Address" id="Address" value="" placeholder="العنوان" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>رقم البطاقه</label>
+                            <input type="text" name="nationalID" id="nationalID" value="" placeholder="رقم قومى" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>الحاله</label>
+                            <input type="checkbox" name="Active" id="Active" value="true" placeholder="الحاله" class="" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <a href="#" class="btn btn-block btn-info" onclick="ff()" id="SaveRecord">Save</a>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 

@@ -1,0 +1,70 @@
+﻿@model Stores.Models.Users
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+
+
+<div class="card text-center">
+    <div class="card-header">
+        المعلومات الشخصيه
+
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">
+            <img src="@Url.Content(Model.PicPath)" width="250" height="250" />
+
+        </h5>
+
+        <p class="card-text">
+            الموظف :  @Model.name
+        </p>
+
+        <p class="card-text">
+            اسم المستخدم : @Model.username
+
+        </p>
+
+        <p class="card-text">
+            رقم التليفون :  @Model.phone
+        </p>
+
+        <p class="card-text">
+            رقم البطاقه :  @Model.national_id
+
+            @*المكتب : @Model.OfficeX.Where(h => h.Id.ToString() == Model.EmpY.OfficeName).Select(p => p.OfficeName).FirstOrDefault()*@
+        </p>
+
+        <p class="card-text">
+            اسم الطابعه : @Model.printer_name
+        </p>
+
+        <p class="card-text">
+            كلمة المرور         : @Model.Password
+        </p>
+
+        <p class="card-text">
+              @{ if (@Model.active == true)
+                {
+        <p>حاله الحساب : فعال</p>
+            }
+            else
+            {
+
+        <p>   حاله الحساب :موقوف</p>
+               
+                }
+            }
+            </p>
+
+        </div>
+
+</div>
+
+
+ 
+<div>
+    <a href="@Url.Action("index","Employee")" class="btn btn-default"><i class="fas fa-backward"></i> الرجوع</a>
+</div>

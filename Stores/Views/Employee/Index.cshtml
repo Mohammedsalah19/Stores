@@ -1,90 +1,85 @@
-﻿@model IEnumerable<Stores.Models.Users>
+﻿@model Stores.Models.CommonClasses.UserAndPrivilage
 
 @{
     ViewBag.Title = "Index";
 }
 
-@*<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>*@
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+ 
 <center>
-    <h4>Index</h4>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="clearTextBox();">موظف جديد</button><br /><br />
+    <p>
+        <a href="@Url.Action("NewEmployee")" class="btn btn-default"><i class="fas fa-user-plus"></i>    موظف جديد</a>
+
+     </p>
+
+ 
+    @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="clearTextBox();">موظف جديد</button><br /><br />*@
 </center>
 
 <div class="container">
-    <table class="table table-responsive table-bordered table-hover">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.username)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.national_id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.active)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.printer_name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.user_current_date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PicPath)
-            </th>
-            <th></th>
-        </tr>
+    <table class=" table table-responsive table-hover table-hover" style="text-align:center">
+        <thead class="table-heading" style="background-color:#33A2FF;color:white;border-radius:4px;">
 
-        @foreach (var item in Model)
-        {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.username)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Password)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.phone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.national_id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.active)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.printer_name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.user_current_date)
-                </td>
-                <td>
-                    <img src="@Url.Content(item.PicPath)" width="100" height="100" />
+                <th>
+                    الاسم
+                </th>
+                <th>
+                    كلمه المرور
+                </th>
 
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
+                <th>
+                    التليفون
+                </th>
+
+                <th>
+                    حاله الحساب
+                </th>
+                <th>
+                    اسم الطابعه
+                </th>
+                <th></th>
+
             </tr>
-        }
+
+            </thead>
+            @foreach (var item in Model.UserX)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Password)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.phone)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.active)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.printer_name)
+                    </td>
+
+                    <td style="width:60px">
+                        @foreach (var items in Model.PreviX.Where(h => h.User_ID == item.Id))
+                        {
+                            <a href="@Url.Action("Privilage", new { id = items.id })" class="btn btn-default"><i class="fas fa-check-circle"></i> تعديل الصلاحيات</a>
+                        }
+                        @*<a href='#' class='btn btn-warning' onclick='EditStudentRecord(@item.Id)'><span class='glyphicon glyphicon-edit'></span></a>*@
+
+                        <a href="@Url.Action("UserEdit", new { id = item.Id })" class="btn btn-default"><i class="fas fa-user-edit"></i>    تعديل</a>
+                        <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-default"><i class="fas fa-info-circle"></i>    تفاصيل</a>
+
+
+                    </td>
+                </tr>
+            }
 
     </table>
 </div>
@@ -95,10 +90,10 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <dixv class="modal-header">
-                     <button type="button" class="close" data-dismiss="modal">×</button>
-                    <h4 class="modal-title" id="myModalLabel">Add Employee</h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title" id="myModalLabel">Add Employee</h4>
 
-             </dixv>
+            </dixv>
             <div class="modal-body">
                 <form>
                     <div class="form-group">
@@ -134,7 +129,7 @@
                                 <input type="checkbox" id="active" name="active" value="True">   التنبيهات
                             </label>
                         </div>
-                     </div>
+                    </div>
 
                     <div class="form-group">
                         <label for="Country">printer_name</label>
@@ -154,6 +149,80 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="MyModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 id="ModalTitle"></h4>
+            </div>
+            <div class="modal-body">
+                <form id="form">
+                    <fieldset id="SubmitForm">
+                        <input type="text" class="form-control" id="EmployeeID" placeholder="Id" disabled="disabled" />
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="username" placeholder="username" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="Password" placeholder="Password" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="name" placeholder="name" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="phone" placeholder="phone" />
+                        </div>
+                        <div class="form-group">
+                            <label for="national_id"></label>
+
+                            <input type="text" class="form-control" id="national_id" placeholder="national_id" />
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="active" name="active" value="True">   التنبيهات
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="printer_name" placeholder="printer_name" />
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="PicPath" placeholder="PicPath" />
+                        </div>
+                        @*<div class="form-group">
+                                @Html.DropDownListFor(m => m.DepartmentId, ViewBag.ListOfDepartment as SelectList, "--Select Dept--", new { @id = "DropDwn", @class = "form-control" })
+                            </div>*@
+                        <div class="form-group">
+                            <a href="#" class="btn btn-block btn-danger" id="SaveStudentRecord">Save</a>
+
+                            @*<a href="#" class="btn btn-block btn-danger" id="SaveStudentRecord" onclick="mm()">Save</a>*@
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
 
 
 <script>
@@ -191,5 +260,79 @@
         });
     }
 
+    // details
+
+
+
+
+    function EditStudentRecord(StudentId) {
+        var url = "/Employee/GetStudentById?StudentId=" + StudentId;
+        $("#ModalTitle").html("تعديل بيانات موظف");
+        $("#MyModal").modal();
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var obj = JSON.parse(data);
+                $("#StuId").val(obj.EmployeeID);
+                $("#username").val(obj.username);
+                $("#Password").val(obj.Password);
+                $("#name").val(obj.name);
+                $("#phone").val(obj.phone);
+                $("#national_id").val(obj.national_id);
+                $("#active").val(obj.national_id);
+                $("#printer_name").val(obj.printer_name);
+                $("#PicPath").val(obj.PicPath);
+                //$("#DropDwn option:selected").text(obj.tblDepartment.DepartmentName);
+                //$("#DropDwn option:selected").val(obj.DepartmentId);
+
+            }
+        })
+    }
+
+    //save after Edit
+    $("#SaveStudentRecord").click(function () {
+        var data = $("#SubmitForm").serialize();
+        $.ajax({
+            type: "Post",
+            url: "/Employee/SaveDataInDatabase",
+            data: data,
+            success: function (result) {
+                //alert("Success!..");
+                window.location.href = "/Employee/index";
+                $("#MyModal").modal("hide");
+
+            }
+        })
+    })
+
+
 
 </script>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
+<script>
+
+        $(function () {
+
+            var EditeEmp = '@TempData["EditEmp"]'
+
+            var EditePervilage = '@TempData["editePrrivelage"]'
+
+
+
+           if (EditeEmp != '') {
+
+               alert(EditeEmp);
+            }
+           else if (EditePervilage != '') {
+               alert(EditePervilage);
+           }
+
+        })
+
+</script>
+
+
+

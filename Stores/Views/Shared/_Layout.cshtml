@@ -6,9 +6,14 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <link href="https://fonts.googleapis.com/css?family=Cairo" rel="stylesheet">
 
-     <script src="~/Content/all.min.js"></script>
+    <link href="~/Content/alertifyjs/alertify.min.css" rel="stylesheet" />
+    <link href="~/Content/alertifyjs/themes/default.min.css" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css?family=Cairo" rel="stylesheet">
+    <link href="~/Content/sliderLayout.css" rel="stylesheet" />
+ 
+    <script src="~/Content/all.min.js"></script>
     <script src="~/Content/fontawesome.js"></script>
     <style>
         * {
@@ -51,10 +56,10 @@
             text-decoration: none;
         }
 
-            /* Change background color of buttons on hover */
+        /* Change background color of buttons on hover */
         .card-header:hover {
             background-color: #40BCBA;
-            color:white;
+            color: white;
         }
 
         a:active {
@@ -85,25 +90,24 @@
         a {
             text-decoration: none;
         }
+
         ul {
             list-style-type: none;
         }
-        li{
 
-            text-align:right;
-            font-size:.9em;
-             
+        li {
+            text-align: right;
+            font-size: .9em;
         }
 
-        .btn-link{
-
-            text-decoration:none;
+        .btn-link {
+            text-decoration: none;
         }
 
         .card-header {
             height: 70px;
             width: 100%;
-         }
+        }
     </style>
 
 </head>
@@ -112,15 +116,18 @@
 
 <body>
 
-    <div class="tab fixed-top">
-
+    <div class="w3-sidebar w3-bar-block w3-card w3-animate-left " id="mySidebar" style="display:none; overflow-y:scroll;">
+        <button class="w3-bar-item w3-button w3-large"
+                onclick="w3_close()">
+            اغلاق &times;
+        </button>
         <div class="accordion" id="accordionExample">
 
             <div class="card">
                 <div class="card-header" id="headingOne">
                     <h5 class="mb-0">
                         <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="" aria-expanded="true" aria-controls="collapseOne">
-                            <i class="fas fa-binoculars"></i> لوحه المراقبه  
+                            <i class="fas fa-binoculars"></i> لوحه المراقبه
                         </button>
                     </h5>
                 </div>
@@ -180,7 +187,7 @@
                 <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
 
                     <div class="selling">
-                        <p style="font-size:.8em">  المبيعات</p>
+                        <p style="font-size:.8em;text-align:center">  المبيعات</p>
                         <ul>
                             <li><a href="@Url.Action("about", "Home")">عرض فواتير </a></li>
                             <li><a href="@Url.Action("about", "Home")">انشاء فاتوره بيع</a></li>
@@ -189,7 +196,7 @@
                     </div>
 
                     <div class="buy">
-                        <p style="font-size:.8em"> المشتريات</p>
+                        <p style="font-size:.8em;text-align:center"> المشتريات</p>
                         <ul>
                             <li><a href="@Url.Action("about", "Home")">عرض فواتير الشراء</a></li>
                             <li><a href="@Url.Action("about", "Home")">انشاء فاتوره شراء</a></li>
@@ -213,7 +220,7 @@
                     <div class="card-body">
 
                         <div class="selling">
-                            <p style="font-size:.8em">المبيعات</p>
+                            <p style="font-size:.8em;text-align:center">المبيعات</p>
                             <ul>
                                 <li><a href="@Url.Action("about", "Home")">عرض دفعات البيع </a></li>
                                 <li><a href="@Url.Action("about", "Home")">انشاء دفع بيع</a></li>
@@ -222,7 +229,7 @@
                         </div>
 
                         <div class="buy">
-                            <p style="font-size:.8em">المشتريات</p>
+                            <p style="font-size:.8em;text-align:center">المشتريات</p>
                             <ul>
                                 <li><a href="@Url.Action("about", "Home")">عرض دفعات شراء</a></li>
                                 <li><a href="@Url.Action("about", "Home")">انشاء دفع شراء</a></li>
@@ -339,7 +346,7 @@
          style="transition: all 1s ease-out;direction: rtl;">
         <div class="container">
 
-            @Html.ActionLink("المخازن", "Index", "Home", new { area = "" }, new { @class = "navbar-brand float-right" })
+            @Html.ActionLink("المخازن", "login", "employee", new { area = "" }, new { @class = "navbar-brand float-right" })
 
             <button class="navbar-toggler navbar-toggler-right" id="menubutton" type="button" data-toggle="collapse"
                     data-target="#navbarDarkSupportedContent" aria-controls="navbar2SupportedContent" aria-expanded="false"
@@ -362,18 +369,37 @@
     </nav>
 
 
-    <div class="container body-content content" style="margin:20px;padding:25px">
+    <div id="main" style="" >
+        <button id="openNav" style="    " class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
         @RenderBody()
         <center>
- 
-            <footer class="fixed-bottom">
+
+            <footer class="">
                 <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
             </footer>
         </center>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/alertify.min.js"></script>
+
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+<script>
+    function w3_open() {
+        document.getElementById("main").style.marginLeft = "25%";
+        document.getElementById("mySidebar").style.width = "25%";
+        document.getElementById("mySidebar").style.display = "block";
+        document.getElementById("openNav").style.display = 'none';
+    }
+    function w3_close() {
+        document.getElementById("main").style.marginLeft = "0%";
+        document.getElementById("mySidebar").style.display = "none";
+        document.getElementById("openNav").style.display = "inline-block";
+    }
+</script>
+
+ 

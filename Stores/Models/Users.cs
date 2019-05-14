@@ -35,7 +35,7 @@ namespace Stores.Models
         [DisplayName("اسم الطابعه")]
 
         public string printer_name { get; set; }
-        public DateTime user_current_date { get; set; }
+    //    public DateTime user_current_date { get; set; }
 
         //pic path
         public string PicPath { get; set; }

@@ -128,6 +128,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BillsController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -181,12 +182,42 @@
     <Compile Include="Migrations\201905082132132_jjk.Designer.cs">
       <DependentUpon>201905082132132_jjk.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905092249578_dleteTime.cs" />
+    <Compile Include="Migrations\201905092249578_dleteTime.Designer.cs">
+      <DependentUpon>201905092249578_dleteTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905120014176_dd.cs" />
+    <Compile Include="Migrations\201905120014176_dd.Designer.cs">
+      <DependentUpon>201905120014176_dd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905132258015_ddk.cs" />
+    <Compile Include="Migrations\201905132258015_ddk.Designer.cs">
+      <DependentUpon>201905132258015_ddk.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905132336258_ddd.cs" />
+    <Compile Include="Migrations\201905132336258_ddd.Designer.cs">
+      <DependentUpon>201905132336258_ddd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905132338497_ddse.cs" />
+    <Compile Include="Migrations\201905132338497_ddse.Designer.cs">
+      <DependentUpon>201905132338497_ddse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905132342520_kjhgg.cs" />
+    <Compile Include="Migrations\201905132342520_kjhgg.Designer.cs">
+      <DependentUpon>201905132342520_kjhgg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905132346348_lkll.cs" />
+    <Compile Include="Migrations\201905132346348_lkll.Designer.cs">
+      <DependentUpon>201905132346348_lkll.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bills.cs" />
     <Compile Include="Models\BillsCategory.cs" />
     <Compile Include="Models\BillsContent.cs" />
     <Compile Include="Models\Clients.cs" />
     <Compile Include="Models\Clients_Type.cs" />
+    <Compile Include="Models\CommonClasses\BillsWithExten.cs" />
+    <Compile Include="Models\CommonClasses\UserAndPrivilage.cs" />
     <Compile Include="Models\DAL\ProjectContext.cs" />
     <Compile Include="Models\DAL\Security.cs" />
     <Compile Include="Models\Expenses.cs" />
@@ -271,6 +302,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Content\sliderLayout.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -298,6 +330,11 @@
     <Content Include="Views\Employee\NewEmployee.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Employee\Login.cshtml" />
+    <Content Include="Views\Employee\Privilage.cshtml" />
+    <Content Include="Views\Employee\HavntAccess.cshtml" />
+    <Content Include="Views\Employee\UserEdit.cshtml" />
+    <Content Include="Views\Employee\Details.cshtml" />
+    <Content Include="Views\Bills\Purchases.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -344,6 +381,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905082132132_jjk.resx">
       <DependentUpon>201905082132132_jjk.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905092249578_dleteTime.resx">
+      <DependentUpon>201905092249578_dleteTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905120014176_dd.resx">
+      <DependentUpon>201905120014176_dd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905132258015_ddk.resx">
+      <DependentUpon>201905132258015_ddk.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905132336258_ddd.resx">
+      <DependentUpon>201905132336258_ddd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905132338497_ddse.resx">
+      <DependentUpon>201905132338497_ddse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905132342520_kjhgg.resx">
+      <DependentUpon>201905132342520_kjhgg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905132346348_lkll.resx">
+      <DependentUpon>201905132346348_lkll.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

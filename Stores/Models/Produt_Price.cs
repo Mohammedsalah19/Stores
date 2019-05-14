@@ -23,18 +23,19 @@ namespace Stores.Models
         public decimal many_price { get; set; }
         [DisplayName("الكميه")]
 
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
         [DisplayName("اقل كميه فى المخزن")]
 
 
-        public int Minmum { get; set; }
+        public decimal  Minmum { get; set; }
 
         [DisplayName("الخصم او العرض")]
 
-        public decimal Discount { get; set; }
+ 
+        public decimal? Discount { get; set; }
 
-        public virtual Products Pro_ID { get; set; }
-        public virtual Storehouse Store_Id { get; set; }
+        public virtual int Pro_ID { get; set; }
+        public virtual int Store_Id { get; set; }
 
     }
 }
