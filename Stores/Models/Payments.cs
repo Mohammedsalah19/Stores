@@ -18,7 +18,7 @@ namespace Stores.Models
 
         public DateTime date { get; set; }
 
-        public virtual Users user_id { get; set; }
-        public virtual Clients client_id { get; set; }
+        public virtual int user_id { get; set; }
+        public virtual int client_id { get; set; }
     }
 }

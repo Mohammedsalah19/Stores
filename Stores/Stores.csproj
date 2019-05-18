@@ -222,6 +222,10 @@
     <Compile Include="Migrations\201905140622055_ssw.Designer.cs">
       <DependentUpon>201905140622055_ssw.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905182313382_ditpaymentsIDS.cs" />
+    <Compile Include="Migrations\201905182313382_ditpaymentsIDS.Designer.cs">
+      <DependentUpon>201905182313382_ditpaymentsIDS.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bills.cs" />
     <Compile Include="Models\BillsCategory.cs" />
@@ -424,6 +428,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905140622055_ssw.resx">
       <DependentUpon>201905140622055_ssw.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905182313382_ditpaymentsIDS.resx">
+      <DependentUpon>201905182313382_ditpaymentsIDS.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -50,13 +50,14 @@
         var data = $("#SubmitForm").serialize();
         $.ajax({
             type: "Post",
-
             url: '@Url.Action("SaveClientData", "Bills")',
             data: data,
             success: function (result) {
                 alert("Success!..");
                 // window.location.href = "/Home/index";
                 $("#MyModal").modal("hide");
+                location.reload(true);
+
 
             }
         })
@@ -139,7 +140,7 @@
                             "<td>" + data[i].Price + "</td>" +
                             //"<td>" + data[i].Status + "</td>" +
                             "<td>" + sum(data[i].Price, data[i].Quantity) + "</td>" +
-                            "<td>" + "<a href='#' class='btn btn-warning' onclick='EditBillRecord(" + data[i].BillsContent_ID+")' ><span class='glyphicon glyphicon-edit'></span> تعديل</a>" + "</td>" +
+                            //"<td>" + "<a href='#' class='btn btn-warning' onclick='EditBillRecord(" + data[i].BillsContent_ID+")' ><span class='glyphicon glyphicon-edit'></span> تعديل</a>" + "</td>" +
                             "<td>" + "<a href='#' class='btn btn-danger' onclick='DeleteStudentRecord(" + data[i].BillsContent_ID + ")'><span class='glyphicon glyphicon-trash'></span> حذف</a>" + "</td>" +
                             "</tr>";
                         SetData.append(Data);
@@ -188,6 +189,7 @@
         $("#BillsContent_ID").val(BillsContent_ID);
         $("#DeleteConfirmation").modal("show");
     }
+
     // delete row
     var ConfirmDelete = function () {
         var BillsContent_ID = $("#BillsContent_ID").val();
@@ -197,12 +199,13 @@
             success: function (result) {
                 $("#DeleteConfirmation").modal("hide");
                 $(".row_" + BillsContent_ID).remove();
+                location.reload(true);
+
             }
         })
     }
 
-
-
+    
     // return fatora num
     $(document).ready(function () {
         $.ajax({
@@ -244,10 +247,10 @@
 
         // return total after discount
     $(document).ready(function () {
-        $("#Discount").change(function () {
+        $("#discount").change(function () {
 
             var totaFatora = $('#totalFatora').val();
-            var dicount = $('#Discount').val()
+            var dicount = $('#discount').val()
             $('#AfterDiscount').val(totaFatora - dicount)
             //alert(lll)
 
@@ -267,7 +270,27 @@
         });
     });
 
- 
+
+
+    // add fatora
+
+    function Newfatora() {
+         var data = $("#SubmitForm").serialize();
+        $.ajax({
+            type: "Post",
+            url: '@Url.Action("Newfatora", "Bills")',
+            data: data,
+            success: function (result) {
+                alert("Success!..");
+                // window.location.href = "/Home/index";
+                 location.reload(true);
+                alert("فاتوره جديده وعميل جديد");
+
+
+
+            }
+        })
+    };
 
 
 </script>
@@ -350,7 +373,7 @@
 
                                     </td>
                                     <td>
-                                        <select name="ClientList" id="ClientList" class="form-control" required>
+                                        <select name="Client_ID" id="ClientList" class="form-control" required>
                                             <option>اسم العميل</option>
                                             @{
                                                 foreach (var item in Model.ClientsX)
@@ -369,19 +392,22 @@
 
                                     </td>
                                     @*<td>
-                                            <input type="checkbox" class="form-control" id="Status" name="Status" disabled value="true" />
+                        <input type="checkbox" class="form-control" id="Status" name="Status" disabled value="true" />
 
-                                        </td>*@
+                    </td>*@
 
                                 </tr>
 
                             </tbody>
 
                         </table>
+                        <br />
 
+                        <center>
+                            <input type="submit" value="اضافه" class="btn btn-info" />
+                        </center>
 
                     </fieldset>
-                    <br />
 
 
 
@@ -394,82 +420,11 @@
 
         </div>
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="fatora">
-
-                    <fieldset id="SubmitForm">
-                        <table style="text-align:center">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        رقم الفاتوره
-                                    </th>
-
-                                    <th>
-                                        اجمالى الفاتوره
-                                    </th>
-
-                                    <th>
-                                        الخصم الفاتوره
-                                    </th>
-
-                                    <th>
-                                        السعر بعد الخصم الفاتوره
-                                    </th>
-
-                                    <th>
-                                        المدفوع
-                                    </th>
-                                    <th>
-                                        الباقى
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <input type="text" name="fatoraID" class="form-control" id="fatoraID" disabled />
-
-                                    </td>
-                                    <td>
-                                        <input type="text" name="totalFatora" class="form-control" id="totalFatora" disabled />
-
-                                    </td>
-                                    <td>
-                                        <input type="text" name="Discount" class="form-control" id="Discount" required  />
-
-                                    </td>
-                                    <td>
-                                        <input type="text" name="AfterDiscount" class="form-control" id="AfterDiscount" disabled />
-
-                                    </td>
-                                    <td>
-                                        <input type="text" name="elmodfoa" class="form-control" id="elmodfoa"  />
-
-                                    </td>
-                                    <td>
-                                        <input type="text" name="Elbaqy" class="form-control" id="Elbaqy" disabled />
-
-                                    </td>   
-                                </tr>
-                            </tbody>
-                        </table>
-                    </fieldset>
-
-
-
-                </div>
-            </div>
-        </div>
-        <br />
-        <center>
+         <center>
             @*<input type="text" name="Total" class="form-control" id="Total" disabled />*@
-            <br />
-            <input type="submit" value="اضافه" class="btn btn-info" />
-
-            @Html.ActionLink("فاتوره جديده", "NewFatora", "Bills", null, new { @class = "btn btn-info", onclick = "ss();" })
-             <a href="#" class="btn btn-info" onclick=""> حفظ وطباعه</a>
+ 
+            @*@Html.ActionLink("فاتوره جديده", "NewFatora", "Bills", null, new { @class = "btn btn-info", onclick = "ss();" })*@
+            @*<a href="#" class="btn btn-info" onclick=""> حفظ وطباعه</a>*@
 
 
         </center>
@@ -481,14 +436,14 @@
     <table class="table table-striped" style="text-align:center">
         <thead>
             <tr>
-                <th>رقم الفاتوره</th>
+                <th>رقم التسلسل</th>
                 <th>اسم العميل </th>
                 <th>المنتج</th>
 
                 <th>عدد القطع</th>
                 <th>سعر القطعه</th>
                 <th>الاجمالى</th>
-                <th>(تعديل)</th>
+                @*<th>(تعديل)</th>*@
                 <th>(حذف)</th>
             </tr>
         </thead>
@@ -497,9 +452,94 @@
         </tbody>
     </table>
     <center>
-        <a href="#" class="btn btn-info" onclick="AddNewCustomer(0)">طباعه</a>
+
+        @*<a href="#" class="btn btn-info" onclick="AddNewCustomer(0)">طباعه</a>*@
     </center>
+     <hr style="color:black;background-color:black" />
+     <div class="row">
+
+         @using (Html.BeginForm("NewFatora", "Bills", FormMethod.Post, new { enctype = "multipart/form-data" }))
+         { 
+             <div class="col-xs-12">
+                 <div class="fatora">
+
+                     <fieldset id="SubmitForm">
+                         <table style="text-align:center">
+                             <thead>
+                                 <tr>
+                                     <th>
+                                         رقم الفاتوره
+                                     </th>
+
+                                     <th>
+                                         اجمالى الفاتوره
+                                     </th>
+
+                                     <th>
+                                         الخصم الفاتوره
+                                     </th>
+
+                                     <th>
+                                         السعر بعد الخصم الفاتوره
+                                     </th>
+
+                                     <th>
+                                         المدفوع
+                                     </th>
+                                     <th>
+                                         الباقى
+                                     </th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+                                 <tr>
+                                     <td>
+                                         <input type="text" name="fatoraID" class="form-control" id="fatoraID" disabled />
+
+                                     </td>
+                                     <td>
+                                         <input type="text" name="totalFatora" class="form-control" id="totalFatora" disabled />
+
+                                     </td>
+                                     <td>
+                                         <input type="text" name="discount" class="form-control" id="discount" required />
+
+                                     </td>
+                                     <td>
+                                         <input type="text" name="AfterDiscount" class="form-control" id="AfterDiscount" disabled />
+
+                                     </td>
+                                     <td>
+                                         <input type="text" name="elmodfoa" class="form-control" id="elmodfoa" />
+
+                                     </td>
+                                     <td>
+                                         <input type="text" name="Elbaqy" class="form-control" id="Elbaqy" disabled />
+
+                                     </td>
+                                 </tr>
+                             </tbody>
+                         </table>
+                         <br />
+                         <center>
+                             @*   SaveAndPrint*@
+                             <input type="submit" value="اضافه" class="btn btn-info" />
+
+                             @*@Html.ActionLink("حفظ وطباعه", "NewFatora", "Bills", null, new { @class = "btn btn-info", onclick = "NewFatora();" })*@
+                         </center>
+                     </fieldset>
+
+
+                 </div>
+                 
+             </div>
+         }
+     </div>
+         
+    
+
 </div>
+
 @*for new customer*@
 
 <div class="modal fade" id="MyModal">
