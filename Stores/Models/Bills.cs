@@ -32,9 +32,12 @@ namespace Stores.Models
         public string Comment { get; set; }
         public virtual int User_ID { get; set; }
         public virtual int Client_ID { get; set; }
+ 
 
         public virtual int Cate_Id { get; set; }
 
+
+        public bool Viewed { get; set; }
 
     }
 }

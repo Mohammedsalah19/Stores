@@ -190,7 +190,7 @@
                         <p style="font-size:.8em;text-align:center">  المبيعات</p>
                         <ul>
                             <li><a href="@Url.Action("about", "Home")">عرض فواتير </a></li>
-                            <li><a href="@Url.Action("about", "Home")">انشاء فاتوره بيع</a></li>
+                            <li><a href="@Url.Action("Purchases", "bills")">انشاء فاتوره بيع</a></li>
 
                         </ul>
                     </div>
@@ -372,10 +372,11 @@
     <div id="main" style="" >
         <button id="openNav" style="    " class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
         @RenderBody()
+        <br />
         <center>
 
             <footer class="">
-                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+                <p>&copy; @DateTime.Now.Year -UpTop </p>
             </footer>
         </center>
     </div>

@@ -59,6 +59,8 @@ namespace Stores.Controllers
             {
                 Session["userName"] = model.username;
                 Session["userID"] = model.Id;
+                Session["flag"] = "true";
+
 
                 return RedirectToAction("Index", "Home");
             }
@@ -313,24 +315,24 @@ namespace Stores.Controllers
 
         [HttpGet]
 
-        public ActionResult Details(int?id)
+        public ActionResult Details(int? id)
         {
             bool res = s.Users();
             if (res == true)
             {
-                if (id==null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
 
-            var model = _db.Users.Find(id);
+                var model = _db.Users.Find(id);
 
-            if (model == null)
-            {
-                return HttpNotFound();
-            }
+                if (model == null)
+                {
+                    return HttpNotFound();
+                }
 
-            return View(model);
+                return View(model);
             }
 
             return RedirectToAction("HavntAccess", "Employee");

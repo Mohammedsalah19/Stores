@@ -22,11 +22,14 @@ namespace Stores.Models
         public decimal Cost { get; set; }
         [DisplayName("الحاله")]
 
-        public bool Status { get; set; }
+        public bool IsDeleted { get; set; }
         [DisplayName("الوصف")]
 
         public string Comment { get; set; }
         public virtual int Bill_ID { get; set; }
         public virtual int Product_ID { get; set; }
+
+        public bool Viewed { get; set; }
+
     }
 }

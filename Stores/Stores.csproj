@@ -226,6 +226,14 @@
     <Compile Include="Migrations\201905182313382_ditpaymentsIDS.Designer.cs">
       <DependentUpon>201905182313382_ditpaymentsIDS.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905192029034_mml.cs" />
+    <Compile Include="Migrations\201905192029034_mml.Designer.cs">
+      <DependentUpon>201905192029034_mml.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905192127581_addView.cs" />
+    <Compile Include="Migrations\201905192127581_addView.Designer.cs">
+      <DependentUpon>201905192127581_addView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bills.cs" />
     <Compile Include="Models\BillsCategory.cs" />
@@ -352,6 +360,7 @@
     <Content Include="Views\Employee\Details.cshtml" />
     <Content Include="Views\Bills\Purchases.cshtml" />
     <Content Include="Views\Bills\AddBillsContent.cshtml" />
+    <Content Include="Views\Bills\ReturnPurches.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -431,6 +440,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905182313382_ditpaymentsIDS.resx">
       <DependentUpon>201905182313382_ditpaymentsIDS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905192029034_mml.resx">
+      <DependentUpon>201905192029034_mml.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905192127581_addView.resx">
+      <DependentUpon>201905192127581_addView.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
