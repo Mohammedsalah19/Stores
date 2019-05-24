@@ -1,0 +1,85 @@
+﻿@*@model IEnumerable<Stores.Models.BillsContent>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDeleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bill_ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product_ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Viewed)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bill_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Viewed)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.BillsContent_ID }) |
+                @Html.ActionLink("Details", "Details", new { id=item.BillsContent_ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.BillsContent_ID })
+            </td>
+        </tr>
+    }
+
+    </table>*@
+
+
+
+ 
+ @model IEnumerable<Stores.Models.BillsContent>
+
+    @foreach (var p in Model)
+    {
+        <tr>
+            <td>@p.BillsContent_ID</td>
+            <td>@p.Quantity</td>
+            <td>@p.Product_ID</td>
+            <td>@p.Viewed</td>
+            <td>@p.Price</td>
+        </tr>
+    }

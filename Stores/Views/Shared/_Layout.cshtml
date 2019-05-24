@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -198,10 +198,10 @@
                     <div class="buy">
                         <p style="font-size:.8em;text-align:center"> المشتريات</p>
                         <ul>
-                            <li><a href="@Url.Action("about", "Home")">عرض فواتير الشراء</a></li>
-                            <li><a href="@Url.Action("about", "Home")">انشاء فاتوره شراء</a></li>
-                            <li><a href="@Url.Action("about", "Home")"> قائمه المرتجعات</a></li>
-                            <li><a href="@Url.Action("about", "Home")">انشاء مرتجع شراء</a></li>
+                            @*<li><a href="@Url.Action("about", "Home")">عرض فواتير الشراء</a></li>*@
+                            <li><a href="@Url.Action("BuyBill", "bills")">انشاء فاتوره شراء</a></li>
+                            @*<li><a href="@Url.Action("about", "Home")"> قائمه المرتجعات</a></li>*@
+                            <li><a href="@Url.Action("ReturnBill", "Bills")">انشاء مرتجع شراء</a></li>
                         </ul>
                     </div>
 

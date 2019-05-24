@@ -31,6 +31,6 @@ namespace Stores.Models
 
         public decimal minimum_bills { get; set; }
 
-        public virtual Clients_Type Clients_Type_ID { get; set; }
+        public virtual int Clients_Type_ID { get; set; }
     }
 }

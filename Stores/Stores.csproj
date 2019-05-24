@@ -131,6 +131,7 @@
     <Compile Include="Controllers\BillsController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\StoreHouseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -233,6 +234,18 @@
     <Compile Include="Migrations\201905192127581_addView.cs" />
     <Compile Include="Migrations\201905192127581_addView.Designer.cs">
       <DependentUpon>201905192127581_addView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905202151163_try.cs" />
+    <Compile Include="Migrations\201905202151163_try.Designer.cs">
+      <DependentUpon>201905202151163_try.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905202204171_editclient.cs" />
+    <Compile Include="Migrations\201905202204171_editclient.Designer.cs">
+      <DependentUpon>201905202204171_editclient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905212112536_ffffffff.cs" />
+    <Compile Include="Migrations\201905212112536_ffffffff.Designer.cs">
+      <DependentUpon>201905212112536_ffffffff.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bills.cs" />
@@ -361,6 +374,10 @@
     <Content Include="Views\Bills\Purchases.cshtml" />
     <Content Include="Views\Bills\AddBillsContent.cshtml" />
     <Content Include="Views\Bills\ReturnPurches.cshtml" />
+    <Content Include="Views\Bills\BuyBill.cshtml" />
+    <Content Include="Views\Bills\ReturnBill.cshtml" />
+    <Content Include="Views\Bills\_SearchForReturnFatora.cshtml" />
+    <Content Include="Views\StoreHouse\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -446,6 +463,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905192127581_addView.resx">
       <DependentUpon>201905192127581_addView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905202151163_try.resx">
+      <DependentUpon>201905202151163_try.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905202204171_editclient.resx">
+      <DependentUpon>201905202204171_editclient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905212112536_ffffffff.resx">
+      <DependentUpon>201905212112536_ffffffff.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

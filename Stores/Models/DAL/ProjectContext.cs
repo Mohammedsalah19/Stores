@@ -28,5 +28,7 @@ namespace Stores.Models.DAL
         public DbSet<ExpensesType> ExpensesType { get; set; }
         public DbSet<Expenses> Expenses { get; set; }
         public DbSet<Payments> Payments { get; set; }
+
+        public System.Data.Entity.DbSet<Stores.Models.CommonClasses.BillsWithExten> BillsWithExtens { get; set; }
     }
 }

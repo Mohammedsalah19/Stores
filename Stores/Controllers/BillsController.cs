@@ -17,21 +17,27 @@ namespace Stores.Controllers
         private ProjectContext _db = new ProjectContext();
         private Security s = new Security();
 
+
+        #region Burches
+
+
         #region index
 
         public ActionResult Purchases()
         {
-            bool res = s.Users();
+            bool res = s.purchasebill();
             if (res == true)
             {
                 var model = new BillsWithExten();
                 model.prodCategoryX = _db.ProductCategory.ToList();
-                model.ClientsX = _db.Clients.ToList();
+                model.ClientsX = _db.Clients.Where(f => f.Clients_Type_ID == 1).ToList();
 
 
 
                 ViewBag.product = new SelectList(_db.Products.ToList(), "Pro_id", "name");
                 ViewBag.productCat = new SelectList(_db.ProductCategory.ToList(), "Cate_ID", "name");
+
+                Session["BillCategory"] = 1;
                 return View(model);
             }
             return RedirectToAction("HavntAccess", "Employee");
@@ -46,10 +52,11 @@ namespace Stores.Controllers
         public JsonResult FillBills()
         {
             List<BillsContent> list = new List<BillsContent>();
+            // List<BillsWithExten> list = new List<BillsWithExten>();
 
             var LastId = _db.BillsContent.OrderByDescending(u => u.Bill_ID).FirstOrDefault();
 
-            var obj = _db.BillsContent.Where(ss => ss.Bill_ID == LastId.Bill_ID && ss.IsDeleted == false && ss.Viewed==true).ToList();
+            var obj = _db.BillsContent.Where(ss => ss.Bill_ID == LastId.Bill_ID && ss.IsDeleted == false && ss.Viewed == true).ToList();
 
             if (obj != null && obj.Count() > 0)
             {
@@ -62,8 +69,23 @@ namespace Stores.Controllers
                     model.Price = item.Price;
                     model.Quantity = item.Quantity;
                     model.IsDeleted = item.IsDeleted;
+
                     list.Add(model);
                 }
+
+
+                //foreach (var item in obj)
+                //{
+                //    BillsWithExten model = new BillsWithExten();
+
+                //    model.productY.name = _db.Products.Where(s=>s.Pro_id ==item.Product_ID).Select(f=>f.name).FirstOrDefault();
+                //    model.billContentY.BillsContent_ID = item.BillsContent_ID;
+                //    model.billContentY.Price = item.Price;
+                //    model.billContentY.Quantity = item.Quantity;
+                //    model.billContentY.IsDeleted = item.IsDeleted;
+
+                //    list.Add(model);
+                //}
             }
 
             return Json(list, JsonRequestBehavior.AllowGet);
@@ -101,10 +123,12 @@ namespace Stores.Controllers
 
         public JsonResult SaveClientData(Clients model)
         {
-            bool result = true;
+            // bool result = true;
 
             try
             {
+                model.Clients_Type_ID = 1; ;
+
                 _db.Clients.Add(model);
                 _db.SaveChanges();
 
@@ -114,7 +138,7 @@ namespace Stores.Controllers
                 throw ex;
             }
 
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Json(JsonRequestBehavior.AllowGet);
         }
 
 
@@ -168,7 +192,7 @@ namespace Stores.Controllers
         #region AddBillsContent 
         //add client id
         [HttpPost]
-        public ActionResult AddBillsContent(BillsContent _BillContent, Bills _bill, int pro, Produt_Price pro_price, int Quantity, string Client_ID )
+        public ActionResult AddBillsContent(BillsContent _BillContent, Bills _bill, int pro, Produt_Price pro_price, int Quantity, string Client_ID)
         {
             bool res = s.Users();
             if (res == true)
@@ -179,6 +203,7 @@ namespace Stores.Controllers
                     // get client id
                     var ClintID = _db.Clients.Where(p => p.name == Client_ID).FirstOrDefault();
                     _bill.Client_ID = ClintID.Client_ID;
+                    _bill.Cate_Id = 1;
 
                     _bill.User_ID = int.Parse(Session["userID"].ToString());
                     _bill.Viewed = true;
@@ -214,7 +239,7 @@ namespace Stores.Controllers
                 _db.Entry(model).State = EntityState.Modified;
                 _db.SaveChanges();
 
-             
+
                 Session["flag"] = "false";
 
                 return RedirectToAction("Purchases");
@@ -332,7 +357,7 @@ namespace Stores.Controllers
 
         public ActionResult Newfatora(decimal? discount, decimal? elmodfoa, Payments payments)
         {
-            bool res = s.Users();
+            bool res = s.purchasebill();
             if (res == true)
             {
                 var LastId = _db.Bills.OrderByDescending(u => u.Id).FirstOrDefault();
@@ -402,7 +427,7 @@ namespace Stores.Controllers
                 _db.SaveChanges();
 
                 var editPrice = _db.Produt_Price.Find(model.Prd_Pri_ID);
-                model.Quantity = model.Quantity + Stu.Quantity;
+                model.Quantity = model.Quantity - Stu.Quantity;
 
                 _db.Entry(editPrice).State = EntityState.Modified;
                 _db.SaveChanges();
@@ -425,12 +450,236 @@ namespace Stores.Controllers
         }
         #endregion
 
+        #region retuern All Purches
+
         public ActionResult ReturnPurches()
         {
 
             return View(_db.BillsContent.ToList());
         }
-      
+        #endregion
+
+
+        #endregion
+
+
+
+
+        #region BUyBiil --secure
+
+
+
+        #region index of BuyBill
+
+        public ActionResult BuyBill()
+        {
+            bool res = s.purchasebill();
+            if (res == true)
+            {
+
+                var model = new BillsWithExten();
+                model.prodCategoryX = _db.ProductCategory.ToList();
+                model.ClientsX = _db.Clients.Where(f => f.Clients_Type_ID == 2).ToList();
+                model.StorehouseX = _db.Storehouse.ToList();
+
+                ViewBag.product = new SelectList(_db.Products.ToList(), "Pro_id", "name");
+                ViewBag.productCat = new SelectList(_db.ProductCategory.ToList(), "Cate_ID", "name");
+
+                Session["BillCategory"] = 2;
+                return View(model);
+
+
+
+            }
+
+            return RedirectToAction("HavntAccess", "Employee");
+
+        }
+        #endregion
+
+        #region add Moward
+
+        public JsonResult SaveMowardtData(Clients model)
+        {
+            // bool result = true;
+
+            try
+            {
+                model.Clients_Type_ID = 2;
+                _db.Clients.Add(model);
+                _db.SaveChanges();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+
+
+        #endregion
+
+
+        #region AddBillsBuyContent
+
+        [HttpPost]
+        public ActionResult AddBillsBuyContent(BillsContent _BillContent, Bills _bill, int pro, Produt_Price pro_price, int Quantity, string Client_ID)
+        {
+
+            bool res = s.purchasebill();
+            if (res == true)
+            {
+                if (Session["flag"].ToString() == "true")
+                {
+                    _bill.date = DateTime.Now;
+                    // get client id
+                    var ClintID = _db.Clients.Where(p => p.name == Client_ID).FirstOrDefault();
+                    _bill.Client_ID = ClintID.Client_ID;
+                    _bill.Cate_Id = 2;
+
+                    _bill.User_ID = int.Parse(Session["userID"].ToString());
+                    _bill.Viewed = true;
+                    _db.Bills.Add(_bill);
+                    _db.SaveChanges();
+                }
+
+                var LastId = _db.Bills.OrderByDescending(u => u.Id).FirstOrDefault();
+                _BillContent.Bill_ID = LastId.Id;
+
+                //    _BillContent.Price = price;
+                _BillContent.Quantity = _BillContent.Quantity;
+                _BillContent.Product_ID = pro;
+                _BillContent.Cost = _db.Produt_Price.Where(s => s.Pro_ID == pro).Select(p => p.cost).FirstOrDefault();
+                _BillContent.Viewed = true;
+
+                _db.BillsContent.Add(_BillContent);
+                _db.SaveChanges();
+
+                //edit quntity
+                var proQuantity = _db.Produt_Price.Where(s => s.Pro_ID == pro).FirstOrDefault();
+                Produt_Price model = _db.Produt_Price.Find(proQuantity.Prd_Pri_ID);
+
+                model.Quantity = model.Quantity + Quantity;
+                model.Store_Id = 1;
+                model.Pro_ID = pro;
+                model.Minmum = model.Minmum;
+                model.many_price = model.many_price;
+                model.Price = model.Price;
+                model.cost = model.cost;
+
+
+                _db.Entry(model).State = EntityState.Modified;
+                _db.SaveChanges();
+
+
+                Session["flag"] = "false";
+
+                return RedirectToAction("BuyBill");
+            }
+
+            return RedirectToAction("HavntAccess", "Employee");
+
+        }
+        #endregion
+
+
+
+        #region New Buy fatora
+
+        public ActionResult NewBuyfatora(decimal? discount, decimal? elmodfoa, Payments payments)
+        {
+            bool res = s.purchasebill();
+            if (res == true)
+            {
+                var LastId = _db.Bills.OrderByDescending(u => u.Id).FirstOrDefault();
+                Bills bill = _db.Bills.Find(LastId.Id);
+                var billCotent = _db.BillsContent.Where(s => s.Bill_ID == LastId.Id).ToList();
+
+                foreach (var item in billCotent)
+                {
+                    item.Viewed = false;
+                    _db.Entry(item).State = EntityState.Modified;
+                }
+
+
+                decimal price = 0;
+                decimal cost = 0;
+                var model = _db.BillsContent.Where(s => s.Bill_ID == LastId.Id).ToList();
+
+
+                foreach (var item in model)
+                {
+                    price += item.Quantity * item.Price;
+                }
+
+                foreach (var item in model)
+                {
+                    cost += item.Quantity * item.Cost;
+                }
+
+                bill.price = price;
+                bill.cost = cost;
+                bill.discount = discount ?? default(decimal);
+                bill.Viewed = false;
+                _db.Entry(bill).State = EntityState.Modified;
+
+                _db.SaveChanges();
+
+                var Onemodel = _db.Bills.Where(s => s.Id == LastId.Id).FirstOrDefault();
+
+                payments.client_id = Onemodel.Client_ID;
+                payments.user_id = int.Parse(Session["userID"].ToString());
+                payments.date = DateTime.Now;
+
+                payments.Payment_amount = elmodfoa ?? default(decimal);
+
+                _db.Payments.Add(payments);
+                _db.SaveChanges();
+
+                Session["flag"] = "true";
+
+                return RedirectToAction("BuyBill");
+            }
+
+            return RedirectToAction("HavntAccess", "Employee");
+
+        }
+        #endregion
+
+
+        #endregion
+
+
+
+
+        public ActionResult ReturnBill()
+        {
+
+            var model = new BillsWithExten();
+            model.productX = _db.Products.ToList();
+            model.ClientsX = _db.Clients.ToList();
+            model.billsX = _db.Bills.ToList();
+            model.billCOntentX = _db.BillsContent.ToList();
+
+            return View(model);
+
+        }
+
+        public PartialViewResult SearchForReturnFatora(int Bill_ID)
+        {
+
+           
+            var model = _db.Bills.Where(x => x.Id == Bill_ID).FirstOrDefault();
+
+            var Contentmodel = _db.BillsContent.Where(p => p.Bill_ID == model.Id).ToList();
+ 
+
+            return PartialView("_SearchForReturnFatora", Contentmodel);
+        }
+
+
     }
 
 }

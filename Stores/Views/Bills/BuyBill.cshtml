@@ -1,7 +1,7 @@
 ﻿@model Stores.Models.CommonClasses.BillsWithExten
 
 @{
-    ViewBag.Title = "Purchases";
+    ViewBag.Title = "فاتوره مشتريات";
 }
 
 <script src="~/Scripts/jquery-3.3.1.js"></script>
@@ -34,26 +34,26 @@
 
     // add client form
 
-    function AddNewCustomer(StudentId) {
+    function AddNewMowardeen(StudentId) {
         $("#form")[0].reset();
         $("#Client_ID").val(0);
-        $("#ModalTitle").html("اضافه عميل جديد");
+        $("#ModalTitle").html("اضافه مورد جديد");
         $("#ModalTitle").css("text-align:center ")
         $("#MyModal").modal();
 
     }
 
- 
+
     // add client
 
-    function AddClient() {
+    function AddMoward() {
         $("#name").prop('required', true);
         $("#phone").prop('required', true);
             var data = $("#SubmitForm2").serialize();
-         
+
             $.ajax({
                 type: "Post",
-                url: '/Bills/SaveClientData',
+                url: '/Bills/SaveMowardtData',
                 data: data,
                 success: function (result) {
                     alert("تمت الاضافه بنجاج");
@@ -84,7 +84,7 @@
 
                     $.each(data, function (index, value) {
                         $('#elmotwafer').val(value.Quantity);
-                        $('#Price').val(value.Price);
+                        $('#Price').val(value.cost);
                     });
                 }
 
@@ -120,18 +120,18 @@
 
     // return list of bills
 
-
     $(document).ready(function () {
         $('#body').ready(function () {
              $.ajax({
                  url: '/Bills/FillBills',
                 contentType: "application/json;charset=utf-8",
                 dataType: "Json",
-                success: function (data) {
+                 success: function (data) {
+             
 
                     for (var i = 0; i < data.length; i++) {
                         var SetData = $("#SetStudentList");
-                        var ss = data[i].Quantity
+                       var ss = data[i].Quantity
                       //  var amount = 4;
                         var dd = data[i].price;
                         //  var price = 3;
@@ -140,16 +140,18 @@
                             "<td>" + data[i].BillsContent_ID + "</td>" +
                             "<td>" + data[i].Client_ID + "</td>" +
                             "<td>" + data[i].Product_ID + "</td>" +
+ 
                             "<td>" + data[i].Quantity + "</td>" +
                             "<td>" + data[i].Price + "</td>" +
-                            //"<td>" + data[i].Status + "</td>" +
-                            "<td>" + sum(data[i].Price, data[i].Quantity) + "</td>" +
-                            //"<td>" + "<a href='#' class='btn btn-warning' onclick='EditBillRecord(" + data[i].BillsContent_ID+")' ><span class='glyphicon glyphicon-edit'></span> تعديل</a>" + "</td>" +
-                            "<td>" + "<a href='#' class='btn btn-danger' onclick='DeleteStudentRecord(" + data[i].BillsContent_ID + ")'><span class='glyphicon glyphicon-trash'></span> حذف</a>" + "</td>" +
+                             "<td>" + sum(data[i].Price, data[i].Quantity) + "</td>" +
+                             "<td>" + "<a href='#' class='btn btn-danger' onclick='DeleteStudentRecord(" + data[i].BillsContent_ID + ")'><span class='glyphicon glyphicon-trash'></span> حذف</a>" + "</td>" +
                             "</tr>";
                         SetData.append(Data);
                         $("#LoadingStatus").html(" ");
                     }
+
+                 
+
                 }
 
             });
@@ -273,32 +275,9 @@
 
         });
     });
+
+
  
-
-    //$(document).ready(function () {
-    //    $("#amount").change(function () {
-
-    //        var _quantity = $('#amount').val();
-
-    //        var _elmotwafer = $('#elmotwafer').val();
-
-    //        if (_elmotwafer < _quantity) {
-
-    //       //     alert("الكميه اكبر من المتوفر فى المخزن ")
-    //            $("#amount").css("border-color", "red");
-    //            $("#AddContentID").attr("disabled", true);
-                
-    //        }
-    //        else {
-    //        $("#amount").css("border-color", "green");
-    //            $("#AddContentID").attr("disabled", false);
-    //        }
-    //    });
-    //});
- 
-
-    
-
     $(document).ready(function () {
 
         var name = $('#name').val();
@@ -315,8 +294,8 @@
 
     });
 
-   
-    
+
+
 
 </script>
 
@@ -326,11 +305,11 @@
 
 
 <center>
-    <a href="#" class="btn btn-info" onclick="AddNewCustomer(0)">اضافه عميل</a> <br /><br />
+    <a href="#" class="btn btn-info" onclick="AddNewMowardeen(0)">اضافه مورد</a> <br /><br />
 </center>
 
 <div class="container">
-    @using (Html.BeginForm("AddBillsContent", "Bills"))
+    @using (Html.BeginForm("AddBillsBuyContent", "Bills"))
     {
         <div class="row">
             <div class="col-xs-12">
@@ -360,15 +339,20 @@
 
                                     </th>
                                     <th>
-                                        اسم العميل
+                                        اسم المورد
 
                                     </th>
+
+                                    <th>
+                                        المخزن
+                                    </th>
+
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>
-                                        <select name="Cat" id="section" class="form-control" >
+                                        <select name="Cat" id="section" class="form-control">
                                             <option> اختار المنتج</option>
                                             @{
                                                 foreach (var item in Model.prodCategoryX)
@@ -379,7 +363,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select name="pro" id="pro" class="form-control" >
+                                        <select name="pro" id="pro" class="form-control">
                                             <option> اختار المنتج</option>
                                             @{
 
@@ -393,7 +377,7 @@
                                     </td>
                                     <td>
 
-                                        <input type="text" name="Price" class="form-control" id="Price" readonly  />
+                                        <input type="text" name="Price" class="form-control" id="Price" readonly />
 
                                     </td>
                                     <td>
@@ -409,19 +393,32 @@
 
                                     </td>
                                     <td>
- 
-                                            <select name="Client_ID" id="Client_ID" class="form-control" required>
-                                                <option>اسم العميل</option>
-                                                @{
-                                                    foreach (var item in Model.ClientsX)
-                                                    {
-                                                        <option @item.Client_ID> @item.name </option>
-                                                    }
+
+                                        <select name="Client_ID" id="Client_ID" class="form-control" required>
+                                            <option>اسم المورد</option>
+                                            @{
+                                                foreach (var item in Model.ClientsX)
+                                                {
+                                                    <option @item.Client_ID> @item.name </option>
                                                 }
-                                            </select>
+                                            }
+                                        </select>
 
                                     </td>
-                            
+
+                                    <td>
+
+                                        <select name="Store_Id" id="Store_Id" class="form-control" required>
+                                            <option>اسم المخزن</option>
+                                            @{
+                                                foreach (var item in Model.StorehouseX)
+                                                {
+                                                    <option @item.Store_Id> @item.name </option>
+                                                }
+                                            }
+                                        </select>
+
+                                    </td>
 
                                 </tr>
 
@@ -457,7 +454,7 @@
         <thead>
             <tr>
                 <th>رقم التسلسل</th>
-                <th>اسم العميل </th>
+                <th>اسم المورد </th>
                 <th>المنتج</th>
 
                 <th>عدد القطع</th>
@@ -476,7 +473,7 @@
     <hr style="color:black;background-color:black" />
     <div class="row">
 
-        @using (Html.BeginForm("NewFatora", "Bills", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("NewBuyfatora", "Bills", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             <div class="col-xs-12">
                 <div class="fatora">
@@ -520,7 +517,7 @@
 
                                     </td>
                                     <td>
-                                        <input type="text" name="discount" class="form-control" id="discount" required onchange="saveBtn()"/>
+                                        <input type="text" name="discount" class="form-control" id="discount" required onchange="saveBtn()" />
 
                                     </td>
                                     <td>
@@ -540,7 +537,7 @@
                         </table>
                         <br />
                         <center>
-                            <input type="submit" value="حفظ وطباعه" class="btn btn-info" id="saveprintID" onclick="Newfatora()" />
+                            <input type="submit" value="حفظ وطباعه" class="btn btn-info" id="saveprintID" onclick="NewBuyfatora()" />
 
                             @*@Html.ActionLink("حفظ وطباعه", "NewFatora", "Bills", null, new { @class = "btn btn-info", onclick = "NewFatora();" })*@
                         </center>
@@ -570,13 +567,13 @@
                 <form id="form">
                     <fieldset id="SubmitForm2" class="text-right" style="direction:rtl">
                         <div class="form-group">
-                            <label>اسم العميل</label>
+                            <label>اسم المورد</label>
 
-                            <input type="text" name="name" id="name" placeholder="اسم العميل"  class="form-control" required />
+                            <input type="text" name="name" id="name" placeholder="اسم المورد" class="form-control" required />
                         </div>
                         <div class="form-group">
                             <label>رقم التليفون</label>
-                            <input type="text" name="phone" id="phone" placeholder=" رقم التليفون"  class="form-control" required />
+                            <input type="text" name="phone" id="phone" placeholder=" رقم التليفون" class="form-control" required />
                         </div>
                         <div class="form-group">
                             <label>العنوان</label>
@@ -584,7 +581,7 @@
                         </div>
                         <div class="form-group">
                             <label>رقم البطاقه</label>
-                            <input type="text" name="nationalID" id="nationalID"  placeholder="رقم قومى" class="form-control" />
+                            <input type="text" name="nationalID" id="nationalID" placeholder="رقم قومى" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label>الحاله</label>
@@ -592,7 +589,7 @@
                         </div>
 
                         <div class="form-group">
-                            <button class="btn btn-block btn-info" onclick="AddClient();" id="SaveRecord" value="اضافه">اضافه</button>
+                            <button class="btn btn-block btn-info" onclick="AddMoward();" id="SaveRecord" value="اضافه">اضافه</button>
 
                         </div>
 

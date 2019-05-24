@@ -1,0 +1,197 @@
+﻿@model  Stores.Models.CommonClasses.BillsWithExten
+
+<br />
+
+<div class="container">
+    <div class="form-group">
+        <div class="input-group" style="text-align:center;direction:rtl">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i> </span>
+            <input type="text" id="search" placeholder="بحث سريع " class="form-control" />
+        </div>
+
+    </div>
+
+</div>
+<br />
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th> رقم الفاتوره</th>
+
+            <th> المنتج </th>
+            <th> السعر </th>
+            <th> الكميه</th>
+            <th> الاجمالى</th>
+            <th>تعديل</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model.billCOntentX)
+        {
+
+            <tr class="search">
+                <td>@item.Bill_ID</td>
+
+                <td>
+                    @foreach (var items in Model.productX.Where(h => h.Pro_id == item.Product_ID))
+                    {
+                        @items.name
+                    }
+                </td>
+
+
+                <td>
+                    @item.Price
+                </td>
+
+                <td>
+                    @item.Quantity
+                </td>
+                <td>
+                    total
+                </td>
+
+
+
+                @*<td>@Model.billCOntentX.Where(p => p.Bill_ID == item.Id).Select(f => f.Price)</td>
+                    <td>@Model.billCOntentX.Where(p => p.Bill_ID == item.Id).Select(f => f.Quantity)</td>*@
+ 
+                <td><a href='#' class='btn btn-danger' onclick='EditFatora()'><span class='glyphicon glyphicon-edit'></span> تعديل</a></td>
+
+            </tr>
+
+        }
+
+    </tbody>
+
+</table>
+
+
+@*for new customer*@
+
+
+<div class="modal fade" id="EditModel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 id="ModalTitle">تعديل الفاتوره</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form">
+                    <fieldset id="SubmitForm">
+                        <div class="form-group">
+                            <label>رقم الفاتوره</label>
+
+                            <input type="text" name="BillsContent_ID" id="BillsContent_ID" value="" class="form-control" disabled />
+                        </div>
+
+                        <div class="form-group">
+                            <label>اسم المنتج</label>
+                            <input type="text" name="Product_ID" id="Product_ID" value="true" class="form-control" disabled />
+                        </div>
+
+                        <div class="form-group">
+                            <label>الكميه</label>
+                            <input type="text" name="Quantity" id="Quantity" value="" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>سعر القطعه</label>
+                            <input type="text" name="price" id="price" value="" class="form-control" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>التكلفه</label>
+                            <input type="text" name="Cost" id="Cost" value="" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>الحاله</label>
+                            <input type="checkbox" name="IsDeleted" id="IsDeleted" value="true" class="" />
+                        </div>
+
+                        <div class="form-group">
+                            <a href="#" class="btn btn-block btn-info" onclick="saveEditRecord()" id="SaveRecord">Save</a>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        function Contains(textOne, textTwo) {
+
+            if (textOne.indexOf(textTwo) != -1)
+                return true;
+
+        }
+        $("#search").keyup(function () {
+            var searchTxt = $("#search").val().toLowerCase();
+            $(".search").each(function () {
+                if (!Contains($(this).text().toLowerCase(), searchTxt)) {
+
+                    $(this).hide();
+
+
+                }
+
+                else {
+                    $(this).show();
+
+                }
+
+            });
+
+
+        });
+
+    })
+
+
+    // sum  product  price for data table
+    function sum(p, d) {
+
+        var res = p * d;
+        return res;
+    }
+
+
+
+    // add
+ 
+    //Show The Popup Modal For Edit Student Record
+
+    function EditBillRecord(BillsContent_ID) {
+        var url = "/Bills/GetBillById?BillsContent_ID=" + BillsContent_ID;
+        $("#ModalTitle").html("Update Student Record");
+        $("#EditModel").modal();
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var obj = JSON.parse(data);
+                $("#BillsContent_ID").val(obj.BillsContent_ID);
+                $("#Quantity").val(obj.Quantity);
+                $("#Cost").val(obj.Cost);
+                $("#price").val(obj.Price);
+                $("#IsDeleted").val(obj.IsDeleted);
+                $("#Product_ID").val(obj.Product_ID);
+                $("#Bill_ID").val(obj.Bill_ID);
+
+
+            }
+        })
+    }
+
+</script>
