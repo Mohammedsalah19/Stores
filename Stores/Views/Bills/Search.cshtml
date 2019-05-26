@@ -1,0 +1,279 @@
+﻿@model  Stores.Models.CommonClasses.BillsWithExten
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+
+<table class="table table-bordered " id="myTable">
+
+    @*@foreach (var item in Model.billsY)
+        {*@
+    <tr>
+        <td colspan="5">
+
+            <div class="card text-center" style="border:3px solid #000">
+                <div class="card-header">
+                    رقم الفاتوره :     @Model.billsY.Id
+                    <input hidden value="@Model.billsY.Id" name="hiddenID" />
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        الاجمالى @Model.billsY.price
+
+                    </h5>
+                    <p class="card-text">
+                        @Model.billsY.date التاريخ
+                    </p>
+                </div>
+                <div class="card-footer text-muted">
+                    البضائع
+                </div>
+            </div>
+        </td>
+    </tr>
+
+
+
+
+    <tr class="table-heading " style="background-color:#40BCBA">
+
+        @*<th>رقم الوصل</th>*@
+        <th style="text-align:center"> رقم المنتج  </th>
+        <th style="text-align:center">المنتج </th>
+
+        <th style="text-align:center"> السعر  </th>
+        <th style="text-align:center">  الكميه </th>
+
+
+        <th style="text-align:center">الاجمالى : </th>
+
+
+    </tr>
+    @{
+        foreach (var items in Model.billCOntentX.Where(f => f.Bill_ID == @Model.billsY.Id))
+        {
+
+            <tr style="background-color:white; text-align:center">
+
+                <td>
+
+                    @Html.DisplayFor(modelItem => items.BillsContent_ID)
+
+
+                </td>
+                <td>
+                    @foreach (var itemX in Model.productX.Where(h => h.Pro_id == items.Product_ID))
+                    {
+                        @Html.DisplayFor(modelItem => itemX.name)
+                    }
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => items.Price)
+                    <input type="text" value="@items.Price" readonly id="prize" hidden>
+
+
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => items.Quantity)
+                    <input type="text" value="@items.Quantity" readonly name="Qu" hidden>
+
+                </td>
+                <td>
+                    <input type="text" readonly onload="sum()"/>
+                    
+                    Total
+
+                </td>
+
+            </tr>
+
+        }
+
+    }
+    @*}*@
+
+</table>
+
+<center>
+    <a href='#' class='btn btn-info' onclick='EditBillRecord(@Model.billsY.Id)'><span class='glyphicon glyphicon-edit'></span>انشاء مرتجع</a>
+
+</center>
+
+
+
+<div class="modal fade" id="EditModel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 id="ModalTitle">تعديل الفاتوره</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form">
+                    <fieldset id="SubmitForm">
+
+
+                        <div class="form-group">
+                            <label>رقم الفاتوره</label>
+                            <input type="text" name="Bill_ID" id="Bill_ID" value="" class="form-control" readonly />
+                        </div>
+ 
+
+                        <div class="form-group">
+                            <select name="pro" id="pro" class="form-control">
+
+                                @foreach (var item in Model.productX)
+                                {
+                                    foreach (var itemX in Model.billCOntentX.Where(h => h.Product_ID == item.Pro_id))
+                                    {
+                                        <option @item.Pro_id> @item.name. </option>
+
+                                     }
+
+                                }
+                            </select>
+ 
+                        </div>
+
+                        <div class="form-group">
+                            <label>الكميه</label>
+                            <input type="text" name="Quantity" id="Quantity" value="" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>سعر القطعه</label>
+                            <input type="text" name="price" id="price" value="" class="form-control" readonly />
+                        </div>
+                        <div class="form-group">
+                            <label>ألاجمالى</label>
+                            <input type="text" name="total" id="total" value="" class="form-control" readonly />
+                        </div>
+
+                        <div class="form-group">
+                            <a href="#" class="btn btn-block btn-info" onclick="saveReturnFatora();" id="SaveRecord">حفظ</a>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    //Show The Popup Modal For  return
+            var id = @Model.billsY.Id;
+
+    function EditBillRecord(BillsContent_ID) {
+        $("#Bill_ID").val(id);
+
+        var url = "/Bills/EditRetrnFatora?BillsContent_ID=" + BillsContent_ID;
+         $("#ModalTitle").html("انشاء فاتوره مرتجعات فاتوره رقم " + id);
+        $("#EditModel").modal();
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var obj = JSON.parse(data);
+              //  $("#price").val(obj.price);
+                $("#IsDeleted").val(obj.IsDeleted);
+                $("#Product_ID").val(obj.Product_ID);
+
+
+            }
+        })
+    }
+
+
+
+
+ 
+
+    //return total price before discount
+
+    $(document).ready(function () {
+
+        $("#Quantity").change(function () {
+
+            var amount = $('#Quantity').val();
+            var price = $('#price').val();
+            var res = amount * price;
+
+            $('#total').val("الاجمالى : " + res);
+
+
+        });
+    });
+
+
+    // return value of price and cost
+
+    $(document).ready(function () {
+        $("#pro").change(function () {
+
+            var id = $(this);
+            var ss = $("#pro").val();
+             $.ajax({
+
+                url: '/Bills/ReturnValueByName?name=' + ss,
+                contentType: "application/json;charset=utf-8",
+                dataType: "Json",
+                type: 'GET',
+                async: true,
+                cache: false,
+                success: function (data) {
+
+                    $.each(data, function (index, value) {
+                        $('#price').val(value.Price);
+                    });
+                }
+
+
+            });
+        });
+    });
+
+
+    // add 
+
+    function saveReturnFatora() {
+        $("#Quantity").prop('Quantity', true);
+        var data = $("#SubmitForm").serialize();
+
+        $.ajax({
+            type: "Post",
+            url: '/Bills/saveReturnFatora',
+            data: data,
+            success: function (result) {
+                alert("تمت الاضافه بنجاج");
+                // window.location.href = "/Home/index";
+                $("#MyModal").modal("hide");
+                location.reload(true);
+
+
+            }
+        })
+
+    };
+
+    function sum(p, d) {
+
+        var res = p * d;
+        return res;
+    }
+
+    $(document).ready(function () {
+
+ 
+            var amount = $('#Qu').val();
+        var price = $('#prize').val();
+            var res = amount * price;
+
+            $('#total').val("الاجمالى : " + res);
+
+
+     });
+    
+</script>

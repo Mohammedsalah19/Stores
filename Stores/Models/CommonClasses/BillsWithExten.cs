@@ -31,5 +31,8 @@ namespace Stores.Models.CommonClasses
         public IEnumerable<Storehouse> StorehouseX { get; set; }
 
 
+        public IEnumerable<BillsContent> ProductinContent { get; set; }
+
+
     }
 }

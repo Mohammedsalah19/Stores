@@ -215,6 +215,7 @@ namespace Stores.Controllers
                 _BillContent.Bill_ID = LastId.Id;
 
                 //    _BillContent.Price = price;
+
                 _BillContent.Quantity = _BillContent.Quantity;
                 _BillContent.Product_ID = pro;
                 _BillContent.Cost = _db.Produt_Price.Where(s => s.Pro_ID == pro).Select(p => p.cost).FirstOrDefault();
@@ -667,18 +668,123 @@ namespace Stores.Controllers
 
         }
 
-        public PartialViewResult SearchForReturnFatora(int Bill_ID)
+        
+
+        #region  edite record
+
+        public JsonResult EditRetrnFatora(int BillsContent_ID)
         {
-
-           
-            var model = _db.Bills.Where(x => x.Id == Bill_ID).FirstOrDefault();
-
-            var Contentmodel = _db.BillsContent.Where(p => p.Bill_ID == model.Id).ToList();
- 
-
-            return PartialView("_SearchForReturnFatora", Contentmodel);
+            BillsContent model = _db.BillsContent.Where(x => x.BillsContent_ID == BillsContent_ID).SingleOrDefault();
+            string value = string.Empty;
+            value = JsonConvert.SerializeObject(model, Formatting.Indented, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+            return Json(value, JsonRequestBehavior.AllowGet);
         }
 
+        #endregion
+
+
+
+        //public PartialViewResult Search(int BIll_ID)
+        //{
+        //    var modelX = new BillsWithExten();
+        //    var model = _db.Bills.Where(x => x.Id == BIll_ID).FirstOrDefault();
+        //    modelX.billsY = model;
+        //    modelX.billCOntentX = _db.BillsContent.Where(p => p.Bill_ID ==  BIll_ID).ToList();
+        //    modelX.productX = _db.Products.ToList();
+        //    return PartialView(modelX);
+        //}
+
+
+
+        #region Search
+
+        public ActionResult Search(int BIll_ID)
+        {
+            var modelX = new BillsWithExten();
+            var model = _db.Bills.Where(x => x.Id == BIll_ID).FirstOrDefault();
+            modelX.billsY = model;
+            modelX.billCOntentX = _db.BillsContent.Where(p => p.Bill_ID == BIll_ID).ToList();
+            modelX.prodCategoryX = _db.ProductCategory.ToList();
+            modelX.productX = _db.Products.ToList();
+
+            var proInContent = _db.BillsContent.Select(p => p.Product_ID).ToList();
+             ViewBag.pro = new SelectList(_db.BillsContent.Select(p=>p.Product_ID).ToList(), "Pro_id", "name");
+
+             return View(modelX);
+        }
+        #endregion
+
+        public JsonResult saveReturnFatora(BillsContent content , string pro, Produt_Price pro_price, int Quantity,int price,int Bill_ID,Bills bill)
+        {
+            // bool result = true;
+
+            try
+            {
+                content.Price = price;
+                var GetProID = _db.Products.Where(i => i.name == pro).FirstOrDefault();
+                 content.Product_ID = GetProID.Pro_id;
+
+                 content.Quantity = -1 * Quantity;
+                _db.BillsContent.Add(content);
+                _db.SaveChanges();
+
+                //edit countity
+                pro_price = _db.Produt_Price.Where(p => p.Pro_ID == GetProID.Pro_id).FirstOrDefault();
+                pro_price.Quantity = pro_price.Quantity + Quantity;
+                _db.Entry(pro_price).State = EntityState.Modified;
+                _db.SaveChanges();
+
+                //edit all price
+                  decimal  res = 0;
+                var  model = _db.BillsContent.Where(s => s.Bill_ID == Bill_ID).ToList();
+
+                foreach (var item in model)
+                {
+                    res += item.Quantity * item.Price;
+                }
+
+                 bill = _db.Bills.Where(p => p.Id == Bill_ID).FirstOrDefault();
+                 bill.price = res;
+                _db.Entry(bill).State = EntityState.Modified;
+                _db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        #region return price and quntity value By name
+
+        public JsonResult ReturnValueByName(string name)
+        {
+            List<Produt_Price> result = new List<Produt_Price>();
+
+            var model = _db.Products.Where(i => i.name == name).FirstOrDefault();
+            var model2 = _db.Produt_Price.Where(i => i.Pro_ID == model.Pro_id).ToList(); 
+            // decimal result = model.Quantity;
+            foreach (var item in model2)
+            {
+                Produt_Price mo = new Produt_Price();
+                mo.Prd_Pri_ID = item.Prd_Pri_ID;
+                mo.Quantity = item.Quantity;
+                mo.Minmum = item.Minmum;
+                mo.cost = item.cost;
+                mo.Price = item.Price;
+                result.Add(mo);
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+        
 
     }
 

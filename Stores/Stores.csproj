@@ -378,6 +378,7 @@
     <Content Include="Views\Bills\ReturnBill.cshtml" />
     <Content Include="Views\Bills\_SearchForReturnFatora.cshtml" />
     <Content Include="Views\StoreHouse\Index.cshtml" />
+    <Content Include="Views\Bills\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
