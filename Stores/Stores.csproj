@@ -247,6 +247,10 @@
     <Compile Include="Migrations\201905212112536_ffffffff.Designer.cs">
       <DependentUpon>201905212112536_ffffffff.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905282210039_add fatoraID.cs" />
+    <Compile Include="Migrations\201905282210039_add fatoraID.Designer.cs">
+      <DependentUpon>201905282210039_add fatoraID.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bills.cs" />
     <Compile Include="Models\BillsCategory.cs" />
@@ -473,6 +477,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905212112536_ffffffff.resx">
       <DependentUpon>201905212112536_ffffffff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905282210039_add fatoraID.resx">
+      <DependentUpon>201905282210039_add fatoraID.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

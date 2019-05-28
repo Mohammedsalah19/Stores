@@ -1,5 +1,9 @@
 ﻿@model  Stores.Models.CommonClasses.BillsWithExten
 
+@{
+    ViewBag.Title = "فاتورة مرتجع";
+}
+
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 
 
@@ -80,8 +84,9 @@
 
                 </td>
                 <td>
-                    <input type="text" readonly onload="sum()"/>
-                    
+                    @*<input type="text" readonly id="sum" value="@items.Quantity * @items.Price"/>*@
+
+
                     Total
 
                 </td>
@@ -113,27 +118,30 @@
                 <form id="form">
                     <fieldset id="SubmitForm">
 
-
                         <div class="form-group">
                             <label>رقم الفاتوره</label>
                             <input type="text" name="Bill_ID" id="Bill_ID" value="" class="form-control" readonly />
                         </div>
- 
+
 
                         <div class="form-group">
                             <select name="pro" id="pro" class="form-control">
+                                <option> اختار المنتج</option>
 
                                 @foreach (var item in Model.productX)
                                 {
-                                    foreach (var itemX in Model.billCOntentX.Where(h => h.Product_ID == item.Pro_id))
+                                    foreach (var itemX in Model.billCOntentX.Where(h => h.Product_ID == item.Pro_id && h.Quantity > 0))
                                     {
-                                        <option @item.Pro_id> @item.name. </option>
+                                        <option @item.Pro_id>
 
-                                     }
+                                            @item.name
+                                        </option>
+
+                                    }
 
                                 }
                             </select>
- 
+
                         </div>
 
                         <div class="form-group">
@@ -189,9 +197,9 @@
 
 
 
- 
 
-    //return total price before discount
+
+    //return total price  when adding fatora
 
     $(document).ready(function () {
 
@@ -199,6 +207,7 @@
 
             var amount = $('#Quantity').val();
             var price = $('#price').val();
+
             var res = amount * price;
 
             $('#total').val("الاجمالى : " + res);
@@ -206,6 +215,23 @@
 
         });
     });
+
+
+
+    $(document).ready(function () {
+
+
+            var amount = $('#Qu').val();
+            var price = $('#prize').val();
+
+            var res = amount * price;
+
+            $('#res').val("الاجمالى : " + res);
+
+
+     });
+
+
 
 
     // return value of price and cost
@@ -236,7 +262,7 @@
     });
 
 
-    // add 
+    // add
 
     function saveReturnFatora() {
         $("#Quantity").prop('Quantity', true);
@@ -264,16 +290,4 @@
         return res;
     }
 
-    $(document).ready(function () {
-
- 
-            var amount = $('#Qu').val();
-        var price = $('#prize').val();
-            var res = amount * price;
-
-            $('#total').val("الاجمالى : " + res);
-
-
-     });
-    
 </script>

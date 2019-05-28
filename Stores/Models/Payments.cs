@@ -20,5 +20,6 @@ namespace Stores.Models
 
         public virtual int user_id { get; set; }
         public virtual int client_id { get; set; }
+        public virtual int fatoraID { get; set; }
     }
 }

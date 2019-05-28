@@ -54,9 +54,17 @@ namespace Stores.Controllers
             List<BillsContent> list = new List<BillsContent>();
             // List<BillsWithExten> list = new List<BillsWithExten>();
 
-            var LastId = _db.BillsContent.OrderByDescending(u => u.Bill_ID).FirstOrDefault();
+            int s =int.Parse(Session["userID"].ToString());
 
-            var obj = _db.BillsContent.Where(ss => ss.Bill_ID == LastId.Bill_ID && ss.IsDeleted == false && ss.Viewed == true).ToList();
+            var mo = _db.Bills.Where(p => p.User_ID ==s &&p.Viewed== true).ToList();
+
+            var lastIDInBIlls = mo.OrderByDescending(p => p.Id).FirstOrDefault();
+
+
+          //  var LastId = _db.BillsContent.OrderByDescending(u => u.Bill_ID).FirstOrDefault();
+            
+
+            var obj = _db.BillsContent.Where(ss => ss.Bill_ID == lastIDInBIlls.Id && ss.IsDeleted == false && ss.Viewed == true ).ToList();
 
             if (obj != null && obj.Count() > 0)
             {
@@ -189,6 +197,7 @@ namespace Stores.Controllers
 
         #endregion
 
+
         #region AddBillsContent 
         //add client id
         [HttpPost]
@@ -203,6 +212,8 @@ namespace Stores.Controllers
                     // get client id
                     var ClintID = _db.Clients.Where(p => p.name == Client_ID).FirstOrDefault();
                     _bill.Client_ID = ClintID.Client_ID;
+                //    ViewBag.CLientID = ClintID.Client_ID;
+                    Session["CLientID"]= ClintID.Client_ID;
                     _bill.Cate_Id = 1;
 
                     _bill.User_ID = int.Parse(Session["userID"].ToString());
@@ -356,14 +367,20 @@ namespace Stores.Controllers
 
         #region Newfatora
 
-        public ActionResult Newfatora(decimal? discount, decimal? elmodfoa, Payments payments)
+        public ActionResult Newfatora(decimal? discount, decimal? elmodfoa, Payments payments,int fatoraID)
         {
             bool res = s.purchasebill();
             if (res == true)
             {
-                var LastId = _db.Bills.OrderByDescending(u => u.Id).FirstOrDefault();
-                Bills bill = _db.Bills.Find(LastId.Id);
-                var billCotent = _db.BillsContent.Where(s => s.Bill_ID == LastId.Id).ToList();
+                int userID = int.Parse(Session["userID"].ToString());
+
+                var mo = _db.Bills.Where(p => p.User_ID == userID).ToList();
+
+                var lastIDInBIlls = mo.OrderByDescending(p => p.Id).FirstOrDefault();
+
+                //   var LastId = _db.Bills.OrderByDescending(u => u.Id).FirstOrDefault();
+                Bills bill = _db.Bills.Find(lastIDInBIlls.Id);
+                var billCotent = _db.BillsContent.Where(s => s.Bill_ID == lastIDInBIlls.Id).ToList();
 
                 foreach (var item in billCotent)
                 {
@@ -374,7 +391,7 @@ namespace Stores.Controllers
 
                 decimal price = 0;
                 decimal cost = 0;
-                var model = _db.BillsContent.Where(s => s.Bill_ID == LastId.Id).ToList();
+                var model = _db.BillsContent.Where(s => s.Bill_ID == lastIDInBIlls.Id).ToList();
 
                 foreach (var item in model)
                 {
@@ -395,9 +412,12 @@ namespace Stores.Controllers
                 _db.SaveChanges();
 
 
-                payments.client_id = 1;
-                payments.client_id = 1;
-                payments.date = DateTime.Now;
+                // add payment
+
+                payments.client_id = int.Parse(Session["CLientID"].ToString()); 
+                payments.user_id = userID;
+                 payments.date = DateTime.Now;
+                 payments.fatoraID = fatoraID;
 
                 payments.Payment_amount = elmodfoa ?? default(decimal);
 
@@ -439,13 +459,21 @@ namespace Stores.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         #endregion
-
+            
         #region return last id in fatora 
 
         public JsonResult returnLastid()
         {
-            var LastId = _db.Bills.OrderByDescending(u => u.Id).FirstOrDefault();
-            return Json(LastId.Id, JsonRequestBehavior.AllowGet);
+
+            int userID = int.Parse(Session["userID"].ToString());
+
+            var mo = _db.Bills.Where(p => p.User_ID == userID).ToList();
+
+            var lastIDInBIlls = mo.OrderByDescending(p => p.Id).FirstOrDefault();
+
+
+            //    var LastId = _db.Bills.OrderByDescending(u => u.Id).FirstOrDefault();
+            return Json(lastIDInBIlls.Id, JsonRequestBehavior.AllowGet);
 
 
         }
@@ -462,8 +490,6 @@ namespace Stores.Controllers
 
 
         #endregion
-
-
 
 
         #region BUyBiil --secure
@@ -589,14 +615,27 @@ namespace Stores.Controllers
 
         #region New Buy fatora
 
-        public ActionResult NewBuyfatora(decimal? discount, decimal? elmodfoa, Payments payments)
+        public ActionResult NewBuyfatora(decimal? discount, decimal? elmodfoa, Payments payments,int fatoraID)
         {
             bool res = s.purchasebill();
             if (res == true)
             {
-                var LastId = _db.Bills.OrderByDescending(u => u.Id).FirstOrDefault();
-                Bills bill = _db.Bills.Find(LastId.Id);
-                var billCotent = _db.BillsContent.Where(s => s.Bill_ID == LastId.Id).ToList();
+
+                int userID = int.Parse(Session["userID"].ToString());
+
+                var mo = _db.Bills.Where(p => p.User_ID == userID).ToList();
+
+                var lastIDInBIlls = mo.OrderByDescending(p => p.Id).FirstOrDefault();
+
+
+
+
+                // var LastId = _db.Bills.OrderByDescending(u => u.Id).FirstOrDefault();
+                Bills bill = _db.Bills.Find(lastIDInBIlls.Id);
+
+
+
+                var billCotent = _db.BillsContent.Where(s => s.Bill_ID == lastIDInBIlls.Id).ToList();
 
                 foreach (var item in billCotent)
                 {
@@ -607,7 +646,7 @@ namespace Stores.Controllers
 
                 decimal price = 0;
                 decimal cost = 0;
-                var model = _db.BillsContent.Where(s => s.Bill_ID == LastId.Id).ToList();
+                var model = _db.BillsContent.Where(s => s.Bill_ID == lastIDInBIlls.Id).ToList();
 
 
                 foreach (var item in model)
@@ -628,7 +667,16 @@ namespace Stores.Controllers
 
                 _db.SaveChanges();
 
-                var Onemodel = _db.Bills.Where(s => s.Id == LastId.Id).FirstOrDefault();
+
+                //payments
+                var Onemodel = _db.Bills.Where(s => s.Id == lastIDInBIlls.Id).FirstOrDefault();
+
+
+
+                //payments.client_id = int.Parse(Session["CLientID"].ToString());
+                //payments.user_id = userID;
+                //payments.date = DateTime.Now;
+                //payments.fatoraID = fatoraID;
 
                 payments.client_id = Onemodel.Client_ID;
                 payments.user_id = int.Parse(Session["userID"].ToString());
@@ -653,22 +701,34 @@ namespace Stores.Controllers
         #endregion
 
 
+        #region returnBills -- secured
+
+
+
+        #region index
 
 
         public ActionResult ReturnBill()
         {
+            bool res = s.Users();
+            if (res == true)
+            {
+                var model = new BillsWithExten();
+                model.productX = _db.Products.ToList();
+                model.ClientsX = _db.Clients.ToList();
+                model.billsX = _db.Bills.ToList();
+                model.billCOntentX = _db.BillsContent.ToList();
 
-            var model = new BillsWithExten();
-            model.productX = _db.Products.ToList();
-            model.ClientsX = _db.Clients.ToList();
-            model.billsX = _db.Bills.ToList();
-            model.billCOntentX = _db.BillsContent.ToList();
+                return View(model);
+            }
 
-            return View(model);
+            return RedirectToAction("HavntAccess", "Employee");
+
 
         }
 
-        
+        #endregion
+
 
         #region  edite record
 
@@ -685,8 +745,7 @@ namespace Stores.Controllers
 
         #endregion
 
-
-
+        
         //public PartialViewResult Search(int BIll_ID)
         //{
         //    var modelX = new BillsWithExten();
@@ -697,25 +756,38 @@ namespace Stores.Controllers
         //    return PartialView(modelX);
         //}
 
-
-
+            
         #region Search
 
         public ActionResult Search(int BIll_ID)
         {
-            var modelX = new BillsWithExten();
-            var model = _db.Bills.Where(x => x.Id == BIll_ID).FirstOrDefault();
-            modelX.billsY = model;
-            modelX.billCOntentX = _db.BillsContent.Where(p => p.Bill_ID == BIll_ID).ToList();
-            modelX.prodCategoryX = _db.ProductCategory.ToList();
-            modelX.productX = _db.Products.ToList();
+            bool res = s.Users();
+            if (res == true)
+            {
 
-            var proInContent = _db.BillsContent.Select(p => p.Product_ID).ToList();
-             ViewBag.pro = new SelectList(_db.BillsContent.Select(p=>p.Product_ID).ToList(), "Pro_id", "name");
+                var modelX = new BillsWithExten();
+                var model = _db.Bills.Where(x => x.Id == BIll_ID).FirstOrDefault();
+                modelX.billsY = model;
+                modelX.billCOntentX = _db.BillsContent.Where(p => p.Bill_ID == BIll_ID).ToList();
+                modelX.prodCategoryX = _db.ProductCategory.ToList();
+                modelX.productX = _db.Products.ToList();
 
-             return View(modelX);
+                var proInContent = _db.BillsContent.Select(p => p.Product_ID).ToList();
+                ViewBag.pro = new SelectList(_db.BillsContent.Select(p => p.Product_ID).ToList(), "Pro_id", "name");
+
+                return View(modelX);
+
+            }
+            return RedirectToAction("HavntAccess", "Employee");
+
+
         }
+
+
         #endregion
+        
+        #region saveReturnFatora
+
 
         public JsonResult saveReturnFatora(BillsContent content , string pro, Produt_Price pro_price, int Quantity,int price,int Bill_ID,Bills bill)
         {
@@ -759,8 +831,8 @@ namespace Stores.Controllers
             return Json(JsonRequestBehavior.AllowGet);
         }
 
-
-
+        #endregion
+        
         #region return price and quntity value By name
 
         public JsonResult ReturnValueByName(string name)
@@ -784,7 +856,10 @@ namespace Stores.Controllers
         }
 
         #endregion
-        
+
+
+        #endregion
+
 
     }
 
