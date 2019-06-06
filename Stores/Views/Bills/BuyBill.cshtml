@@ -117,6 +117,9 @@
         var res = p * d;
         return res;
     }
+ 
+
+ 
 
     // return list of bills
 
@@ -127,30 +130,25 @@
                 contentType: "application/json;charset=utf-8",
                 dataType: "Json",
                  success: function (data) {
-             
-
-                    for (var i = 0; i < data.length; i++) {
-                        var SetData = $("#SetStudentList");
-                       var ss = data[i].Quantity
-                      //  var amount = 4;
-                        var dd = data[i].price;
-                        //  var price = 3;
-                        var res = dd * ss;
-                        var Data = "<tr class='row_" + data[i].BillsContent_ID + "'>" +
-                            "<td>" + data[i].BillsContent_ID + "</td>" +
-                            "<td>" + data[i].Client_ID + "</td>" +
-                            "<td>" + data[i].Product_ID + "</td>" +
  
-                            "<td>" + data[i].Quantity + "</td>" +
-                            "<td>" + data[i].Price + "</td>" +
-                             "<td>" + sum(data[i].Price, data[i].Quantity) + "</td>" +
-                             "<td>" + "<a href='#' class='btn btn-danger' onclick='DeleteStudentRecord(" + data[i].BillsContent_ID + ")'><span class='glyphicon glyphicon-trash'></span> حذف</a>" + "</td>" +
-                            "</tr>";
-                        SetData.append(Data);
-                        $("#LoadingStatus").html(" ");
-                    }
 
-                 
+                     for (var i = 0; i < data.length; i++) {
+                         var SetData = $("#SetStudentList");
+                     
+                         var Data = "<tr class='row_" + data[i].BillsContent_ID + "'>" +
+                             "<td>" + data[i].BillsContent_ID + "</td>" +
+                             "<td>" + getClientName(data[i].BillsContent_ID) + "</td>" +
+                             "<td>" + getProName(data[i].Product_ID)+ "</td>" +
+                             "<td>" + data[i].Quantity + "</td>" +
+                             "<td>" + data[i].Price + "</td>" +
+                              "<td>" + sum(data[i].Price, data[i].Quantity) + "</td>" +
+                              "<td>" + "<a href='#' class='btn btn-danger' onclick='DeleteStudentRecord(" + data[i].BillsContent_ID + ")'><span class='glyphicon glyphicon-trash'></span> حذف</a>" + "</td>" +
+                             "</tr>";
+                         SetData.append(Data);
+                         $("#LoadingStatus").html(" ");
+                     }
+
+
 
                 }
 
@@ -158,6 +156,41 @@
         });
     });
 
+
+
+
+    function getProName(Product_ID) {
+        var name;
+        var url = "/Bills/ReturnProName?Product_ID=" + Product_ID;
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                name = data.name;
+
+            }
+        })
+        return name;
+    }
+
+
+
+    function getClientName(BillsContent_ID) {
+        var names;
+        var url = "/Bills/ReturnClientName?BillsContent_ID=" + BillsContent_ID;
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                names = data.name;
+
+            }
+        })
+        return names;
+    }
 
 
     //Show The Popup Modal For Edit Student Record
@@ -286,7 +319,7 @@
 
         if (1 == 1) {
 
-            $("#SaveRecordID").attr("disabled", true);
+            $("#SaveRecordID").attr ("disabled", true);
 
         }
         $("#SaveRecordID").attr("disabled", true);
@@ -300,8 +333,7 @@
 </script>
 
 
- 
-<center>
+ <center>
     <a href="#" class="btn btn-info" onclick="AddNewMowardeen(0)">اضافه مورد</a> <br /><br />
 </center>
 

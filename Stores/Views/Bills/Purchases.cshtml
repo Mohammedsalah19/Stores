@@ -138,9 +138,9 @@
                         var res = dd * ss;
                         var Data = "<tr class='row_" + data[i].BillsContent_ID + "'>" +
                             "<td>" + data[i].BillsContent_ID + "</td>" +
-                            "<td>" + data[i].Client_ID + "</td>" +
-                            "<td>" + data[i].Product_ID + "</td>" +
-                            "<td>" + data[i].Quantity + "</td>" +
+                            "<td>" + getClientName(data[i].BillsContent_ID) + "</td>" +
+                            "<td>" + getProName(data[i].Product_ID) + "</td>" +
+                             "<td>" + data[i].Quantity + "</td>" +
                             "<td>" + data[i].Price + "</td>" +
                             //"<td>" + data[i].Status + "</td>" +
                             "<td>" + sum(data[i].Price, data[i].Quantity) + "</td>" +
@@ -156,6 +156,39 @@
         });
     });
 
+
+ 
+
+    function getProName(Product_ID) {
+        var name;
+        var url = "/Bills/ReturnProName?Product_ID=" + Product_ID;
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                name = data.name;
+ 
+              }
+        })
+        return name;
+    }
+
+    function getClientName(BillsContent_ID) {
+        var names;
+        var url = "/Bills/ReturnClientName?BillsContent_ID=" + BillsContent_ID;
+
+         $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+             success: function (data) {
+                 names = data.name;
+  
+              }
+        })
+        return names;
+    }
 
 
     //Show The Popup Modal For Edit Student Record
@@ -297,6 +330,7 @@
 
 
 
+     
 
     $(document).ready(function () {
 

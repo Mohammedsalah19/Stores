@@ -49,24 +49,45 @@ namespace Stores.Controllers
 
         #region fillBills
 
+        public JsonResult ReturnProName(int Product_ID)
+        {
+            var model = _db.Products.Where(id => id.Pro_id == Product_ID).FirstOrDefault();
+            return Json(model, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+        // return client name for fatoracontent
+        public JsonResult ReturnClientName(int BillsContent_ID)
+        {
+            var model = _db.BillsContent.Where(id => id.BillsContent_ID == BillsContent_ID).FirstOrDefault();
+            var modelBill = _db.Bills.Where(id => id.Id == model.Bill_ID).FirstOrDefault();
+            int s = modelBill.Client_ID;
+            var modelClient = _db.Clients.Where(id => id.Client_ID == s).FirstOrDefault();
+            return Json(modelClient, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
+
         public JsonResult FillBills()
         {
-            List<BillsContent> list = new List<BillsContent>();
+             List<BillsContent> list = new List<BillsContent>();
             // List<BillsWithExten> list = new List<BillsWithExten>();
 
-            int s =int.Parse(Session["userID"].ToString());
+            int UserId =int.Parse(Session["userID"].ToString());
 
-            var mo = _db.Bills.Where(p => p.User_ID ==s &&p.Viewed== true).ToList();
+            var mo = _db.Bills.Where(p => p.User_ID == UserId && p.Viewed== true).ToList();
 
             var lastIDInBIlls = mo.OrderByDescending(p => p.Id).FirstOrDefault();
 
 
-          //  var LastId = _db.BillsContent.OrderByDescending(u => u.Bill_ID).FirstOrDefault();
-            
+             
 
             var obj = _db.BillsContent.Where(ss => ss.Bill_ID == lastIDInBIlls.Id && ss.IsDeleted == false && ss.Viewed == true ).ToList();
 
-            if (obj != null && obj.Count() > 0)
+             if (obj != null && obj.Count() > 0)
             {
                 foreach (var item in obj)
                 {
@@ -86,11 +107,13 @@ namespace Stores.Controllers
                 //{
                 //    BillsWithExten model = new BillsWithExten();
 
-                //    model.productY.name = _db.Products.Where(s=>s.Pro_id ==item.Product_ID).Select(f=>f.name).FirstOrDefault();
+                //    model.productY.name = _db.Products.Where(s => s.Pro_id == item.Product_ID).Select(f => f.name).FirstOrDefault();
                 //    model.billContentY.BillsContent_ID = item.BillsContent_ID;
                 //    model.billContentY.Price = item.Price;
                 //    model.billContentY.Quantity = item.Quantity;
                 //    model.billContentY.IsDeleted = item.IsDeleted;
+                //    model.productX = _db.Products.ToList();
+                //    model.ClientsX = _db.Clients.ToList();
 
                 //    list.Add(model);
                 //}
