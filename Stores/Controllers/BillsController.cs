@@ -733,13 +733,14 @@ namespace Stores.Controllers
 
         public ActionResult ReturnBill()
         {
-            bool res = s.Users();
+            bool res = s.backbill();
             if (res == true)
             {
                 var model = new BillsWithExten();
                 model.productX = _db.Products.ToList();
                 model.ClientsX = _db.Clients.ToList();
-                model.billsX = _db.Bills.ToList();
+                int UserId = int.Parse(Session["userID"].ToString());
+                model.billsX = _db.Bills.Where(p=>p.User_ID == UserId).ToList();
                 model.billCOntentX = _db.BillsContent.ToList();
 
                 return View(model);
@@ -782,16 +783,19 @@ namespace Stores.Controllers
             
         #region Search
 
-        public ActionResult Search(int BIll_ID)
+        public ActionResult Search(int id)
         {
-            bool res = s.Users();
+            bool res = s.backbill();
             if (res == true)
             {
-
+                int UserId = int.Parse(Session["userID"].ToString());
                 var modelX = new BillsWithExten();
-                var model = _db.Bills.Where(x => x.Id == BIll_ID).FirstOrDefault();
+                var model = _db.Bills.Where(x => x.Id == id && x.User_ID == UserId).FirstOrDefault();
+                if (model != null)
+                {
+
                 modelX.billsY = model;
-                modelX.billCOntentX = _db.BillsContent.Where(p => p.Bill_ID == BIll_ID).ToList();
+                modelX.billCOntentX = _db.BillsContent.Where(p => p.Bill_ID == id).ToList();
                 modelX.prodCategoryX = _db.ProductCategory.ToList();
                 modelX.productX = _db.Products.ToList();
 
@@ -799,6 +803,9 @@ namespace Stores.Controllers
                 ViewBag.pro = new SelectList(_db.BillsContent.Select(p => p.Product_ID).ToList(), "Pro_id", "name");
 
                 return View(modelX);
+                }
+
+                return RedirectToAction("HavntAccess", "Employee");
 
             }
             return RedirectToAction("HavntAccess", "Employee");

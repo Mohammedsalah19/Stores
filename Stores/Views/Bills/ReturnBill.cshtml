@@ -23,7 +23,7 @@
             <div class="input-group" style="text-align:center;direction:rtl">
 
                 <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i> </span>
-                <input type="text" id="BIll_ID" name="BIll_ID" placeholder="بحث سريع " class="form-control" />
+                <input type="text" id="id" name="id" placeholder="بحث سريع " class="form-control" />
                 <input type="submit" value="search" class="btn btn-danger" />
             </div>
 
@@ -46,7 +46,9 @@
                     <div class="card text-center" style="border:3px solid #000">
                         <div class="card-header">
                             رقم الفاتوره :      @Html.DisplayFor(modelItem => item.Id)
+                       
                         </div>
+
                         <div class="card-body">
                             <h5 class="card-title">
                                 الاجمالى  @Html.DisplayFor(modelItem => item.price)
@@ -58,6 +60,8 @@
                         </div>
                         <div class="card-footer text-muted">
                             البضائع
+                             <a href="#" class="btn btn-info" onclick="GOsearch(@item.Id)" style="float:right "> انشاء مرتجع</a> <br /><br />
+
                         </div>
                     </div>
                 </td>
@@ -123,63 +127,8 @@
     </table>
 
 </div>
-
-
-@*<table class="table table-striped">
-        <thead>
-            <tr>
-                <th> رقم الفاتوره</th>
-
-                <th> المنتج </th>
-                <th> السعر </th>
-                <th> الكميه</th>
-                <th> الاجمالى</th>
-                <th>تعديل</th>
-            </tr>
-
-        </thead>
-
-        <tbody>
-            @foreach (var item in Model.billCOntentX)
-            {
-
-                <tr class="search">
-                    <td>@item.Bill_ID</td>
-
-                    <td>
-                        @foreach (var items in Model.productX.Where(h => h.Pro_id == item.Product_ID))
-                        {
-                            @items.name
-                        }
-                    </td>
-
-
-                    <td>
-                        @item.Price
-                    </td>
-
-                    <td>
-                        @item.Quantity
-                    </td>
-                    <td>
-                        total
-                    </td>
-
-
-
-                </tr>
-
-            }
-
-        </tbody>
-        <a href='#' class='btn btn-danger' onclick='EditBillRecord(1066)'><span class='glyphicon glyphicon-edit'></span> تعديل</a>
-
-    </table>*@
-
-
-
-@*for new customer*@
-
+<br />
+ 
 
 
 
@@ -189,6 +138,12 @@
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 <script>
 
+
+  
+
+    function GOsearch(BIll_ID) {
+        window.location.href = '/bills/Search/' + BIll_ID;
+    }
 
 
     // search
@@ -228,7 +183,7 @@
 
     // add
 
-    //Show The Popup Modal For Edit Student Record
+    //Show The Popup Modal For Edit    
 
     function EditBillRecord(BillsContent_ID) {
         var url = "/Bills/EditRetrnFatora?BillsContent_ID=" + BillsContent_ID;

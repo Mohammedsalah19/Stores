@@ -130,7 +130,7 @@
 
                                 @foreach (var item in Model.productX)
                                 {
-                                    foreach (var itemX in Model.billCOntentX.Where(h => h.Product_ID == item.Pro_id && h.Quantity > 0))
+                                    foreach (var itemX in Model.billCOntentX.Where(h => h.Product_ID == item.Pro_id).Select(f=>f.Product_ID).Distinct())
                                     {
                                         <option @item.Pro_id>
 

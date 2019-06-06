@@ -315,15 +315,16 @@
 
             var _elmotwafer = $('#elmotwafer').val();
 
-            if (_elmotwafer < _quantity) {
-
+            if (_elmotwafer > _quantity) {
+       
                 //     alert("الكميه اكبر من المتوفر فى المخزن ")
-                $("#amount").css("border-color", "red");
-                $("#AddContentID").attr("disabled", true);
-            }
-            else {
                 $("#amount").css("border-color", "green");
                 $("#AddContentID").attr("disabled", false);
+          
+            }
+            else   {
+                $("#amount").css("border-color", "red");
+                $("#AddContentID").attr("disabled", true);
             }
         });
     });
