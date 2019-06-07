@@ -28,18 +28,18 @@ namespace Stores.Controllers
             ViewBag.product = new SelectList(_db.Products.ToList(), "Pro_id", "name");
             ViewBag.productCat = new SelectList(_db.ProductCategory.ToList(), "Cate_ID", "name");
 
-            return View(_db.Products.ToList());
+            return View(model);
         }
 
 
-        public JsonResult GetcategoryPro(string Pro_id)
+        public JsonResult FillTableWithProduct(string Pro_id)
         {
 
             List<Products> cat = new List<Products>();
 
 
-            var s = _db.ProductCategory.Where(ss => ss.name == Pro_id).FirstOrDefault();
-            var obj = _db.Products.Where(p => p.Cate_ID == s.Cate_ID).ToList();
+            var getCatID = _db.ProductCategory.Where(ss => ss.name == Pro_id).FirstOrDefault();
+            var obj = _db.Products.Where(p => p.Cate_ID == getCatID.Cate_ID).ToList();
 
             if (obj != null && obj.Count() > 0)
             {
@@ -48,6 +48,9 @@ namespace Stores.Controllers
                     Products model = new Products();
                     model.Pro_id = item.Pro_id;
                     model.name = item.name;
+                    model.barcode = item.barcode;
+                    model.active = item.active;
+                    model.Cate_ID = item.Cate_ID;
                     cat.Add(model);
                 }
             }

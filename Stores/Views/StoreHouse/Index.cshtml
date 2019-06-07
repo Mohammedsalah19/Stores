@@ -1,10 +1,8 @@
-﻿@model IEnumerable< Stores.Models.Products>
+﻿@model Stores.Models.CommonClasses.BillsWithExten
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "قائمه المنتجات";
 }
-
-<h2>Index</h2>
 
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
@@ -17,83 +15,120 @@
             var id = $(this);
             $.ajax({
 
-                url: '/Bills/GetcategoryPro?Pro_id=' + id.val(),
+                url: '/StoreHouse/FillTableWithProduct?Pro_id=' + id.val(),
                 contentType: "application/json;charset=utf-8",
                 dataType: "Json",
                 success: function (data) {
-                
-                    $.each(data, function (index, value) {
-                        "<td>" + value.Pro_id + '">' + value.name + "</td>" 
-                      });
-                }
+                    $('#SetStudentList').empty();
 
+                    for (var i = 0; i < data.length; i++) {
+                        var SetData = $("#SetStudentList");
+
+
+                        var Data = "<tr class='row_" + data[i].Pro_id + "'>" +
+                            "<td>" + data[i].Pro_id + "</td>" +
+                            "<td>" + data[i].name + "</td>" +
+                            "<td>" + data[i].barcode + "</td>" +
+                            "<td>" + data[i].active + "</td>" +
+                            "<td>" + data[i].Cate_ID + "</td>" +
+                            "</tr>";
+                        SetData.append(Data);
+                        $("#LoadingStatus").html(" ");
+                    }
+                }
             });
         });
     });
+
+
+    $('#sss').click(function () {
+                      window.location.href = "/Payments/index";
+
+    });
+
+    //search
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+
 </script>
-
-
-
+ 
+<center>
+    <p>
+        <a href="#" class="btn btn-info" onclick="AddNewCustomer(0)">منتج جديد</a> <br />
+    </p>
+    <div class="form-group">
+        <div class="col-md-12">
+            <input class="form-control text-right  text-box single-line" id="myInput" name="myInput" placeholder=".... بحث سريع" type="text">
+        </div>
+    </div>
+</center>
 
 <center>
     <select name="Cat" id="section" class="form-control">
         <option> اختار المنتج</option>
         @{
-            foreach (var item in Model)
+            foreach (var item in Model.prodCategoryX)
             {
                 <option @item.Cate_ID> @item.name </option>
             }
         }
     </select>
 </center>
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            اسم المنتج
-        </th>
-        <th>
-            الباركود
-        </th>
-        <th>
+<br />
+ 
+<table class="table table-hover" id="myTable" style="text-align:center">
+    <thead>
+        <tr class="table-heading " style="background-color:#40BCBA">
+            <th>
+                رقم المنتج
+            </th>
+            <th>
+                اسم المنتج
+            </th>
+            <th>
+                الباركود
+            </th>
+            <th>
 
-            الحاله
+                الحاله
 
-        </th>
-        <th>
-            القسم
+            </th>
+            <th>
+                القسم
 
-        </th>
-        <th></th>
-    </tr>
-    @foreach (var item in Model)
-    {
+            </th>
+        </tr>
+    </thead>
 
-        <tbody id="SetStudentList">
-            <tr id="LoadingStatus" style="color:red"></tr>
-        </tbody>
+    <tbody id="SetStudentList">
+        <tr id="LoadingStatus" style="color:red"></tr>
+    </tbody>
 
-        @*<tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.barcode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.active)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cate_ID)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Pro_id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Pro_id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Pro_id })
-                </td>
-            </tr>*@
-    }
+    @*<tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.barcode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.active)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cate_ID)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Pro_id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Pro_id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Pro_id })
+            </td>
+        </tr>*@
+
 
 </table>
