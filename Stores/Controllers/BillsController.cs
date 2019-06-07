@@ -49,6 +49,8 @@ namespace Stores.Controllers
 
         #region fillBills
 
+        // return client product name fatoracontent
+
         public JsonResult ReturnProName(int Product_ID)
         {
             var model = _db.Products.Where(id => id.Pro_id == Product_ID).FirstOrDefault();
@@ -57,7 +59,7 @@ namespace Stores.Controllers
         }
 
 
-        // return client name for fatoracontent
+        // return client client for fatoracontent
         public JsonResult ReturnClientName(int BillsContent_ID)
         {
             var model = _db.BillsContent.Where(id => id.BillsContent_ID == BillsContent_ID).FirstOrDefault();
@@ -154,8 +156,7 @@ namespace Stores.Controllers
 
         public JsonResult SaveClientData(Clients model)
         {
-            // bool result = true;
-
+ 
             try
             {
                 model.Clients_Type_ID = 1; ;
@@ -502,6 +503,7 @@ namespace Stores.Controllers
         }
         #endregion
 
+
         #region retuern All Purches
 
         public ActionResult ReturnPurches()
@@ -694,13 +696,6 @@ namespace Stores.Controllers
                 //payments
                 var Onemodel = _db.Bills.Where(s => s.Id == lastIDInBIlls.Id).FirstOrDefault();
 
-
-
-                //payments.client_id = int.Parse(Session["CLientID"].ToString());
-                //payments.user_id = userID;
-                //payments.date = DateTime.Now;
-                //payments.fatoraID = fatoraID;
-
                 payments.client_id = Onemodel.Client_ID;
                 payments.user_id = int.Parse(Session["userID"].ToString());
                 payments.date = DateTime.Now;
@@ -770,15 +765,7 @@ namespace Stores.Controllers
         #endregion
 
         
-        //public PartialViewResult Search(int BIll_ID)
-        //{
-        //    var modelX = new BillsWithExten();
-        //    var model = _db.Bills.Where(x => x.Id == BIll_ID).FirstOrDefault();
-        //    modelX.billsY = model;
-        //    modelX.billCOntentX = _db.BillsContent.Where(p => p.Bill_ID ==  BIll_ID).ToList();
-        //    modelX.productX = _db.Products.ToList();
-        //    return PartialView(modelX);
-        //}
+     
 
             
         #region Search

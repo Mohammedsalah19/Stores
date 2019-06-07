@@ -48,7 +48,7 @@
         <th style="text-align:center">  الكميه </th>
 
 
-        <th style="text-align:center">الاجمالى : </th>
+        @*<th style="text-align:center">الاجمالى : </th>*@
 
 
     </tr>
@@ -73,27 +73,29 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => items.Price)
-                    <input type="text" value="@items.Price" readonly id="prize" hidden>
+                    <input type="text" value="@items.Price" readonly id="prize" name="prize" hidden>
 
 
 
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => items.Quantity)
-                    <input type="text" value="@items.Quantity" readonly name="Qu" hidden>
+                    <input type="text" value="@items.Quantity" readonly id="Qu" name="Qu" hidden>
 
                 </td>
-                <td>
-                    @*<input type="text" readonly id="sum" value="@items.Quantity * @items.Price"/>*@
+                @*<td>
 
+                    <input type="text" readonly id="totla" name="totla" value=""  />
+                     
 
                     Total
 
-                </td>
+                </td>*@
 
             </tr>
 
         }
+
 
     }
     @*}*@
@@ -220,16 +222,16 @@
 
     $(document).ready(function () {
 
-
             var amount = $('#Qu').val();
             var price = $('#prize').val();
 
             var res = amount * price;
 
-            $('#res').val("الاجمالى : " + res);
+        $('#totla').val("الاجمالى : " + res);
 
 
-     });
+    });
+ 
 
 
 
@@ -283,11 +285,6 @@
         })
 
     };
-
-    function sum(p, d) {
-
-        var res = p * d;
-        return res;
-    }
+ 
 
 </script>
