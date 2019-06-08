@@ -29,8 +29,11 @@
                             "<td>" + data[i].Pro_id + "</td>" +
                             "<td>" + data[i].name + "</td>" +
                             "<td>" + data[i].barcode + "</td>" +
-                            "<td>" + data[i].active + "</td>" +
-                            "<td>" + data[i].Cate_ID + "</td>" +
+                            "<td>" + getActive(data[i].Pro_id) + "</td>" +
+                            "<td>" + getCatName(data[i].Cate_ID) + "</td>" +
+                            "<td>" + "<a href='#' class='btn btn-warning' onclick='EditProRecord(" + data[i].Pro_id + ")' ><span class='glyphicon glyphicon-edit'></span> تعديل</a>" + "</td>" +
+
+
                             "</tr>";
                         SetData.append(Data);
                         $("#LoadingStatus").html(" ");
@@ -41,8 +44,59 @@
     });
 
 
+    function TrueOrFalse(active) {
+
+        if (active == true) {
+            return "مفعل"
+        } else {
+            return "غير مفعل"
+        }
+
+
+    }
+
+
+
+    function getCatName(Cate_ID) {
+        var name;
+        var url = "/StoreHouse/ReturnCatName?Cate_ID=" + Cate_ID;
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                name = data;
+
+            }
+        })
+        return name;
+    }
+
+
+
+    function getActive(Pro_id) {
+        var name;
+        var url = "/StoreHouse/ReturnActive?Pro_id=" + Pro_id;
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                 name = data;
+            }
+        })
+
+        if (name == true) {
+            return "فعال";
+
+        }
+        return "غير فعال";
+
+    }
+
+
     $('#sss').click(function () {
-                      window.location.href = "/Payments/index";
+        window.location.href = "/Payments/index";
 
     });
 
@@ -56,11 +110,84 @@
         });
     });
 
+
+
+    //Show The Popup Modal For EditRecord
+
+    function EditProRecord(Pro_id) {
+        var url = "/StoreHouse/GetBillById?Pro_id=" + Pro_id;
+        $("#ModalTitle").html("تعديل المنتج");
+        $("#EditModel").modal();
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var obj = JSON.parse(data);
+                $("#Prd_Pri_ID").val(obj.Prd_Pri_ID);
+                $("#Pro_ID").val(obj.Pro_ID);
+                $("#cost").val(obj.cost);
+                $("#Price").val(obj.Price);
+                $("#Quantity").val(obj.Quantity);
+                $("#Discount").val(obj.Discount);
+                $("#Store_Id").val(obj.Store_Id);
+                $("#Minmum").val(obj.Minmum);
+                $("#active").val(obj.active);
+
+            }
+        })
+    }
+
+
+
+
+
+    function SaveRecord() {
+        var data = $("#SubmitForm").serialize();
+        $.ajax({
+            type: "Post",
+            url: "/StoreHouse/SaveDataInDatabase",
+            data: data,
+            success: function (result) {
+                alert("تم التعديل بنجاح!..");
+                window.location.href = "/StoreHouse/index";
+                $("#MyModal").modal("hide");
+
+            }
+        })
+    }
+
+
+
+    function AddNewProduct(StudentId) {
+        $("#form")[0].reset();
+        $("#Client_ID").val(0);
+        $("#ModalTitle").html("اضافه عميل جديد");
+        $("#ModalTitle").css("text-align:center ")
+        $("#AddModel").modal();
+
+    }
+
+    function Addproduct() {
+        var data = $("#SubmitForm2").serialize();
+        $.ajax({
+            type: "Post",
+            url: "/StoreHouse/SaveProduct",
+            data: data,
+            success: function (result) {
+                alert("تم الاضافه بنجاح!..");
+                window.location.href = "/StoreHouse/index";
+                $("#AddModel").modal("hide");
+
+            }
+        })
+    }
+
+
 </script>
- 
+
 <center>
     <p>
-        <a href="#" class="btn btn-info" onclick="AddNewCustomer(0)">منتج جديد</a> <br />
+        <a href="#" class="btn btn-info" onclick="AddNewProduct(0)">منتج جديد</a> <br />
     </p>
     <div class="form-group">
         <div class="col-md-12">
@@ -70,7 +197,7 @@
 </center>
 
 <center>
-    <select name="Cat" id="section" class="form-control">
+    <select name="Cate_ID" id="section" class="form-control">
         <option> اختار المنتج</option>
         @{
             foreach (var item in Model.prodCategoryX)
@@ -81,7 +208,7 @@
     </select>
 </center>
 <br />
- 
+
 <table class="table table-hover" id="myTable" style="text-align:center">
     <thead>
         <tr class="table-heading " style="background-color:#40BCBA">
@@ -103,6 +230,7 @@
                 القسم
 
             </th>
+            <th></th>
         </tr>
     </thead>
 
@@ -110,25 +238,140 @@
         <tr id="LoadingStatus" style="color:red"></tr>
     </tbody>
 
-    @*<tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.barcode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.active)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cate_ID)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Pro_id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Pro_id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Pro_id })
-            </td>
-        </tr>*@
 
 
 </table>
+
+
+
+@*edit record*@
+
+<div class="modal fade" id="EditModel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 id="ModalTitle">تعديل الفاتوره</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form" style="text-align:right;direction:rtl">
+                    <fieldset id="SubmitForm">
+                        <div class="form-group">
+                            <label> الرقم التسلسلى</label>
+
+                            <input type="text" name="Prd_Pri_ID" id="Prd_Pri_ID" value="" class="form-control" readonly />
+                        </div>
+
+                        <div class="form-group">
+                            <label>التكلفه </label>
+                            <input type="text" name="cost" id="cost" value="" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>السعر</label>
+                            <input type="text" name="Price" id="Price" value="" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>الكميه</label>
+                            <input type="text" name="Quantity" id="Quantity" value="" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>اقل كميه</label>
+                            <input type="text" name="Minmum" id="Minmum" value="" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>الخصم</label>
+                            <input type="text" name="Discount" id="Discount" value="" class="form-control" />
+                        </div>
+                        <div class="form-group" hidden>
+                            <label>رقم المنتج</label>
+                            <input type="text" name="Pro_ID" id="Pro_ID" value="" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>الحاله</label>
+                            <input type="checkbox" name="active" id="active" value="true" class="" />
+                        </div>
+
+                        <div class="form-group">
+                            <a href="#" class="btn btn-block btn-info" onclick="SaveRecord()" id="SaveRecord">حفظ</a>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="AddModel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 id="ModalTitle">اضافه منتج</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form" style="text-align:right;direction:rtl">
+                    <fieldset id="SubmitForm2">
+                  
+
+
+                        <div class="form-group">
+                            <select name="Cat" id="section" class="form-control" required="required">
+                                <option value=""> اختار الصنف</option>
+                                @{
+                                    foreach (var item in Model.prodCategoryX)
+                                    {
+                                        <option @item.Cate_ID> @item.name </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <label>اسم المنتج </label>
+                            <input type="text" name="name" id="name" value="" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>التكلفه </label>
+                            <input type="text" name="cost" id="cost" value="" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>السعر</label>
+                            <input type="text" name="Price" id="Price" value="" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>الكميه</label>
+                            <input type="text" name="Quantity" id="Quantity" value="" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>اقل كميه</label>
+                            <input type="text" name="Minmum" id="Minmum" value="" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>الخصم</label>
+                            <input type="text" name="Discount" id="Discount" value="" class="form-control" />
+                        </div>
+                        <div class="form-group" hidden>
+                            <label>رقم المنتج</label>
+                            <input type="text" name="Pro_ID" id="Pro_ID" value="" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>الحاله</label>
+                            <input type="checkbox" name="active" id="active" value="true" class="" />
+                        </div>
+
+                        <div class="form-group">
+                            <a href="#" class="btn btn-block btn-info" onclick="Addproduct()">حفظ</a>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

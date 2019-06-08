@@ -34,6 +34,8 @@ namespace Stores.Models
  
         public decimal? Discount { get; set; }
 
+        public bool active { get; set; }
+
         public virtual int Pro_ID { get; set; }
         public virtual int Store_Id { get; set; }
 
