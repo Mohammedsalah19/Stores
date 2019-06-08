@@ -1,0 +1,139 @@
+﻿@model IEnumerable<Stores.Models.ProductCategory>
+
+@{
+    ViewBag.Title = "الاصناف";
+}
+
+
+
+<script>
+
+
+    function AddNewCate() {
+        $("#form")[0].reset();
+        $("#Client_ID").val(0);
+        $("#ModalTitle").html("اضافه صنف جديد");
+        $("#ModalTitle").css("text-align:center ")
+        $("#MyModal").modal();
+
+    }
+
+
+    function AddCate() {
+        $("#name").prop('required', true);
+        $("#description").prop('required', true);
+        var data = $("#SubmitForm2").serialize();
+
+        $.ajax({
+            type: "Post",
+            url: '/StoreHouse/AddCate',
+            data: data,
+            success: function (result) {
+                alert("تمت الاضافه بنجاج");
+                $("#MyModal").modal("hide");
+                location.reload(true);
+
+
+            }
+        })
+
+    };
+
+
+
+
+    function ConfirmDelete(Cate_ID) {
+        $.ajax({
+            type: "POST",
+            url: "/StoreHouse/DeleteCate?Cate_ID=" + Cate_ID,
+            success: function (result) {
+                alert("تمت الحذف بنجاج");
+
+                location.reload(true);
+
+            }
+        })
+    }
+
+
+</script>
+
+
+<center>
+
+    <div class="form-group">
+        <div class="col-md-12">
+            <a href="#" class="btn btn-info" onclick="AddNewCate(0)">صنف جديده</a> <br />
+        </div>
+    </div>
+</center>
+
+<table class="table table-hover" id="myTable" style="text-align:center">
+    <tr class="table-heading " style="background-color:#40BCBA">
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.description)
+
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <input type="submit" class='btn btn-danger' value="حذف" class="btn btn-info" onclick="ConfirmDelete(@item.Cate_ID)" />
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.description)
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+
+
+<div class="modal fade" id="MyModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 id="ModalTitle"></h4>
+            </div>
+            <div class="modal-body">
+                <form id="form">
+                    <fieldset id="SubmitForm2" class="text-right" style="direction:rtl">
+                        <div class="form-group">
+                            <label>اسم المنتج</label>
+
+                            <input type="text" name="name" id="name" placeholder="اسم المنتج" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label>الوصف</label>
+                            <input type="text" name="description" id="description" placeholder="الوصف" class="form-control" required />
+                        </div>
+                     
+                        <div class="form-group">
+                            <button class="btn btn-block btn-info" onclick="AddCate();" id="SaveRecord" value="اضافه">اضافه</button>
+
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

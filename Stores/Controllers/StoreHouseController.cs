@@ -219,70 +219,143 @@ namespace Stores.Controllers
         #region  add stores
 
 
-        #region index -secure
+            #region index -secure
 
-        public ActionResult Stores()
-        {
-            bool res = s.products();
-            if (res == true)
+            public ActionResult Stores()
             {
-                var model = _db.Storehouse.ToList();
-            return View(model);
-            }
-            return RedirectToAction("HavntAccess", "Employee");
+                bool res = s.products();
+                if (res == true)
+                {
+                    var model = _db.Storehouse.ToList();
+                return View(model);
+                }
+                return RedirectToAction("HavntAccess", "Employee");
 
-        }
+            }
+            #endregion
+
+
+            #region add new store
+
+            public JsonResult Addstore(Storehouse model)
+            {
+
+                var result = false;
+                try
+                {
+                    Storehouse newStore = new Storehouse();
+                    newStore.name = model.name;
+                    newStore.place = model.place;
+                    newStore.Description = model.Description;
+                    _db.Storehouse.Add(newStore);
+
+                     _db.SaveChanges();
+
+
+                    result = true;
+                }
+
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            #endregion
+
+
+            #region Delete record 
+
+            public JsonResult DeleteStore(int? Store_Id)
+            {
+                bool result = false;
+                var store = _db.Storehouse.SingleOrDefault(x => x.Store_Id == Store_Id);
+                 if (store != null)
+                {
+                    _db.Storehouse.Remove(store);
+
+                     _db.SaveChanges();
+
+                    result = true;
+                }
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            #endregion
+
+
         #endregion
 
-
-        #region add new store
-
-        public JsonResult Addstore(Storehouse model)
-        {
-
-            var result = false;
-            try
-            {
-                Storehouse newStore = new Storehouse();
-                newStore.name = model.name;
-                newStore.place = model.place;
-                newStore.Description = model.Description;
-                _db.Storehouse.Add(newStore);
-
-                 _db.SaveChanges();
+        #region category
 
 
-                result = true;
+            #region index -secure
+
+            public ActionResult Category()
+            { bool res = s.products();
+                if (res == true)
+                {
+                    var model = _db.ProductCategory.ToList();
+
+                    return View(model);
+                }
+                return RedirectToAction("HavntAccess", "Employee");
+
             }
 
-            catch (Exception ex)
+            #endregion
+
+
+
+            #region add new cate
+
+            public JsonResult AddCate(ProductCategory model)
             {
-                throw ex;
+
+                var result = false;
+                try
+                {
+                    ProductCategory newCate = new ProductCategory();
+                    newCate.name = model.name;
+                    newCate.description = model.description;
+                     _db.ProductCategory.Add(newCate);
+
+                    _db.SaveChanges();
+
+
+                    result = true;
+                }
+
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            #endregion
+
+
+            #region Delete record 
+
+            public JsonResult DeleteCate(int? Cate_ID)
+            {
+                bool result = false;
+                var cate = _db.ProductCategory.SingleOrDefault(x => x.Cate_ID == Cate_ID);
+                if (cate != null)
+                {
+                    _db.ProductCategory.Remove(cate);
+
+                    _db.SaveChanges();
+
+                    result = true;
+                }
+
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
 
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-        #endregion
-
-
-        #region Delete record 
-
-        public JsonResult DeleteStore(int? Store_Id)
-        {
-            bool result = false;
-            var store = _db.Storehouse.SingleOrDefault(x => x.Store_Id == Store_Id);
-             if (store != null)
-            {
-                _db.Storehouse.Remove(store);
-
-                 _db.SaveChanges();
-
-                result = true;
-            }
-
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-        #endregion
+            #endregion
 
 
         #endregion

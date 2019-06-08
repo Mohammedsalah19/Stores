@@ -1,0 +1,136 @@
+﻿@model Stores.Models.CommonClasses.ExpensesWithExten
+
+@{
+    ViewBag.Title = "مصروفات";
+}
+
+
+
+<script>
+
+    function AddNewExpenses() {
+        $("#form")[0].reset();
+        $("#Client_ID").val(0);
+        $("#ModalTitle").html("اضافه مصروف جديد");
+        $("#ModalTitle").css("text-align:center ")
+        $("#AddModel").modal();
+
+    }
+
+    function AddExpenses() {
+        var data = $("#SubmitForm2").serialize();
+        $.ajax({
+            type: "Post",
+            url: "/Expenses/AddExpenses",
+            data: data,
+            success: function (result) {
+                alert("تم الاضافه بنجاح!..");
+                window.location.href = "/Expenses/index";
+                $("#AddModel").modal("hide");
+
+            }
+        })
+    }
+
+
+</script>
+<center>
+    <p>
+        <a href="#" class="btn btn-info" onclick="AddNewExpenses()">مصروف جديد</a> <br />
+    </p>
+</center>
+
+<table class="table table-hover" id="myTable" style="text-align:center">
+    <tr class="table-heading " style="background-color:#40BCBA">
+        <th>
+            الوصف
+
+        </th>
+        <th>
+            التاريخ
+        </th>
+        <th>
+            الكميه
+
+        </th>
+        <th>
+            نوع المصروفات
+        </th>
+        <th>
+            اسم الموظف
+        </th>
+    </tr>
+ 
+    @foreach (var item in Model.ExpensesX)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.comment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpensesType_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User_ID)
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+
+
+<div class="modal fade" id="AddModel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 id="ModalTitle">اضافه منتج</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form" style="text-align:right;direction:rtl">
+                    <fieldset id="SubmitForm2">
+
+
+
+                        <div class="form-group">
+                            <select name="ExpensesType_ID" id="section" class="form-control" required="required">
+                                <option value=""> اختار الصنف</option>
+                                @{
+                                    foreach (var item in Model.ExpensesTypeX)
+                                    {
+                                        <option @item.ExpensesType_ID> @item.name </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+
+                            <label> الكميه </label>
+                            <input type="text" name="amount" id="amount" value="" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>تفاصيل </label>
+                            <input type="text" name="comment" id="comment" value="" class="form-control" />
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <a href="#" class="btn btn-block btn-info" onclick="AddExpenses()">حفظ</a>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -21,8 +21,8 @@ namespace Stores.Models
 
         public string comment { get; set; }
 
-        public virtual ExpensesType ExpensesType_ID{ get; set; }
-        public virtual Users User_ID{ get; set; }
+        public virtual int ExpensesType_ID{ get; set; }
+        public virtual int User_ID{ get; set; }
 
 
     }

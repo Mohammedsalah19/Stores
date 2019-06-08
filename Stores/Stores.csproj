@@ -136,6 +136,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BillsController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\ExpensesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PaymentsController.cs" />
     <Compile Include="Controllers\StoreHouseController.cs" />
@@ -262,6 +263,10 @@
     <Compile Include="Migrations\201906081437044_addActive.Designer.cs">
       <DependentUpon>201906081437044_addActive.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906081726131_edit expense.cs" />
+    <Compile Include="Migrations\201906081726131_edit expense.Designer.cs">
+      <DependentUpon>201906081726131_edit expense.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bills.cs" />
     <Compile Include="Models\BillsCategory.cs" />
@@ -269,6 +274,7 @@
     <Compile Include="Models\Clients.cs" />
     <Compile Include="Models\Clients_Type.cs" />
     <Compile Include="Models\CommonClasses\BillsWithExten.cs" />
+    <Compile Include="Models\CommonClasses\ExpensesWithExten.cs" />
     <Compile Include="Models\CommonClasses\NotificationWithExten.cs" />
     <Compile Include="Models\CommonClasses\PaymentsWithExten.cs" />
     <Compile Include="Models\CommonClasses\UserAndPrivilage.cs" />
@@ -402,6 +408,9 @@
     <Content Include="Views\Payments\Index.cshtml" />
     <Content Include="Views\StoreHouse\Notification.cshtml" />
     <Content Include="Views\StoreHouse\Stores.cshtml" />
+    <Content Include="Views\StoreHouse\Category.cshtml" />
+    <Content Include="Views\Expenses\Index.cshtml" />
+    <Content Include="Views\Expenses\ExpensesType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -502,6 +511,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906081437044_addActive.resx">
       <DependentUpon>201906081437044_addActive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906081726131_edit expense.resx">
+      <DependentUpon>201906081726131_edit expense.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
