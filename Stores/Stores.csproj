@@ -135,6 +135,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BillsController.cs" />
+    <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\ExpensesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -267,6 +268,18 @@
     <Compile Include="Migrations\201906081726131_edit expense.Designer.cs">
       <DependentUpon>201906081726131_edit expense.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906101640236_addPrintCat.cs" />
+    <Compile Include="Migrations\201906101640236_addPrintCat.Designer.cs">
+      <DependentUpon>201906101640236_addPrintCat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906101642031_printtype.cs" />
+    <Compile Include="Migrations\201906101642031_printtype.Designer.cs">
+      <DependentUpon>201906101642031_printtype.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906101717235_editPrinter.cs" />
+    <Compile Include="Migrations\201906101717235_editPrinter.Designer.cs">
+      <DependentUpon>201906101717235_editPrinter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bills.cs" />
     <Compile Include="Models\BillsCategory.cs" />
@@ -274,10 +287,12 @@
     <Compile Include="Models\Clients.cs" />
     <Compile Include="Models\Clients_Type.cs" />
     <Compile Include="Models\CommonClasses\BillsWithExten.cs" />
+    <Compile Include="Models\CommonClasses\ClientWithExten.cs" />
     <Compile Include="Models\CommonClasses\ExpensesWithExten.cs" />
     <Compile Include="Models\CommonClasses\NotificationWithExten.cs" />
     <Compile Include="Models\CommonClasses\PaymentsWithExten.cs" />
     <Compile Include="Models\CommonClasses\UserAndPrivilage.cs" />
+    <Compile Include="Models\DAL\PrintType.cs" />
     <Compile Include="Models\DAL\ProjectContext.cs" />
     <Compile Include="Models\DAL\Security.cs" />
     <Compile Include="Models\Expenses.cs" />
@@ -411,6 +426,8 @@
     <Content Include="Views\StoreHouse\Category.cshtml" />
     <Content Include="Views\Expenses\Index.cshtml" />
     <Content Include="Views\Expenses\ExpensesType.cshtml" />
+    <Content Include="Views\Clients\Index.cshtml" />
+    <Content Include="Views\Employee\PrintType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -514,6 +531,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906081726131_edit expense.resx">
       <DependentUpon>201906081726131_edit expense.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906101640236_addPrintCat.resx">
+      <DependentUpon>201906101640236_addPrintCat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906101642031_printtype.resx">
+      <DependentUpon>201906101642031_printtype.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906101717235_editPrinter.resx">
+      <DependentUpon>201906101717235_editPrinter.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

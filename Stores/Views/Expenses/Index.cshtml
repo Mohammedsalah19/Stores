@@ -18,18 +18,24 @@
     }
 
     function AddExpenses() {
-        var data = $("#SubmitForm2").serialize();
-        $.ajax({
-            type: "Post",
-            url: "/Expenses/AddExpenses",
-            data: data,
-            success: function (result) {
-                alert("تم الاضافه بنجاح!..");
-                window.location.href = "/Expenses/index";
-                $("#AddModel").modal("hide");
+        var value = $("#amount").val();
+        $("#amount").prop('required', true);
 
-            }
-        })
+        if (value != 0) {
+
+            var data = $("#SubmitForm2").serialize();
+            $.ajax({
+                type: "Post",
+                url: "/Expenses/AddExpenses",
+                data: data,
+                success: function (result) {
+                    alert("تم الاضافه بنجاح!..");
+                    window.location.href = "/Expenses/index";
+                    $("#AddModel").modal("hide");
+
+                }
+            })
+        }
     }
 
 
@@ -65,19 +71,31 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.amount)
+                @Html.DisplayFor(modelItem => item.comment)
+
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.comment)
+                @Html.DisplayFor(modelItem => item.amount)
+
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ExpensesType_ID)
-            </td>
+
+                @foreach (var items in Model.ExpensesTypeX.Where(f=>f.ExpensesType_ID==item.ExpensesType_ID))
+                {
+                    @items.name
+                }
+             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User_ID)
+
+
+                @foreach (var items in Model.UsersX.Where(f => f.Id == item.User_ID))
+                {
+                    @items.name
+                }
+
             </td>
 
         </tr>
@@ -101,7 +119,7 @@
 
 
                         <div class="form-group">
-                            <select name="ExpensesType_ID" id="section" class="form-control" required="required">
+                            <select name="cat" id="section" class="form-control" required="required">
                                 <option value=""> اختار الصنف</option>
                                 @{
                                     foreach (var item in Model.ExpensesTypeX)
@@ -114,7 +132,7 @@
                         <div class="form-group">
 
                             <label> الكميه </label>
-                            <input type="text" name="amount" id="amount" value="" class="form-control" />
+                            <input type="text" name="amount" id="amount" value="" class="form-control" required />
                         </div>
 
                         <div class="form-group">

@@ -68,8 +68,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.printer_name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.printer_name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.printer_name, "", new { @class = "text-danger" })
+
+                @Html.DropDownList("PrinterName", ViewBag.PrintCat as SelectList, htmlAttributes: new { @class = "form-control" })
+
+                 @Html.ValidationMessageFor(model => model.printer_name, "", new { @class = "text-danger" })
             </div>
         </div>
 

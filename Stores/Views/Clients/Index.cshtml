@@ -1,0 +1,321 @@
+﻿@model Stores.Models.CommonClasses.ClientWithExten
+
+@{
+    ViewBag.Title = "قائمه العملاء";
+}
+
+<script>
+
+
+    function AddNewCustomer() {
+        $("#form")[0].reset();
+        $("#Client_ID").val(0);
+        $("#ModalTitle").html("اضافه عميل جديد");
+        $("#ModalTitle").css("text-align:center ")
+        $("#MyModal").modal();
+
+    }
+
+
+    // add client
+
+    function AddClient() {
+        $("#name").prop('required', true);
+        $("#phone").prop('required', true);
+        var data = $("#SubmitForm2").serialize();
+        var value = $("#name").val();
+
+        if (value != "") {
+
+            $.ajax({
+                type: "Post",
+                url: '/Clients/SaveClientData',
+                data: data,
+                success: function (result) {
+                    alert("تمت الاضافه بنجاج");
+                    // window.location.href = "/Home/index";
+                    $("#MyModal").modal("hide");
+                    location.reload(true);
+
+
+                }
+            })
+        }
+
+    };
+
+
+
+    //Show The Popup Modal For EditRecord
+
+    function EditClient(Client_ID) {
+        var url = "/Clients/GetClientById?Client_ID=" + Client_ID;
+        $("#ModalTitle").html("تعديل المعلومات");
+        $("#EditModel").modal();
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var obj = JSON.parse(data);
+                $("#Client_ID").val(obj.Client_ID);
+                $("#nameX").val(obj.name);
+                $("#phoneX").val(obj.phone);
+                $("#nationalIDX").val(obj.nationalID);
+                $("#AddressX").val(obj.Address);
+                $("#CommentX").val(obj.Comment);
+                $("#ActiveX").val(obj.Active);
+                $("#minimum_billsX").val(obj.Minmum);
+                $("#activeX").val(obj.Clients_Type_ID);
+
+            }
+        })
+    }
+
+
+
+
+
+    function SaveRecord() {
+        var data = $("#SubmitForm19").serialize();
+        $.ajax({
+            type: "Post",
+            url: "/Clients/SaveDataInDatabase",
+            data: data,
+            success: function (result) {
+                alert("تم التعديل بنجاح!..");
+                window.location.href = "clients/index";
+                $("#MyModal").modal("hide");
+
+            }
+        })
+    }
+
+
+
+</script>
+
+<center>
+
+    <a href="#" class="btn btn-info" onclick="AddNewCustomer()">عميل جديد </a> <br /><br />
+
+</center>
+<table class="table table-hover" id="myTable" style="text-align:center">
+    <tr class="table-heading " style="background-color:#40BCBA">
+
+
+        <th></th>
+
+
+        <th>
+            تفاصيل
+        </th>
+
+        <th>
+            الرقم القومى
+
+        </th>
+        <th>
+            اقل عدد فواتير
+        </th>
+        <th>
+            الحاله
+        </th>
+        <th>
+            النوع
+        </th>
+        <th>
+            العنوان
+        </th>
+        <th>
+            التليفون
+        </th>
+        <th>
+            الاسم
+
+        </th>
+    </tr>
+
+
+    @foreach (var item in Model.ClientsX)
+    {
+        <tr>
+            <td>
+
+                <a href='#' class='btn btn-danger' onclick='EditClient(@item.Client_ID)'><span class='glyphicon glyphicon-trash'></span> تعديل</a>
+
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.Client_ID })*@
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Comment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nationalID)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.minimum_bills)
+            </td>
+            <td>
+                @{
+                    if (item.Active == true)
+                    {
+                        <p> مفعل</p>
+                    }
+                    else
+                    {
+                        <p>غير مفعل</p>
+                    }
+
+                }
+
+            </td>
+            <td>
+
+                @foreach (var items in Model.Clients_Type.Where(f => f.Clients_Type_id == item.Clients_Type_ID))
+                {
+                    @items.name
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+
+<div class="modal fade" id="MyModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 id="ModalTitle"></h4>
+            </div>
+            <div class="modal-body">
+                <form id="form">
+                    <fieldset id="SubmitForm2" class="text-right" style="direction:rtl">
+
+
+                        <div class="form-group">
+                            <label>اسم العميل</label>
+
+                            <input type="text" required name="name" id="name" placeholder="اسم العميل" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label>رقم التليفون</label>
+                            <input type="text" required name="phone" id="phone" placeholder=" رقم التليفون" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>العنوان</label>
+                            <input type="text" name="Address" id="Address" placeholder="العنوان" class="form-control" />
+                        </div>
+                        <div class="form-group">
+
+                            <select name="Clients_Type_ID" id="section" class="form-control" required="required">
+                                <option value=""> اختار الصنف</option>
+                                @{
+                                    foreach (var item in Model.Clients_Type)
+                                    {
+                                        <option @item.Clients_Type_id> @item.name </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>اقل عدد فواتير</label>
+                            <input type="text" name="minimum_bills" id="minimum_bills" placeholder="عدد فواتير" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>رقم البطاقه</label>
+                            <input type="text" name="nationalID" id="nationalID" placeholder="رقم قومى" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>الحاله</label>
+                            <input type="checkbox" name="Active" id="Active" value="true" placeholder="الحاله" class="" />
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-block btn-info" onclick="AddClient();" id="SaveRecord" value="اضافه">اضافه</button>
+
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<div class="modal fade" id="EditModel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 id="ModalTitle">تعديل المعومات</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form" style="text-align:right;direction:rtl">
+                    <fieldset id="SubmitForm19">
+
+                        <div class="form-group">
+                            <label>اسم العميل</label>
+
+                            <input type="text" required name="nameX" id="nameX" placeholder="اسم العميل" class="form-control"  />
+                        </div>
+                        <div class="form-group">
+                            <label>رقم التليفون</label>
+                            <input type="text" required name="phoneX" id="phoneX" placeholder=" رقم التليفون" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>العنوان</label>
+                            <input type="text" name="AddressX" id="AddressX" placeholder="العنوان" class="form-control" />
+                        </div>
+                        <div class="form-group">
+
+                            <select name="Clients_Type_IDX" id="Clients_Type_IDX" class="form-control" required="required">
+                                <option value=""> اختار الصنف</option>
+                                @{
+                                    foreach (var item in Model.Clients_Type)
+                                    {
+                                        <option @item.Clients_Type_id> @item.name </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>اقل عدد فواتير</label>
+                            <input type="text" name="minimum_billsX" id="minimum_billsX" placeholder="عدد فواتير" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>رقم البطاقه</label>
+                            <input type="text" name="nationalIDX" id="nationalIDX" placeholder="رقم قومى" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>الحاله</label>
+                            <input type="checkbox" name="ActiveX" id="ActiveX" value="true" placeholder="الحاله" class="" />
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-block btn-info" onclick="SaveRecord()"  value="اضافه">اضافه</button>
+
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>*@

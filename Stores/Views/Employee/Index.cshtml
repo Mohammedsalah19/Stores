@@ -7,21 +7,104 @@
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 <script src="~/Scripts/bootstrap.min.js"></script>
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
- 
+
 <center>
     <p>
-        <a href="@Url.Action("NewEmployee")" class="btn btn-default"><i class="fas fa-user-plus"></i>    موظف جديد</a>
+        <a href="@Url.Action("NewEmployee")" class="btn btn-default"><i class="fas fa-user-plus"></i> موظف جديد</a>
 
-     </p>
+    </p>
 
- 
-    @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="clearTextBox();">موظف جديد</button><br /><br />*@
+
 </center>
 
-<div class="container">
-    <table class=" table table-responsive table-hover table-hover" style="text-align:center">
-        <thead class="table-heading" style="background-color:#33A2FF;color:white;border-radius:4px;">
+<table class="table table-hover" id="myTable" style="text-align:center">
+    <thead>
+        <tr class="table-heading " style="background-color:#40BCBA">
 
+            <th></th>
+
+            <th>
+                حاله الحساب
+            </th>
+            <th>
+                اسم الطابعه
+            </th>
+            <th>
+                كلمه المرور
+            </th>
+            <th>
+                التليفون
+            </th>
+            <th>
+                الاسم
+            </th>
+        </tr>
+
+
+     </thead>
+
+    <tbody>
+        @foreach (var item in Model.UserX)
+        {
+        <tr>
+            <td style="width:60px">
+                @foreach (var items in Model.PreviX.Where(h => h.User_ID == item.Id))
+                {
+                    <a href="@Url.Action("Privilage", new { id = items.id })" class="btn btn-default"><i class="fas fa-check-circle"></i> تعديل الصلاحيات</a>
+                }
+
+                <a href="@Url.Action("UserEdit", new { id = item.Id })" class="btn btn-default"><i class="fas fa-user-edit"></i>    تعديل</a>
+                <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-default"><i class="fas fa-info-circle"></i>    تفاصيل</a>
+
+
+            </td>
+
+            <td>
+                @{
+
+                    if (item.active == true)
+                    {
+                        <p>فعال</p>
+                    }
+                    else
+                    {
+                        <p>غير فعال</p>
+
+                    }
+                }
+
+                @Html.DisplayFor(modelItem => item.active)
+            </td>
+            <td>
+                @foreach (var items in Model.PrintTypeX.Where(p=>p.ID.ToString() == item.printer_name))
+                {
+                    @items.PrinterName
+                }
+
+             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phone)
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+        </tr>
+        }
+    </tbody>
+
+
+
+</table>
+    
+
+@*<table class="table table-hover" id="myTable" style="text-align:center">
+        <thead>
+            <tr class="table-heading" style="background-color:#40BCBA">
             <tr>
                 <th>
                     الاسم
@@ -44,45 +127,43 @@
 
             </tr>
 
-            </thead>
-            @foreach (var item in Model.UserX)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Password)
-                    </td>
+        </thead>
+        @foreach (var item in Model.UserX)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.phone)
-                    </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.phone)
+                </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.active)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.printer_name)
-                    </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.active)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.printer_name)
+                </td>
 
-                    <td style="width:60px">
-                        @foreach (var items in Model.PreviX.Where(h => h.User_ID == item.Id))
-                        {
-                            <a href="@Url.Action("Privilage", new { id = items.id })" class="btn btn-default"><i class="fas fa-check-circle"></i> تعديل الصلاحيات</a>
-                        }
-                        @*<a href='#' class='btn btn-warning' onclick='EditStudentRecord(@item.Id)'><span class='glyphicon glyphicon-edit'></span></a>*@
+                <td style="width:60px">
+                    @foreach (var items in Model.PreviX.Where(h => h.User_ID == item.Id))
+                    {
+                        <a href="@Url.Action("Privilage", new { id = items.id })" class="btn btn-default"><i class="fas fa-check-circle"></i> تعديل الصلاحيات</a>
+                    }
 
-                        <a href="@Url.Action("UserEdit", new { id = item.Id })" class="btn btn-default"><i class="fas fa-user-edit"></i>    تعديل</a>
-                        <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-default"><i class="fas fa-info-circle"></i>    تفاصيل</a>
+                    <a href="@Url.Action("UserEdit", new { id = item.Id })" class="btn btn-default"><i class="fas fa-user-edit"></i>    تعديل</a>
+                    <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-default"><i class="fas fa-info-circle"></i>    تفاصيل</a>
 
 
-                    </td>
-                </tr>
-            }
+                </td>
+            </tr>
+        }
 
-    </table>
-</div>
+    </table>*@
 
 
 

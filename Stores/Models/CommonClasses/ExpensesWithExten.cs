@@ -10,5 +10,6 @@ namespace Stores.Models.CommonClasses
 
         public IEnumerable<Expenses> ExpensesX { get; set; }
         public IEnumerable<ExpensesType> ExpensesTypeX { get; set; }
+        public IEnumerable<Users> UsersX { get; set; }
     }
 }

@@ -27,6 +27,7 @@ namespace Stores.Controllers
             var model = new UserAndPrivilage();
             model.UserX = _db.Users.ToList();
             model.PreviX = _db.Users_Privileges.ToList();
+            model.PrintTypeX = _db.PrintType.ToList();
 
             bool res = s.Users();
             if (res == true)
@@ -74,6 +75,8 @@ namespace Stores.Controllers
         [HttpGet]
         public ActionResult NewEmployee()
         {
+            ViewBag.PrintCat = new SelectList(_db.PrintType.ToList(), "ID", "PrinterName");
+
             bool res = s.Users();
             if (res == true)
             {
@@ -86,7 +89,7 @@ namespace Stores.Controllers
 
 
         [HttpPost]
-        public ActionResult NewEmployee(Users _user, Users_Privileges _userprevli, string pic)
+        public ActionResult NewEmployee(Users _user, Users_Privileges _userprevli, string pic, string PrinterName)
         {
             if (ModelState.IsValid)
             {
@@ -102,8 +105,10 @@ namespace Stores.Controllers
 
                 _user.Pic.SaveAs(filName);
 
+                _user.printer_name = PrinterName;
                 //     _user.user_current_date = DateTime.Now;
                 _db.Users.Add(_user);
+
                 _db.SaveChanges();
 
                 // add check boxs
@@ -183,6 +188,9 @@ namespace Stores.Controllers
         [HttpGet]
         public ActionResult UserEdit(int? id)
         {
+
+            ViewBag.PrintCat = new SelectList(_db.PrintType.ToList(), "ID", "PrinterName");
+
             bool res = s.Users();
             if (res == true)
             {
@@ -205,7 +213,7 @@ namespace Stores.Controllers
         }
 
         [HttpPost]
-        public ActionResult UserEdit(Users _user)
+        public ActionResult UserEdit(Users _user, string PrinterName)
         {
             //  _user.user_current_date = DateTime.Now;
             string filName = Path.GetFileNameWithoutExtension(_user.Pic.FileName);
@@ -219,6 +227,7 @@ namespace Stores.Controllers
 
             _user.Pic.SaveAs(filName);
 
+            _user.printer_name = PrinterName;
 
             _db.Entry(_user).State = EntityState.Modified;
             _db.SaveChanges();
@@ -338,16 +347,55 @@ namespace Stores.Controllers
             return RedirectToAction("HavntAccess", "Employee");
 
         }
-        //[HttpPost]
-        //public ActionResult Details(Users _user)
-        //{
-        //    return View(_user);
-
-        //}
 
 
 
+        public ActionResult PrintType()
+        {
+            bool res = s.category();
+            if (res == true)
+            {
+                var model = _db.PrintType.ToList();
+                return View(model);
+            }
+            return RedirectToAction("HavntAccess", "Employee");
 
+        }
+
+
+        public JsonResult SavePrint(PrintType model)
+        {
+            bool result = true;
+
+            _db.PrintType.Add(model);
+            _db.SaveChanges();
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        
+
+
+        #region Delete record 
+
+            public JsonResult DeletePrintType(int? ID)
+             {
+            bool result = false;
+            var print = _db.PrintType.SingleOrDefault(x => x.ID == ID);
+            if (print != null)
+            {
+                _db.PrintType.Remove(print);
+
+                _db.SaveChanges();
+
+                result = true;
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
 
         #region Havent access
 
@@ -360,5 +408,9 @@ namespace Stores.Controllers
 
         }
         #endregion
+
+
+
+        
     }
 }

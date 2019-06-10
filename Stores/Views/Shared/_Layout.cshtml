@@ -147,15 +147,15 @@
                 <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                     <div class="card-body">
                         <ul>
-                            <li><a href="@Url.Action("about", "Home")" class="" style="">قائمه العملاء</a></li>
+                            <li><a href="@Url.Action("Index", "Clients")" class="" style="">قائمه العملاء</a></li>
 
-                            <li><a href="@Url.Action("about", "Home")" class="" style="">اضافه عميل</a></li>
+                            @*<li><a href="@Url.Action("about", "Home")" class="" style="">اضافه عميل</a></li>*@
                         </ul>
                     </div>
                 </div>
             </div>
 
-            <div class="card">
+            @*<div class="card">
                 <div class="card-header" id="headingTwo">
                     <h5 class="mb-0">
                         <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -171,7 +171,7 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div>*@
 
 
             <div class="card">
@@ -280,8 +280,7 @@
 
                         <ul>
                             <li><a href="@Url.Action("index", "Expenses")">عرض ثائمه المصروفات  </a></li>
-                            <li><a href="@Url.Action("about", "Home")">ادخال مصروف </a></li>
-                            <li><a href="@Url.Action("ExpensesType", "Expenses")">عرض تصنيفات المصروفات</a></li>
+                             <li><a href="@Url.Action("ExpensesType", "Expenses")">عرض تصنيفات المصروفات</a></li>
                         </ul>
                     </div>
                 </div>
@@ -328,7 +327,7 @@
                         <ul>
                             <li><a href="@Url.Action("index", "Employee")"> قائمه الموظفين</a></li>
                             <li><a href="@Url.Action("NewEmployee", "Employee")"> موظف جديد </a></li>
-                            <li><a href="@Url.Action("about", "Home")">تقرير 3</a></li>
+                            <li><a href="@Url.Action("PrintType", "Employee")">انواع الطابعات</a></li>
                         </ul>
                     </div>
                 </div>
