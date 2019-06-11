@@ -1,0 +1,238 @@
+﻿@model Stores.Models.CommonClasses.BillsWithExten
+
+@{
+    ViewBag.Title = "تقرير المنتجات";
+}
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<script>
+
+    function sum(x, y) {
+        return x - y;
+    }
+
+    $(document).ready(function () {
+        $('#Getsearch').click(function () {
+            var dateFrom = new Date($('#from').val());
+            var from = dateFrom.toLocaleDateString();
+            var dateTo = new Date($('#to').val());
+            var to = dateTo.toLocaleDateString();
+            var BillCat = $('#BillCate_ID').val();
+
+            var url = "/Reports/GetsearchProducr?from=" + from + "&to=" + to + "&BillCat=" + BillCat;
+
+            $.ajax({
+                url: url,
+
+                contentType: "application/json;charset=utf-8",
+                dataType: "Json",
+                success: function (data) {
+
+                    $('#SetStudentList').empty();
+
+                    for (var i = 0; i < data.length; i++) {
+                        var SetData = $("#SetStudentList");
+                        var Data = "<tr class='row_" + data[i].Pro_id + "'>" +
+
+                            "<td>" + getCatName(data[i].Cate_ID) + "</td>" +
+
+                            "<td>" +getQuntity(data[i].Pro_id )+ "</td>" +
+
+                             "<td>" + data[i].barcode + "</td>" +
+
+
+                             "<td>" + data[i].name + "</td>" +
+
+                            "<td>" + data[i].Pro_id + "</td>" +
+
+                            "</tr>";
+                        SetData.append(Data);
+                        $("#LoadingStatus").html(" ");
+                    }
+                }
+
+            });
+        });
+    });
+
+
+
+
+    function getCatName(Cate_ID) {
+        var names;
+        var url = "/Reports/ReturnCateNameProduct?Cate_Id=" + Cate_ID;
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                names = data.name;
+
+            }
+        })
+        return names;
+    }
+
+    
+    function getQuntity(Pro_id) {
+        var names;
+        var url = "/Reports/getQuntity?Pro_id=" + Pro_id;
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                names = data;
+
+            }
+        })
+        return names;
+    }
+
+</script>
+
+<center>
+    <div class="SearchArea">
+
+        <fieldset id="SubmitForm">
+            <table style="text-align:center">
+                <thead>
+                    <tr>
+
+                        <th>
+                            نوع الفاتوره
+                        </th>
+
+                        <th>
+                            الى
+                        </th>
+                        <th>
+                            من
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+
+
+                        <td>
+                            <select name="BillCate_ID" id="BillCate_ID" class="form-control">
+                                <option value=""> - اختار نوع الفاتوره-</option>
+
+                                @{
+                                    foreach (var item in Model.prodCategoryX)
+                                    {
+                                        <option @item.Cate_ID> @item.name </option>
+                                    }
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <input type="date" name="to" class="form-control" id="to" required />
+
+                        </td>
+                        <td>
+                            <input type="date" name="from" class="form-control" id="from" required />
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            <center>
+                <input type="submit" value="بحث" class="btn btn-info" id="Getsearch" />
+
+            </center>
+        </fieldset>
+
+
+    </div>
+</center>
+<table class="table table-hover" id="myTable" style="text-align:center">
+    <tr class="table-heading " style="background-color:#40BCBA">
+
+
+        <th>المكسب</th>
+        <th>التكلفه</th>
+        <th>السعر</th>
+        <th>الكميه</th>
+        <th>
+            النوع
+        </th>
+        <th>
+            الباركود
+        </th>
+        <th>
+            الاسم
+        </th>
+        <th>
+            الرقم
+        </th>
+        <th></th>
+    </tr>
+
+
+    <tbody id="SetStudentList">
+        <tr id="LoadingStatus" style="color:red"></tr>
+    </tbody>
+
+
+    @*@foreach (var item in Model.productX)
+        {
+            <tr>
+                <td>
+                    @foreach (var items in Model.prodPriceX.Where(p => p.Pro_ID == item.Pro_id))
+                    {
+                        <p> @items.Price - @items.cost</p>
+                    }
+                </td>
+                <td>
+
+                    @foreach (var items in Model.prodPriceX.Where(p => p.Pro_ID == item.Pro_id))
+                    {
+                        @items.cost
+                    }
+
+                </td>
+                <td>
+
+                    @foreach (var items in Model.prodPriceX.Where(p => p.Pro_ID == item.Pro_id))
+                    {
+                        @items.Price
+                    }
+                </td>
+                <td>
+
+                    @Model.billCOntentX.Where(s => s.Product_ID == item.Pro_id).Sum(f => f.Quantity)
+                </td>
+                <td>
+                    @foreach (var items in Model.prodCategoryX.Where(p => p.Cate_ID == item.Cate_ID))
+                    {
+                        @items.name
+                    }
+                </td>
+                <td>
+
+                    @item.barcode
+
+                </td>
+                <td>
+
+                    @item.name
+
+                </td>
+                <td>
+
+                    @item.Pro_id
+
+                </td>
+
+            </tr>
+        }*@
+
+</table>
+

@@ -105,20 +105,7 @@ namespace Stores.Controllers
                 }
 
 
-                //foreach (var item in obj)
-                //{
-                //    BillsWithExten model = new BillsWithExten();
-
-                //    model.productY.name = _db.Products.Where(s => s.Pro_id == item.Product_ID).Select(f => f.name).FirstOrDefault();
-                //    model.billContentY.BillsContent_ID = item.BillsContent_ID;
-                //    model.billContentY.Price = item.Price;
-                //    model.billContentY.Quantity = item.Quantity;
-                //    model.billContentY.IsDeleted = item.IsDeleted;
-                //    model.productX = _db.Products.ToList();
-                //    model.ClientsX = _db.Clients.ToList();
-
-                //    list.Add(model);
-                //}
+        
             }
 
             return Json(list, JsonRequestBehavior.AllowGet);

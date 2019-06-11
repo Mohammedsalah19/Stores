@@ -140,6 +140,7 @@
     <Compile Include="Controllers\ExpensesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PaymentsController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\StoreHouseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -428,6 +429,8 @@
     <Content Include="Views\Expenses\ExpensesType.cshtml" />
     <Content Include="Views\Clients\Index.cshtml" />
     <Content Include="Views\Employee\PrintType.cshtml" />
+    <Content Include="Views\Reports\fwater.cshtml" />
+    <Content Include="Views\Reports\Products.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

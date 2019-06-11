@@ -151,5 +151,20 @@ namespace Stores.Models.DAL
             return false;
         }
 
+
+        public bool statistics()
+        {
+            if (HttpContext.Current.Session["userName"] != null)
+            {
+                string session = HttpContext.Current.Session["userID"].ToString();
+                bool data = _db.Users_Privileges.Where(p => p.User_ID.ToString() == session).Select(f => f.statistics).FirstOrDefault();
+
+                if (data == true)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

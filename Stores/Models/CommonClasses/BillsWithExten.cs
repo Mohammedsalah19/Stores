@@ -16,7 +16,10 @@ namespace Stores.Models.CommonClasses
 
 
         public IEnumerable<ProductCategory> prodCategoryX { get; set; }
+        public IEnumerable<Produt_Price> prodPriceX { get; set; }
         public ProductCategory prodCategoryY { get; set; }
+
+ 
 
 
         public IEnumerable<Bills> billsX { get; set; }
@@ -32,6 +35,10 @@ namespace Stores.Models.CommonClasses
 
 
         public IEnumerable<BillsContent> ProductinContent { get; set; }
+        public IEnumerable<Users> UserX { get; set; }
+        public IEnumerable<BillsCategory> BillcateX { get; set; }
+
+
 
 
     }

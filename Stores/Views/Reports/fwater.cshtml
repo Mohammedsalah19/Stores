@@ -1,0 +1,317 @@
+﻿@model Stores.Models.CommonClasses.BillsWithExten
+
+@{
+    ViewBag.Title = "تقارير الفواتير";
+}
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+
+<script>
+    function sum(x, y) {
+        return x - y;
+    }
+
+    $(document).ready(function () {
+        $('#Getsearch').click(function () {
+            var dateFrom = new Date($('#from').val());
+            var from = dateFrom.toLocaleDateString();
+            var dateTo = new Date($('#to').val());
+            var to = dateTo.toLocaleDateString();
+            var BillCat = $('#BillCate_ID').val();
+            var clientName = $('#clientName').val();
+            var UserName = $('#UserName').val();
+            var url = "/Reports/Getsearch?from=" + from + "&to=" + to + "&BillCat=" + BillCat + "&clientName=" + clientName + "&UserName=" + UserName;
+
+            $.ajax({
+                url: url,
+
+                contentType: "application/json;charset=utf-8",
+                dataType: "Json",
+                success: function (data) {
+
+                    $('#SetStudentList').empty();
+
+                    for (var i = 0; i < data.length; i++) {
+                        var SetData = $("#SetStudentList");
+                        var Data = "<tr class='row_" + data[i].Id + "'>" +
+                            "<td>" + sum(data[i].price, data[i].cost) + "</td>" +
+                            "<td>" + data[i].price + "</td>" +
+
+                            "<td>" + data[i].discount + "</td>" +
+                            "<td>" + data[i].cost + "</td>" +
+
+                            "<td>" + dare(data[i].date) + "</td>" +
+ 
+                            "<td>" + getCatName(data[i].Cate_Id) + "</td>" +
+                            "<td>" + getClientName(data[i].Client_ID) + "</td>" +
+
+                            "<td>" + getUserName(data[i].User_ID) + "</td>" +
+
+                            "<td>" + data[i].Id + "</td>" +
+
+                            "</tr>";
+                        SetData.append(Data);
+                        $("#LoadingStatus").html(" ");
+                    }
+                }
+
+            });
+        });
+    });
+
+
+    function dare(ss) {
+        var res0 = ss.replace(/\//g, "");
+        var res1 = res0.replace("Date(", "");
+
+        var res2 = res1.replace(")", "");
+        var value = res2;
+        var d = new Date(value);
+        var f = d.toLocaleDateString();
+        return f; 
+    }
+
+    function getClientName(Client_ID) {
+        var names;
+        var url = "/Reports/ReturnClientName?Client_ID=" + Client_ID;
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                names = data.name;
+
+            }
+        })
+        return names;
+    }
+    
+
+
+    function getUserName(User_ID) {
+        var names;
+        var url = "/Reports/ReturnUserName?User_ID=" + User_ID;
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                names = data.name;
+
+            }
+        })
+        return names;
+    }
+
+    
+
+    function getCatName(Cate_Id) {
+        var names;
+        var url = "/Reports/ReturnCateName?Cate_Id=" + Cate_Id;
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                names = data.name;
+
+            }
+        })
+        return names;
+    }
+</script>
+
+<center>
+
+
+    <div class="fatora">
+
+        <fieldset id="SubmitForm">
+            <table style="text-align:center">
+                <thead>
+                    <tr>
+
+
+                        <th>
+                            العميل
+                        </th>
+
+                        <th>
+                            المستخدم
+                        </th>
+
+                        <th>
+                            نوع الفاتوره
+                        </th>
+
+                        <th>
+                            الى
+                        </th>
+                        <th>
+                            من
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+
+                        <td>
+                            <select name="clientName" id="clientName" class="form-control" >
+                                <option value=""> اختار العميل</option>
+                                @{
+                                    foreach (var item in Model.ClientsX)
+                                    {
+                                        <option @item.Client_ID> @item.name </option>
+                                    }
+                                }
+                            </select>
+                        </td>
+
+                 
+                        <td>
+                            <select name="UserName" id="UserName" class="form-control" >
+                                <option value=""> - اختار المستخدم-</option>
+
+                                @{
+                                    foreach (var item in Model.UserX)
+                                    {
+                                        <option @item.Id> @item.name </option>
+                                    }
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <select name="BillCate_ID" id="BillCate_ID" class="form-control">
+                                <option value=""> - اختار نوع الفاتوره-</option>
+
+                                @{
+                                    foreach (var item in Model.BillcateX)
+                                    {
+                                        <option @item.BillCate_ID> @item.name </option>
+                                    }
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <input type="date" name="to" class="form-control" id="to" required />
+
+                        </td>
+                        <td>
+                            <input type="date" name="from" class="form-control" id="from" required />
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            <center>
+                <input type="submit" value="بحث" class="btn btn-info" id="Getsearch" />
+
+            </center>
+        </fieldset>
+
+
+    </div>
+
+
+
+</center>
+<table class="table table-hover" id="myTable" style="text-align:center">
+    <tr class="table-heading " style="background-color:#40BCBA">
+
+
+        <th>
+            المكسب
+        </th>
+        <th>
+            التكلفه
+        </th>
+        <th>
+            الخصم
+        </th>
+        <th>
+            السعر
+        </th>
+        <th>
+            التاريخ والوقت
+        </th>
+
+        <th>
+            النوع
+        </th>
+        <th>
+            العميل
+        </th>
+        <th>
+            المستخدم
+        </th>
+        <th>
+            الرقم
+        </th>
+    </tr>
+
+    <tbody id="SetStudentList">
+        <tr id="LoadingStatus" style="color:red"></tr>
+    </tbody>
+
+    @*@foreach (var item in Model.billsX)
+        {
+            <tr>
+                <td>
+                    @{ <p>
+                            @Html.DisplayFor(modelItem => item.cost)
+                            -@Html.DisplayFor(modelItem => item.price)
+                        </p>
+                    }
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.price)
+                </td>
+
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.discount)
+                </td>
+                <td>
+
+                    @Html.DisplayFor(modelItem => item.cost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.date)
+                </td>
+                <td>
+                    @foreach (var items in Model.BillcateX.Where(d => d.BillCate_ID == item.Cate_Id))
+                    {
+                        @items.name
+                    }
+                </td>
+                <td>
+                    @foreach (var items in Model.ClientsX.Where(d => d.Client_ID == item.Client_ID))
+                    {
+                        @items.name
+                    }
+                </td>
+
+                <td>
+                    @foreach (var items in Model.UserX.Where(d => d.Id == item.User_ID))
+                    {
+                        @items.name
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+
+
+                </td>
+            </tr>
+        }*@
+
+</table>
