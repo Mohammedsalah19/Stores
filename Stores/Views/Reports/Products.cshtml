@@ -21,7 +21,7 @@
             var to = dateTo.toLocaleDateString();
             var BillCat = $('#BillCate_ID').val();
 
-            var url = "/Reports/GetsearchProducr?from=" + from + "&to=" + to + "&BillCat=" + BillCat;
+            var url = "/Reports/GetsearchProduct?from=" + from + "&to=" + to + "&BillCat=" + BillCat;
 
             $.ajax({
                 url: url,
@@ -36,9 +36,18 @@
                         var SetData = $("#SetStudentList");
                         var Data = "<tr class='row_" + data[i].Pro_id + "'>" +
 
+                            "<td>" + getMaksab(data[i].Pro_id) + "</td>" +
+
+
+                            "<td>" + getCost(data[i].Pro_id) + "</td>" +
+
+
+                            "<td>" + getPrice(data[i].Pro_id) + "</td>" +
+
+                            "<td>" + getQuntity(data[i].Pro_id) + "</td>" +
+
                             "<td>" + getCatName(data[i].Cate_ID) + "</td>" +
 
-                            "<td>" +getQuntity(data[i].Pro_id )+ "</td>" +
 
                              "<td>" + data[i].barcode + "</td>" +
 
@@ -56,6 +65,8 @@
             });
         });
     });
+
+
 
 
 
@@ -93,6 +104,55 @@
         return names;
     }
 
+
+    function getPrice(Pro_id) {
+        var names;
+        var url = "/Reports/getPrice?Pro_id=" + Pro_id;
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                names = data;
+
+            }
+        })
+        return names;
+    }
+
+    function getCost(Pro_id) {
+        var names;
+        var url = "/Reports/getCost?Pro_id=" + Pro_id;
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                names = data;
+
+            }
+        })
+        return names;
+    }
+
+
+    function getMaksab(Pro_id) {
+        var names;
+        var url = "/Reports/getMaksab?Pro_id=" + Pro_id;
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                names = data;
+
+            }
+        })
+        return names;
+    }
 </script>
 
 <center>
@@ -124,9 +184,9 @@
                                 <option value=""> - اختار نوع الفاتوره-</option>
 
                                 @{
-                                    foreach (var item in Model.prodCategoryX)
+                                    foreach (var item in Model.BillcateX)
                                     {
-                                        <option @item.Cate_ID> @item.name </option>
+                                        <option @item.BillCate_ID> @item.name </option>
                                     }
                                 }
                             </select>
@@ -172,67 +232,13 @@
         <th>
             الرقم
         </th>
-        <th></th>
-    </tr>
+     </tr>
 
 
     <tbody id="SetStudentList">
         <tr id="LoadingStatus" style="color:red"></tr>
     </tbody>
-
-
-    @*@foreach (var item in Model.productX)
-        {
-            <tr>
-                <td>
-                    @foreach (var items in Model.prodPriceX.Where(p => p.Pro_ID == item.Pro_id))
-                    {
-                        <p> @items.Price - @items.cost</p>
-                    }
-                </td>
-                <td>
-
-                    @foreach (var items in Model.prodPriceX.Where(p => p.Pro_ID == item.Pro_id))
-                    {
-                        @items.cost
-                    }
-
-                </td>
-                <td>
-
-                    @foreach (var items in Model.prodPriceX.Where(p => p.Pro_ID == item.Pro_id))
-                    {
-                        @items.Price
-                    }
-                </td>
-                <td>
-
-                    @Model.billCOntentX.Where(s => s.Product_ID == item.Pro_id).Sum(f => f.Quantity)
-                </td>
-                <td>
-                    @foreach (var items in Model.prodCategoryX.Where(p => p.Cate_ID == item.Cate_ID))
-                    {
-                        @items.name
-                    }
-                </td>
-                <td>
-
-                    @item.barcode
-
-                </td>
-                <td>
-
-                    @item.name
-
-                </td>
-                <td>
-
-                    @item.Pro_id
-
-                </td>
-
-            </tr>
-        }*@
+ 
 
 </table>
 

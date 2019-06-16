@@ -17,7 +17,7 @@ namespace Stores.Controllers
 
         // GET: Reports
 
-        #region fawater
+        #region fawater --secure
 
         #region index
 
@@ -144,65 +144,125 @@ namespace Stores.Controllers
         #endregion
 
 
+        #region products --secure
+
+
+
+        #region index
 
         public ActionResult Products()
         {
 
+            bool res = s.statistics();
+            if (res == true)
+            {
+                var model = new BillsWithExten();
 
-            var model = new BillsWithExten();
+                model.productX = _db.Products.ToList();
+                model.prodCategoryX = _db.ProductCategory.ToList();
+                model.prodPriceX = _db.Produt_Price.ToList();
+                model.billCOntentX = _db.BillsContent.ToList();
+                model.BillcateX = _db.BillsCategory.ToList();
+                return View(model);
 
-            model.productX = _db.Products.ToList();
-            model.prodCategoryX = _db.ProductCategory.ToList();
-            model.prodPriceX = _db.Produt_Price.ToList();
-            model.billCOntentX = _db.BillsContent.ToList();
-            return View(model);
+            }
+            return RedirectToAction("HavntAccess", "Employee");
+
         }
 
+        #endregion
+
+
+        #region search
 
 
 
-
-
-        public JsonResult GetsearchProducr(DateTime from, DateTime to, string BillCat)
+        public JsonResult GetsearchProduct(DateTime from, DateTime to, string BillCat)
         {
 
             var BillCatID = _db.BillsCategory.Where(p => p.name == BillCat).Select(f => f.BillCate_ID).FirstOrDefault();
 
-            var model = _db.Bills.Where(d => d.date >= from && d.date <= to).ToList();
-            List<int> list = new List<int>();
+            if (BillCatID != null)
+            {
+                var model = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Cate_Id == BillCatID).ToList();
 
-            List<Products> list2 = new List<Products>();
 
-            IEnumerable<BillsContent> s;
-            foreach (var item in model)
+                List<int> list = new List<int>();
+
+                List<Products> list2 = new List<Products>();
+
+                IEnumerable<BillsContent> s;
+                foreach (var item in model)
+                {
+
+                    BillsContent _BillContent = new BillsContent();
+                    var models = _db.BillsContent.Where(p => p.Bill_ID == item.Id).ToList();
+
+                    foreach (var items in models.Select(f => f.Product_ID))
+                    {
+                        list.Add(items);
+                    }
+                }
+
+                foreach (var item in list.Distinct())
+                {
+                    var res = _db.Products.Where(p => p.Pro_id == item);
+                    foreach (var items in res)
+                    {
+                        list2.Add(items);
+
+                    }
+                }
+                //    var res = _db.Products.Where(p=>p.Pro_id==)
+                return Json(list2, JsonRequestBehavior.AllowGet);
+
+            }
+            else
             {
 
-                BillsContent _BillContent = new BillsContent();
-                var models = _db.BillsContent.Where(p => p.Bill_ID == item.Id).ToList();
 
-                foreach (var items in models.Select(f=>f.Product_ID).Distinct())
+
+
+                var model = _db.Bills.Where(d => d.date >= from && d.date <= to).ToList();
+
+
+                List<int> list = new List<int>();
+
+                List<Products> list2 = new List<Products>();
+
+                IEnumerable<BillsContent> s;
+                foreach (var item in model)
                 {
-                    list.Add(items);
+
+                    BillsContent _BillContent = new BillsContent();
+                    var models = _db.BillsContent.Where(p => p.Bill_ID == item.Id).ToList();
+
+                    foreach (var items in models.Select(f => f.Product_ID))
+                    {
+                        list.Add(items);
+                    }
                 }
+
+                foreach (var item in list.Distinct())
+                {
+                    var res = _db.Products.Where(p => p.Pro_id == item);
+                    foreach (var items in res)
+                    {
+                        list2.Add(items);
+
+                    }
+                }
+                //    var res = _db.Products.Where(p=>p.Pro_id==)
+                return Json(list2, JsonRequestBehavior.AllowGet);
             }
 
-            foreach (var item in list)
-            {
-                var res = _db.Products.Where(p => p.Pro_id == item);
-                foreach (var items in res)
-                {
-                    list2.Add(items);
-
-                }
-            }
-        //    var res = _db.Products.Where(p=>p.Pro_id==)
-            return Json(list2, JsonRequestBehavior.AllowGet);
         }
 
 
 
-        
+        #endregion
 
+        #region get jquery fun
 
         public JsonResult ReturnCateNameProduct(int Cate_Id)
         {
@@ -215,11 +275,168 @@ namespace Stores.Controllers
 
         public JsonResult getQuntity(int Pro_id)
         {
- 
-            var res = _db.BillsContent.Where(id => id.Product_ID == Pro_id).Sum(f=>f.Quantity);
+
+            var res = _db.BillsContent.Where(id => id.Product_ID == Pro_id).Sum(f => f.Quantity);
             return Json(res, JsonRequestBehavior.AllowGet);
 
         }
-        
+
+        public JsonResult getPrice(int Pro_id)
+        {
+
+            var res = _db.Produt_Price.Where(id => id.Pro_ID == Pro_id).Select(f => f.Price).FirstOrDefault();
+            return Json(res, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult getCost(int Pro_id)
+        {
+
+            var res = _db.Produt_Price.Where(id => id.Pro_ID == Pro_id).Select(f => f.cost).FirstOrDefault();
+            return Json(res, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult getMaksab(int Pro_id)
+        {
+
+            var cost = _db.Produt_Price.Where(id => id.Pro_ID == Pro_id).Select(f => f.cost).FirstOrDefault();
+            var price = _db.Produt_Price.Where(id => id.Pro_ID == Pro_id).Select(f => f.Price).FirstOrDefault();
+
+            var res = price - cost;
+            return Json(res, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+        #endregion
+
+        #endregion
+
+        #region clients --secure
+
+
+                  #region index
+
+
+        public ActionResult clients()
+        {
+            bool res = s.statistics();
+            if (res == true)
+            {
+                var model = new ClientWithExten();
+
+                model.ClientsX = _db.Clients.ToList();
+                model.Clients_Type = _db.Clients_Type.ToList();
+
+                return View(model);
+            }
+            return RedirectToAction("HavntAccess", "Employee");
+
+
+        }
+
+        #endregion
+                #region retuern cat
+
+
+        public JsonResult ClientCat(string Clients_Type_id)
+                {
+
+                    List<Clients> cat = new List<Clients>();
+
+
+                    var s = _db.Clients_Type.Where(ss => ss.name == Clients_Type_id).FirstOrDefault();
+                    var obj = _db.Clients.Where(p => p.Clients_Type_ID == s.Clients_Type_id).ToList();
+
+                    if (obj != null && obj.Count() > 0)
+                    {
+                        foreach (var item in obj)
+                        {
+                            Clients model = new Clients();
+                            model.Client_ID = item.Client_ID;
+                            model.name = item.name;
+                            cat.Add(model);
+                        }
+                    }
+
+                    return Json(cat, JsonRequestBehavior.AllowGet);
+                }
+                #endregion
+
+                #region seacrch
+
+
+                public JsonResult ClientsReport(DateTime from, DateTime to, int client)
+                {
+
+                    List<string> list = new List<string>();
+
+                     var modelBillcat = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Client_ID == client).ToList();
+   
+
+                    return Json(modelBillcat, JsonRequestBehavior.AllowGet);
+
+
+                }
+
+                #endregion
+
+                #region client jquery fun
+
+                public JsonResult getClintName(int Client_ID)
+                {
+
+                    var res = _db.Clients.Where(id => id.Client_ID == Client_ID).FirstOrDefault();
+                    return Json(res, JsonRequestBehavior.AllowGet);
+
+                }
+                public JsonResult getFawaterNumbers(DateTime from, DateTime to, int Client_ID)
+                {
+
+                    var res = _db.Bills.Where(d => d.date >= from && d.date <= to &&  d.Client_ID == Client_ID).Count();
+                    return Json(res, JsonRequestBehavior.AllowGet);
+
+                }
+                public JsonResult getFwaterSum(DateTime from, DateTime to, int Client_ID)
+                {
+ 
+                    var res = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Client_ID == Client_ID).Sum(f=>f.price);
+                    return Json(res, JsonRequestBehavior.AllowGet);
+
+                }
+                public JsonResult getPayments(DateTime from, DateTime to, int Client_ID)
+                {
+
+                    var res = _db.Payments.Where(d => d.date >= from && d.date <= to && d.client_id == Client_ID).Sum(f=>f.Payment_amount);
+                    return Json(res, JsonRequestBehavior.AllowGet);
+
+                }
+                public JsonResult getElmtbaqy(DateTime from, DateTime to, int Client_ID)
+                {
+
+                    var res = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Client_ID == Client_ID).Sum(f=>f.price);
+
+                    var res2 = _db.Payments.Where(d => d.date >= from && d.date <= to && d.client_id == Client_ID).Sum(f => f.Payment_amount);
+                    var final = res - res2;
+                    return Json(final, JsonRequestBehavior.AllowGet);
+
+                }
+
+                #endregion
+
+
+        #endregion
+
+
+
+        public ActionResult Expenses()
+        {
+            var model = _db.Expenses.ToList();
+            return View(model);
+        }
+
+
     }
+
 }

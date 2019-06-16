@@ -431,6 +431,8 @@
     <Content Include="Views\Employee\PrintType.cshtml" />
     <Content Include="Views\Reports\fwater.cshtml" />
     <Content Include="Views\Reports\Products.cshtml" />
+    <Content Include="Views\Reports\clients.cshtml" />
+    <Content Include="Views\Reports\Expenses.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

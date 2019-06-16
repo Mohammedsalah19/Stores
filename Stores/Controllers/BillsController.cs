@@ -47,6 +47,35 @@ namespace Stores.Controllers
 
         #endregion
 
+
+
+        #region retuern cat
+
+
+        public JsonResult GetcategoryPro(string Pro_id)
+        {
+
+            List<Products> cat = new List<Products>();
+
+
+            var s = _db.ProductCategory.Where(ss => ss.name == Pro_id).FirstOrDefault();
+            var obj = _db.Products.Where(p => p.Cate_ID == s.Cate_ID).ToList();
+
+            if (obj != null && obj.Count() > 0)
+            {
+                foreach (var item in obj)
+                {
+                    Products model = new Products();
+                    model.Pro_id = item.Pro_id;
+                    model.name = item.name;
+                    cat.Add(model);
+                }
+            }
+
+            return Json(cat, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
         #region fillBills
 
         // return client product name fatoracontent
@@ -115,21 +144,21 @@ namespace Stores.Controllers
         #region retuern cat
 
 
-        public JsonResult GetcategoryPro(string Pro_id)
+        public JsonResult ClientCat(string Clients_Type_id)
         {
 
             List<Products> cat = new List<Products>();
 
 
-            var s = _db.ProductCategory.Where(ss => ss.name == Pro_id).FirstOrDefault();
-            var obj = _db.Products.Where(p => p.Cate_ID == s.Cate_ID).ToList();
+            var s = _db.Clients_Type.Where(ss => ss.name == Clients_Type_id).FirstOrDefault();
+            var obj = _db.Clients.Where(p => p.Clients_Type_ID == s.Clients_Type_id).ToList();
 
             if (obj != null && obj.Count() > 0)
             {
                 foreach (var item in obj)
                 {
                     Products model = new Products();
-                    model.Pro_id = item.Pro_id;
+                    model.Pro_id = item.Client_ID;
                     model.name = item.name;
                     cat.Add(model);
                 }

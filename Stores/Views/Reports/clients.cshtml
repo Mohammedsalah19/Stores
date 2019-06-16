@@ -1,0 +1,285 @@
+﻿@model  Stores.Models.CommonClasses.ClientWithExten
+
+@{
+    ViewBag.Title = "العملاء";
+}
+
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    
+<script>
+
+    // fill clients dropdownlist
+
+    $(document).ready(function () {
+        $("#ClientCat").change(function () {
+            var id = $(this);
+
+            $.ajax({
+
+                url: '/Reports/ClientCat?Clients_Type_id=' + id.val(),
+                contentType: "application/json;charset=utf-8",
+                dataType: "Json",
+                success: function (data) {
+                    $('#client').empty();
+
+                    $.each(data, function (index, value) {
+                        $('#client').append('<option value="' + value.Client_ID + '">' + value.name + '</option>');
+                    });
+                }
+
+            });
+        });
+    });
+
+
+
+
+
+    $(document).ready(function () {
+        $('#Getsearch').click(function () {
+
+            var dateFrom = new Date($('#from').val());
+            var from = dateFrom.toLocaleDateString();
+            var dateTo = new Date($('#to').val());
+            var to = dateTo.toLocaleDateString();
+            var client = $('#client').val();
+            var url = "/Reports/ClientsReport?from=" + from + "&to=" + to + "&client=" + client;
+
+            $.ajax({
+
+                url: url,
+                contentType: "application/json;charset=utf-8",
+                dataType: "Json",
+                success: function (data) {
+                    $('#SetStudentList').empty();
+
+                    for (var i = 0; i < 1; i++) {
+                        var SetData = $("#SetStudentList");
+
+                             var Data = "<tr class='row_" + data[i].BillsContent_ID + "'>" +
+                                 "<td>" + getElmtbaqy(data[i].Client_ID) + "</td>" +
+                                 "<td>" + getPayments(data[i].Client_ID) + "</td>" +
+                                  "<td>" + getFwaterSum(data[i].Client_ID) + "</td>" +
+                                 "<td>" + getFawaterNumbers(data[i].Client_ID) + "</td>" +
+                                 "<td>" +getClintName(data[i].Client_ID) + "</td>" +
+                               "</tr>";
+                        SetData.append(Data);
+                        $("#LoadingStatus").html(" ");
+                    }
+                }
+
+            });
+        });
+    });
+
+
+
+
+
+
+    function getClintName(Client_ID) {
+        var names;
+        var url = "/Reports/getClintName?Client_ID=" + Client_ID;
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                names = data.name;
+
+            }
+        })
+        return names;
+    }
+
+
+
+
+    function getFawaterNumbers(Client_ID) {
+        var dateFrom = new Date($('#from').val());
+        var from = dateFrom.toLocaleDateString();
+        var dateTo = new Date($('#to').val());
+        var to = dateTo.toLocaleDateString();
+
+        var names;
+        var url = "/Reports/getFawaterNumbers?from=" + from + "&to=" + to + "&Client_ID=" + Client_ID;
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                names = data;
+
+            }
+        })
+        return names;
+    }
+
+
+
+    function getFwaterSum(Client_ID) {
+        var names;
+        var dateFrom = new Date($('#from').val());
+        var from = dateFrom.toLocaleDateString();
+        var dateTo = new Date($('#to').val());
+        var to = dateTo.toLocaleDateString();
+
+        var url = "/Reports/getFwaterSum?from=" + from + "&to=" + to + "&Client_ID=" + Client_ID;
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                names = data;
+
+            }
+        })
+        return names;
+    }
+
+    function getPayments(Client_ID) {
+        var dateFrom = new Date($('#from').val());
+        var from = dateFrom.toLocaleDateString();
+        var dateTo = new Date($('#to').val());
+        var to = dateTo.toLocaleDateString();
+
+        var names;
+        var url = "/Reports/getPayments?from=" + from + "&to=" + to + "&Client_ID=" + Client_ID;
+
+ 
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                names = data;
+
+            }
+        })
+        return names;
+    }
+
+    function getElmtbaqy(Client_ID) {
+        var dateFrom = new Date($('#from').val());
+        var from = dateFrom.toLocaleDateString();
+        var dateTo = new Date($('#to').val());
+        var to = dateTo.toLocaleDateString();
+    
+        var names;
+        var url = "/Reports/getElmtbaqy?from=" + from + "&to=" + to + "&Client_ID=" + Client_ID;
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                names = data;
+
+            }
+        })
+        return names;
+    }
+</script>
+<center>
+    <div class="SearchArea">
+
+        <fieldset id="SubmitForm">
+            <table style="text-align:center">
+                <thead>
+                    <tr>
+                        <th>
+                            اسم العميل
+                        </th>
+
+                        <th>
+                            نوع العميل
+                        </th>
+
+                        <th>
+                            الى
+                        </th>
+                        <th>
+                            من
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+
+
+
+                        <td>
+                            <select name="client" id="client" class="form-control">
+                                <option value=""> - اختار الاسم -</option>
+                                @{
+
+                                }
+
+                            </select>
+                        </td>
+
+                        <td>
+                            <select name="ClientCat" id="ClientCat" class="form-control">
+                                <option value=""> - اختار نوع -</option>
+
+                                @{
+                                    foreach (var item in Model.Clients_Type)
+                                    {
+                                        <option @item.Clients_Type_id> @item.name </option>
+                                    }
+                                }
+                            </select>
+                        </td>
+
+                        <td>
+                            <input type="date" name="to" class="form-control" id="to" required />
+
+                        </td>
+                        <td>
+                            <input type="date" name="from" class="form-control" id="from" required />
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            <center>
+                <input type="submit" value="بحث" class="btn btn-info" id="Getsearch" />
+
+            </center>
+        </fieldset>
+
+
+    </div>
+</center>
+<table class="table table-hover" id="myTable" style="text-align:center">
+    <tr class="table-heading " style="background-color:#40BCBA">
+
+        <th>
+            المتبقى
+        </th>
+        <th>
+            الدفعات الماليه
+        </th>
+        @*<th>
+            اقل قيمه
+        </th>*@
+        <th>
+            قيمه الفواتير
+        </th>
+        <th>
+            عدد الفواتير
+        </th>
+        <th>
+            الاسم
+        </th>
+    </tr>
+
+    <tbody id="SetStudentList">
+        <tr id="LoadingStatus" style="color:red"></tr>
+    </tbody>
+
+</table>

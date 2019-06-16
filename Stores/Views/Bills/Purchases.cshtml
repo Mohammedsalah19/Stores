@@ -14,8 +14,8 @@
 
     $(document).ready(function () {
         $("#section").change(function () {
+            var id = $(this);
              $.ajax({
-
                 url: '/Bills/GetcategoryPro?Pro_id=' + id.val(),
                 contentType: "application/json;charset=utf-8",
                 dataType: "Json",
