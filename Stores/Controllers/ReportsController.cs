@@ -316,7 +316,7 @@ namespace Stores.Controllers
         #region clients --secure
 
 
-                  #region index
+        #region index
 
 
         public ActionResult clients()
@@ -337,105 +337,248 @@ namespace Stores.Controllers
         }
 
         #endregion
-                #region retuern cat
+        #region retuern cat
 
 
         public JsonResult ClientCat(string Clients_Type_id)
+        {
+
+            List<Clients> cat = new List<Clients>();
+
+
+            var s = _db.Clients_Type.Where(ss => ss.name == Clients_Type_id).FirstOrDefault();
+            var obj = _db.Clients.Where(p => p.Clients_Type_ID == s.Clients_Type_id).ToList();
+
+            if (obj != null && obj.Count() > 0)
+            {
+                foreach (var item in obj)
                 {
-
-                    List<Clients> cat = new List<Clients>();
-
-
-                    var s = _db.Clients_Type.Where(ss => ss.name == Clients_Type_id).FirstOrDefault();
-                    var obj = _db.Clients.Where(p => p.Clients_Type_ID == s.Clients_Type_id).ToList();
-
-                    if (obj != null && obj.Count() > 0)
-                    {
-                        foreach (var item in obj)
-                        {
-                            Clients model = new Clients();
-                            model.Client_ID = item.Client_ID;
-                            model.name = item.name;
-                            cat.Add(model);
-                        }
-                    }
-
-                    return Json(cat, JsonRequestBehavior.AllowGet);
+                    Clients model = new Clients();
+                    model.Client_ID = item.Client_ID;
+                    model.name = item.name;
+                    cat.Add(model);
                 }
-                #endregion
+            }
 
-                #region seacrch
+            return Json(cat, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
 
-
-                public JsonResult ClientsReport(DateTime from, DateTime to, int client)
-                {
-
-                    List<string> list = new List<string>();
-
-                     var modelBillcat = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Client_ID == client).ToList();
-   
-
-                    return Json(modelBillcat, JsonRequestBehavior.AllowGet);
+        #region seacrch
 
 
-                }
+        public JsonResult ClientsReport(DateTime from, DateTime to, int client)
+        {
 
-                #endregion
+            List<string> list = new List<string>();
 
-                #region client jquery fun
+            var modelBillcat = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Client_ID == client).ToList();
 
-                public JsonResult getClintName(int Client_ID)
-                {
 
-                    var res = _db.Clients.Where(id => id.Client_ID == Client_ID).FirstOrDefault();
-                    return Json(res, JsonRequestBehavior.AllowGet);
+            return Json(modelBillcat, JsonRequestBehavior.AllowGet);
 
-                }
-                public JsonResult getFawaterNumbers(DateTime from, DateTime to, int Client_ID)
-                {
 
-                    var res = _db.Bills.Where(d => d.date >= from && d.date <= to &&  d.Client_ID == Client_ID).Count();
-                    return Json(res, JsonRequestBehavior.AllowGet);
+        }
 
-                }
-                public JsonResult getFwaterSum(DateTime from, DateTime to, int Client_ID)
-                {
- 
-                    var res = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Client_ID == Client_ID).Sum(f=>f.price);
-                    return Json(res, JsonRequestBehavior.AllowGet);
+        #endregion
 
-                }
-                public JsonResult getPayments(DateTime from, DateTime to, int Client_ID)
-                {
+        #region client jquery fun
 
-                    var res = _db.Payments.Where(d => d.date >= from && d.date <= to && d.client_id == Client_ID).Sum(f=>f.Payment_amount);
-                    return Json(res, JsonRequestBehavior.AllowGet);
+        public JsonResult getClintName(int Client_ID)
+        {
 
-                }
-                public JsonResult getElmtbaqy(DateTime from, DateTime to, int Client_ID)
-                {
+            var res = _db.Clients.Where(id => id.Client_ID == Client_ID).FirstOrDefault();
+            return Json(res, JsonRequestBehavior.AllowGet);
 
-                    var res = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Client_ID == Client_ID).Sum(f=>f.price);
+        }
+        public JsonResult getFawaterNumbers(DateTime from, DateTime to, int Client_ID)
+        {
 
-                    var res2 = _db.Payments.Where(d => d.date >= from && d.date <= to && d.client_id == Client_ID).Sum(f => f.Payment_amount);
-                    var final = res - res2;
-                    return Json(final, JsonRequestBehavior.AllowGet);
+            var res = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Client_ID == Client_ID).Count();
+            return Json(res, JsonRequestBehavior.AllowGet);
 
-                }
+        }
+        public JsonResult getFwaterSum(DateTime from, DateTime to, int Client_ID)
+        {
 
-                #endregion
+            var res = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Client_ID == Client_ID).Sum(f => f.price);
+            return Json(res, JsonRequestBehavior.AllowGet);
 
+        }
+        public JsonResult getPayments(DateTime from, DateTime to, int Client_ID)
+        {
+
+            var res = _db.Payments.Where(d => d.date >= from && d.date <= to && d.client_id == Client_ID).Sum(f => f.Payment_amount);
+            return Json(res, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult getElmtbaqy(DateTime from, DateTime to, int Client_ID)
+        {
+
+            var res = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Client_ID == Client_ID).Sum(f => f.price);
+
+            var res2 = _db.Payments.Where(d => d.date >= from && d.date <= to && d.client_id == Client_ID).Sum(f => f.Payment_amount);
+            var final = res - res2;
+            return Json(final, JsonRequestBehavior.AllowGet);
+
+        }
 
         #endregion
 
 
+        #endregion
+
+        #region expenses -- secure
+
+
+
+        #region index
+
 
         public ActionResult Expenses()
         {
-            var model = _db.Expenses.ToList();
-            return View(model);
+
+            bool res = s.statistics();
+            if (res == true)
+            {
+                var model = new ExpensesWithExten();
+
+
+                model.ExpensesTypeX = _db.ExpensesType.ToList();
+                model.ExpensesX = _db.Expenses.ToList();
+                model.UsersX = _db.Users.ToList();
+                return View(model);
+
+            }
+            return RedirectToAction("HavntAccess", "Employee");
+
+
         }
 
+        #endregion
+
+        #region search
+
+
+        public JsonResult GetsearchExpenses(DateTime from, DateTime to, string ExpenesCat, string Client)
+        {
+
+            var usrId = _db.Users.Where(d => d.name == Client).Select(f => f.Id).FirstOrDefault();
+            var CateExpId = _db.ExpensesType.Where(d => d.name == ExpenesCat).Select(f => f.ExpensesType_ID).FirstOrDefault();
+
+            if (CateExpId != 0 && usrId != 0)
+            {
+                var model = _db.Expenses.Where(d => d.date >= from && d.date <= to && d.ExpensesType_ID == CateExpId && d.User_ID == usrId).ToList();
+                return Json(model, JsonRequestBehavior.AllowGet);
+
+            }
+            if (CateExpId != 0 && usrId == 0)
+            {
+                var model = _db.Expenses.Where(d => d.date >= from && d.date <= to && d.ExpensesType_ID == CateExpId).ToList();
+                return Json(model, JsonRequestBehavior.AllowGet);
+
+            }
+            if (CateExpId == 0 && usrId != 0)
+            {
+                var modelBillcat = _db.Expenses.Where(d => d.date >= from && d.date <= to && d.User_ID == usrId).ToList();
+                return Json(modelBillcat, JsonRequestBehavior.AllowGet);
+
+            }
+            else
+            {
+
+
+                var model = _db.Expenses.Where(d => d.date >= from && d.date <= to).ToList();
+                return Json(model, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
+
+
+
+        #region jquery fun
+
+
+
+        public JsonResult getExpenseName(int ExpensesType_ID)
+        {
+
+            var res = _db.ExpensesType.Where(id => id.ExpensesType_ID == ExpensesType_ID).FirstOrDefault();
+            return Json(res, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult getUserName(int User_ID)
+        {
+
+            var res = _db.Users.Where(id => id.Id == User_ID).FirstOrDefault();
+            return Json(res, JsonRequestBehavior.AllowGet);
+
+        }
+        #endregion
+
+
+        #endregion
+
+        #region Payments --secure
+
+
+            #region index
+
+            public ActionResult payments()
+            {
+                bool res = s.statistics();
+                if (res == true)
+                {
+                    var model = new PaymentsWithExten();
+                    model.PaymentX = _db.Payments.ToList();
+                    model.ClientsX = _db.Clients.ToList();
+                    model.Clients_TypeX = _db.Clients_Type.ToList();
+                    return View(model);
+                }
+                return RedirectToAction("HavntAccess", "Employee");
+
+
+            }
+            #endregion
+
+            #region search
+
+            public JsonResult Paymentsreport(DateTime from, DateTime to, string client)
+            {
+
+                if (client == "")
+                {
+                    var model = _db.Payments.Where(d => d.date >= from && d.date <= to).ToList();
+                    return Json(model, JsonRequestBehavior.AllowGet);
+
+          
+                }
+                else
+                {
+                    var model = _db.Payments.Where(d => d.date >= from && d.date <= to && d.client_id.ToString() == client).ToList();
+                    return Json(model, JsonRequestBehavior.AllowGet);
+
+                }
+
+            }
+            #endregion
+
+
+            #region Jquery fun
+
+
+            public JsonResult getclientName(int client_id)
+            {
+
+                var res = _db.Clients.Where(id => id.Client_ID == client_id).FirstOrDefault();
+                return Json(res, JsonRequestBehavior.AllowGet);
+
+            }
+            #endregion
+
+
+        #endregion
 
     }
 

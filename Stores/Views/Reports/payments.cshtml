@@ -1,25 +1,50 @@
-﻿@model  Stores.Models.CommonClasses.ExpensesWithExten
+﻿@model Stores.Models.CommonClasses.PaymentsWithExten
 
 @{
-    ViewBag.Title = "المصروفات";
+    ViewBag.Title = "الدفعات الماليه";
 }
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 
 <script>
 
+
+    // fill clients dropdownlist
+
+    $(document).ready(function () {
+        $("#ClientCat").change(function () {
+            var id = $(this);
+            $.ajax({
+
+                url: '/Reports/ClientCat?Clients_Type_id=' + id.val(),
+                contentType: "application/json;charset=utf-8",
+                dataType: "Json",
+                success: function (data) {
+                    $('#client').empty();
+
+                    $.each(data, function (index, value) {
+                        $('#client').append('<option value="' + value.Client_ID + '">' + value.name + '</option>');
+                    });
+                }
+
+            });
+        });
+    });
+
+
+
     $(document).ready(function () {
         $('#Getsearch').click(function () {
+
             var dateFrom = new Date($('#from').val());
             var from = dateFrom.toLocaleDateString();
             var dateTo = new Date($('#to').val());
             var to = dateTo.toLocaleDateString();
-            var ExpenesCat = $('#ExpenesCat').val();
-            var Client = $('#Client').val();
-
-            var url = "/Reports/GetsearchExpenses?from=" + from + "&to=" + to + "&Client=" + Client + "&ExpenesCat=" + ExpenesCat;
+            var client = $('#client').val();
+            var url = "/Reports/Paymentsreport?from=" + from + "&to=" + to + "&client=" + client;
 
             $.ajax({
+
                 url: url,
                 contentType: "application/json;charset=utf-8",
                 dataType: "Json",
@@ -28,16 +53,14 @@
 
                     for (var i = 0; i < data.length; i++) {
                         var SetData = $("#SetStudentList");
-                        var Data = "<tr class='row_" + data[i].Pro_id + "'>" +
 
-                            "<td>" + Comment(data[i].comment) + "</td>" +
+                        var Data = "<tr class='row_" + data[i].Payments_ID + "'>" +
+                            
+                            "<td>" +  data[i].date + "</td>" +
+                            "<td>" + data[i].Payment_amount + "</td>" +
+                            "<td>" + getclientName(data[i].client_id) + "</td>" +
 
-                            "<td>" + data[i].date + "</td>" +
-
-                            "<td>" + getExpenseName(data[i].ExpensesType_ID) + "</td>" +
-                            "<td>" + data[i].amount + "</td>" +
-
-                            "<td>" + getUserName(data[i].User_ID) + "</td>" +
+                             "<td>" + getUserName(data[i].user_id) + "</td>" +
 
                             "</tr>";
                         SetData.append(Data);
@@ -49,20 +72,11 @@
         });
     });
 
-    function Comment(comment) {
-        if (comment == null) {
-            return "لا يوجد وصف ";
-
-        } else {
-            return comment;
-        }
-
-    }
 
 
-    function getExpenseName(ExpensesType_ID) {
+    function getUserName(user_id) {
         var names;
-        var url = "/Reports/getExpenseName?ExpensesType_ID=" + ExpensesType_ID;
+        var url = "/Reports/getUserName?user_id=" + user_id;
 
         $.ajax({
             type: "GET",
@@ -76,11 +90,9 @@
         return names;
     }
 
-
-
-    function getUserName(User_ID) {
+    function getclientName(client_id) {
         var names;
-        var url = "/Reports/getUserName?User_ID=" + User_ID;
+        var url = "/Reports/getclientName?client_id=" + client_id;
 
         $.ajax({
             type: "GET",
@@ -93,8 +105,11 @@
         })
         return names;
     }
+ 
+
 
 </script>
+
 <center>
     <div class="SearchArea">
 
@@ -103,7 +118,7 @@
                 <thead>
                     <tr>
                         <th>
-                            اسم المستخدم
+                            اسم العميل
 
                         <th>
                             نوع
@@ -119,27 +134,24 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>
-                            <select name="Client" id="Client" class="form-control">
-                                <option value=""> - اختار المستخدم -</option>
 
+                        <td>
+                            <select name="client" id="client" class="form-control">
+                                <option value=""> - اختار الاسم -</option>
                                 @{
-                                    foreach (var item in Model.UsersX)
-                                    {
-                                        <option @item.Id> @item.name </option>
-                                    }
+
                                 }
+
                             </select>
                         </td>
 
                         <td>
-                            <select name="ClientCat" id="ExpenesCat" class="form-control">
+                            <select name="ClientCat" id="ClientCat" class="form-control">
                                 <option value=""> - اختار نوع -</option>
-
                                 @{
-                                    foreach (var item in Model.ExpensesTypeX)
+                                    foreach (var item in Model.Clients_TypeX)
                                     {
-                                        <option @item.ExpensesType_ID> @item.name </option>
+                                        <option @item.Clients_Type_id> @item.name </option>
                                     }
                                 }
                             </select>
@@ -170,25 +182,23 @@
     <tr class="table-heading " style="background-color:#40BCBA">
 
 
-        <th>
-            الوصف
-        </th>
+
         <th>
             التاريخ
         </th>
         <th>
-            النوع
+            المبلغ
         </th>
         <th>
-            القيمه
+            العميل
         </th>
         <th>
-            اسم المستخدم
+            المستخدم
         </th>
-    </tr>
-
+     </tr>
     <tbody id="SetStudentList">
         <tr id="LoadingStatus" style="color:red"></tr>
     </tbody>
+
 
 </table>

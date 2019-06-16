@@ -433,6 +433,7 @@
     <Content Include="Views\Reports\Products.cshtml" />
     <Content Include="Views\Reports\clients.cshtml" />
     <Content Include="Views\Reports\Expenses.cshtml" />
+    <Content Include="Views\Reports\payments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
