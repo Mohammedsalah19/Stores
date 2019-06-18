@@ -1,8 +1,10 @@
-﻿using Stores.Models;
+﻿using CrystalDecisions.CrystalReports.Engine;
+using Stores.Models;
 using Stores.Models.CommonClasses;
 using Stores.Models.DAL;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -182,7 +184,7 @@ namespace Stores.Controllers
 
             var BillCatID = _db.BillsCategory.Where(p => p.name == BillCat).Select(f => f.BillCate_ID).FirstOrDefault();
 
-            if (BillCatID != null)
+            if (BillCatID != 0)
             {
                 var model = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Cate_Id == BillCatID).ToList();
 
@@ -191,7 +193,6 @@ namespace Stores.Controllers
 
                 List<Products> list2 = new List<Products>();
 
-                IEnumerable<BillsContent> s;
                 foreach (var item in model)
                 {
 
@@ -252,7 +253,6 @@ namespace Stores.Controllers
 
                     }
                 }
-                //    var res = _db.Products.Where(p=>p.Pro_id==)
                 return Json(list2, JsonRequestBehavior.AllowGet);
             }
 
@@ -428,6 +428,8 @@ namespace Stores.Controllers
 
         #endregion
 
+
+
         #region expenses -- secure
 
 
@@ -520,65 +522,112 @@ namespace Stores.Controllers
 
         #endregion
 
+
+
         #region Payments --secure
 
 
-            #region index
+        #region index
 
-            public ActionResult payments()
+        public ActionResult payments()
+        {
+            bool res = s.statistics();
+            if (res == true)
             {
-                bool res = s.statistics();
-                if (res == true)
-                {
-                    var model = new PaymentsWithExten();
-                    model.PaymentX = _db.Payments.ToList();
-                    model.ClientsX = _db.Clients.ToList();
-                    model.Clients_TypeX = _db.Clients_Type.ToList();
-                    return View(model);
-                }
-                return RedirectToAction("HavntAccess", "Employee");
+                var model = new PaymentsWithExten();
+                model.PaymentX = _db.Payments.ToList();
+                model.ClientsX = _db.Clients.ToList();
+                model.Clients_TypeX = _db.Clients_Type.ToList();
+                return View(model);
+            }
+            return RedirectToAction("HavntAccess", "Employee");
+
+
+        }
+        #endregion
+
+        #region search
+
+        public JsonResult Paymentsreport(DateTime from, DateTime to, string client)
+        {
+
+            if (client == "")
+            {
+                var model = _db.Payments.Where(d => d.date >= from && d.date <= to).ToList();
+                return Json(model, JsonRequestBehavior.AllowGet);
 
 
             }
-            #endregion
-
-            #region search
-
-            public JsonResult Paymentsreport(DateTime from, DateTime to, string client)
+            else
             {
-
-                if (client == "")
-                {
-                    var model = _db.Payments.Where(d => d.date >= from && d.date <= to).ToList();
-                    return Json(model, JsonRequestBehavior.AllowGet);
-
-          
-                }
-                else
-                {
-                    var model = _db.Payments.Where(d => d.date >= from && d.date <= to && d.client_id.ToString() == client).ToList();
-                    return Json(model, JsonRequestBehavior.AllowGet);
-
-                }
+                var model = _db.Payments.Where(d => d.date >= from && d.date <= to && d.client_id.ToString() == client).ToList();
+                return Json(model, JsonRequestBehavior.AllowGet);
 
             }
-            #endregion
+
+        }
+        #endregion
 
 
-            #region Jquery fun
+        #region Jquery fun
 
 
-            public JsonResult getclientName(int client_id)
-            {
+        public JsonResult getclientName(int client_id)
+        {
 
-                var res = _db.Clients.Where(id => id.Client_ID == client_id).FirstOrDefault();
-                return Json(res, JsonRequestBehavior.AllowGet);
+            var res = _db.Clients.Where(id => id.Client_ID == client_id).FirstOrDefault();
+            return Json(res, JsonRequestBehavior.AllowGet);
 
-            }
-            #endregion
+        }
+        #endregion
 
 
         #endregion
+
+
+
+        public ActionResult BillsReort()
+        {
+
+            ReportDocument rd = new ReportDocument();
+ 
+            rd.Load(Path.Combine(Server.MapPath("~/Report/BillReport.rpt")));
+
+            //rd.SetDataSource(_db.Bills.Select(p => new
+            //{
+            //    id = p.Id,
+            //    UserName1 = _db.Users.Where(f => f.Id == p.User_ID).Select(f => f.name).FirstOrDefault(),
+            //    ClientName = _db.Clients.Where(f => f.Client_ID == p.Client_ID).Select(f => f.name).FirstOrDefault(),
+            //    date = p.date,
+            //    BillCate_ID = _db.BillsCategory.Where(f => f.BillCate_ID == p.Cate_Id).Select(f => f.name).FirstOrDefault(),
+            //    price = p.price,
+            //    discount = p.discount,
+            //    cost = p.cost,
+            //    phone =p.price - p.cost,
+
+            //}).ToList());
+
+
+
+            rd.SetDataSource(_db.Bills.Select(p => new
+            {
+                 
+                Comment = _db.BillsCategory.Where(d=>d.BillCate_ID==p.Cate_Id).Select(f=>f.name).FirstOrDefault(),
+                price = _db.Bills.Select(f=>f.price).Sum(),
+                cost = _db.Bills.Select(f=>f.cost).Sum(),
+                discount = _db.Bills.Select(f=>f.discount).Sum(),
+                PicPath = p.price - p.cost,
+
+            }).ToList());
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+            Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            stream.Seek(0, SeekOrigin.Begin);
+            return File(stream, "aaplication/pdf", "سجل الفواتير.pdf");
+
+         }
+
 
     }
 

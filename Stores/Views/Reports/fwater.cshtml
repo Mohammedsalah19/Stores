@@ -211,7 +211,8 @@
             <br />
             <center>
                 <input type="submit" value="بحث" class="btn btn-info" id="Getsearch" />
-
+                @Html.ActionLink("BillsReort", "BillsReort", "Reports")
+ 
             </center>
         </fieldset>
 
@@ -259,59 +260,6 @@
         <tr id="LoadingStatus" style="color:red"></tr>
     </tbody>
 
-    @*@foreach (var item in Model.billsX)
-        {
-            <tr>
-                <td>
-                    @{ <p>
-                            @Html.DisplayFor(modelItem => item.cost)
-                            -@Html.DisplayFor(modelItem => item.price)
-                        </p>
-                    }
-                </td>
-
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.price)
-                </td>
-
-
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.discount)
-                </td>
-                <td>
-
-                    @Html.DisplayFor(modelItem => item.cost)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.date)
-                </td>
-                <td>
-                    @foreach (var items in Model.BillcateX.Where(d => d.BillCate_ID == item.Cate_Id))
-                    {
-                        @items.name
-                    }
-                </td>
-                <td>
-                    @foreach (var items in Model.ClientsX.Where(d => d.Client_ID == item.Client_ID))
-                    {
-                        @items.name
-                    }
-                </td>
-
-                <td>
-                    @foreach (var items in Model.UserX.Where(d => d.Id == item.User_ID))
-                    {
-                        @items.name
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-
-
-                </td>
-            </tr>
-        }*@
+ 
 
 </table>
