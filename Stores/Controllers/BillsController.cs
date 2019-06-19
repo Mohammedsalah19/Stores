@@ -433,7 +433,7 @@ namespace Stores.Controllers
 
                 decimal price = 0;
                 decimal cost = 0;
-                var model = _db.BillsContent.Where(s => s.Bill_ID == lastIDInBIlls.Id).ToList();
+                var model = _db.BillsContent.Where(s => s.Bill_ID == lastIDInBIlls.Id&&s.IsDeleted==false).ToList();
 
                 foreach (var item in model)
                 {
@@ -474,31 +474,11 @@ namespace Stores.Controllers
                 //print
 
                 ReportDocument rd = new ReportDocument();
-
-                //rd.Load(Path.Combine(Server.MapPath("~/Report/BillPruches.rpt")));
-                //// var BillWillPrint = _db.Bills.Where(id=>id.Id == lastIDInBIlls.Id).FirstOrDefault();
-                //rd.SetDataSource(_db.Bills.Where(d=>d.Id==lastIDInBIlls.Id).Select(p => new
-                //{
-
-                //    id = p.Id,
-                //    User_ID = _db.Users.Where(f => f.Id == p.User_ID).Select(f => f.name).FirstOrDefault(),
-                //    Client_ID = _db.Clients.Where(f => f.Client_ID == p.Client_ID).Select(f => f.name).FirstOrDefault(),
-                //    phone = _db.Clients.Where(f => f.Client_ID == p.Client_ID).Select(f => f.phone).FirstOrDefault(),
-                //    date = p.date,
-                //    Discount = p.discount,
-                //    Price = _db.BillsContent.Where(),
-                //    cost = p.cost,
-
-                //   Product_ID =_db.BillsContent.Where(d=>d.Bill_ID == p.Id).Select(f=>f.Product_ID).ToList(),
-
-
-                //}).ToList());
+ 
 
                 rd.Load(Path.Combine(Server.MapPath("~/Report/BillPruches.rpt")));
-                // var BillWillPrint = _db.Bills.Where(id=>id.Id == lastIDInBIlls.Id).FirstOrDefault();
-                rd.SetDataSource(_db.BillsContent.Where(d => d.Bill_ID == lastIDInBIlls.Id).Select(p => new
+                 rd.SetDataSource(_db.BillsContent.Where(d => d.Bill_ID == lastIDInBIlls.Id && d.IsDeleted == false).Select(p => new
                 {
-
                     id = p.Bill_ID,
 
                     User_ID = _db.Users.Where(f => f.Id == _db.Bills.Where(d=>d.Id==lastIDInBIlls.Id).Select(ff=>ff.User_ID).FirstOrDefault()).Select(f => f.name).FirstOrDefault(),
@@ -526,7 +506,7 @@ namespace Stores.Controllers
                 return File(stream, "aaplication/pdf", "فاتوره بيع.pdf");
 
 
-                return RedirectToAction("Purchases");
+               // return RedirectToAction("Purchases");
             }
 
             return RedirectToAction("HavntAccess", "Employee");
@@ -747,7 +727,7 @@ namespace Stores.Controllers
 
                 decimal price = 0;
                 decimal cost = 0;
-                var model = _db.BillsContent.Where(s => s.Bill_ID == lastIDInBIlls.Id).ToList();
+                var model = _db.BillsContent.Where(s => s.Bill_ID == lastIDInBIlls.Id && s.IsDeleted == false).ToList();
 
 
                 foreach (var item in model)
@@ -783,8 +763,49 @@ namespace Stores.Controllers
 
                 Session["flag"] = "true";
 
-                return RedirectToAction("BuyBill");
+
+                //print
+ 
+                ReportDocument rd = new ReportDocument();
+
+
+                rd.Load(Path.Combine(Server.MapPath("~/Report/BuyBill.rpt")));
+                rd.SetDataSource(_db.BillsContent.Where(d => d.Bill_ID == lastIDInBIlls.Id&&d.IsDeleted==false).Select(p => new
+                {
+                    id = p.Bill_ID,
+
+                    UserID = _db.Users.Where(f => f.Id == _db.Bills.Where(d => d.Id == lastIDInBIlls.Id).Select(ff => ff.User_ID).FirstOrDefault()).Select(f => f.name).FirstOrDefault(),
+                    Client_ID = _db.Clients.Where(f => f.Client_ID == _db.Bills.Where(d => d.Id == lastIDInBIlls.Id).Select(ff => ff.Client_ID).FirstOrDefault()).Select(f => f.name).FirstOrDefault(),
+                    phone = _db.Clients.Where(f => f.Client_ID == _db.Bills.Where(d => d.Id == lastIDInBIlls.Id).Select(ff => ff.Client_ID).FirstOrDefault()).Select(f => f.phone).FirstOrDefault(),
+                    date = _db.Bills.Where(f => f.Id == lastIDInBIlls.Id).Select(ff => ff.date).FirstOrDefault(),
+
+                    Discount = _db.Bills.Where(f => f.Id == lastIDInBIlls.Id).Select(ff => ff.discount).FirstOrDefault(),
+                    Expr19 = _db.Bills.Where(f => f.Id == lastIDInBIlls.Id).Select(ff => ff.price).FirstOrDefault(),
+                    Expr14 = _db.Bills.Where(f => f.Id == lastIDInBIlls.Id).Select(ff => ff.price).FirstOrDefault() - _db.Bills.Where(f => f.Id == lastIDInBIlls.Id).Select(ff => ff.discount).FirstOrDefault(),
+
+                    Price = p.Price,
+                    Quantity = p.Quantity,
+
+                    Pro_ID = _db.Products.Where(d => d.Pro_id == p.Product_ID).Select(f => f.name).FirstOrDefault(),
+
+
+                }).ToList());
+
+                Response.Buffer = false;
+                Response.ClearContent();
+                Response.ClearHeaders();
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "aaplication/pdf", "فاتوره بيع.pdf");
+
+
+                // return RedirectToAction("Purchases");
             }
+
+
+
+            //    return RedirectToAction("BuyBill");
+ 
 
             return RedirectToAction("HavntAccess", "Employee");
 

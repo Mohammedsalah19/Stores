@@ -338,6 +338,18 @@
       <DependentUpon>BillReport.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Report\billStatistics.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>billStatistics.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\BuyBill.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BuyBill.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Report\FwaterReport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -605,6 +617,14 @@
     <EmbeddedResource Include="Report\BillReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BillReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\billStatistics.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>billStatistics.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\BuyBill.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BuyBill.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FwaterReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
