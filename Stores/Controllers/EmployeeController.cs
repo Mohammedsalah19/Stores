@@ -55,14 +55,14 @@ namespace Stores.Controllers
         public ActionResult Login(Users _users)
         {
 
-            var model = _db.Users.Where(p => p.username == _users.username && p.Password == _users.Password).FirstOrDefault();
+            var model = _db.Users.Where(p => p.username == _users.username && p.Password == _users.Password && p.active==true).FirstOrDefault();
             if (model != null)
             {
                 Session["userName"] = model.username;
                 Session["userID"] = model.Id;
                 Session["flag"] = "true";
 
-
+                Session.Timeout = 24;
                 return RedirectToAction("Index", "Home");
             }
             Session["userName"] = null;

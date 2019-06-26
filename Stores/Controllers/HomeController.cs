@@ -20,9 +20,8 @@ namespace Stores.Controllers
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult PlaceInfo()
         {
-            ViewBag.Message = "Your contact page.";
 
             return View();
         }

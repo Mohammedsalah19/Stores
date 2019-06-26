@@ -153,6 +153,30 @@
         })
         return names;
     }
+
+
+
+    function GoPrint() {
+        var names;
+        var dateFrom = new Date($('#from').val());
+        var from = dateFrom.toLocaleDateString();
+        var dateTo = new Date($('#to').val());
+        var to = dateTo.toLocaleDateString();
+        var BillCat = $('#BillCate_ID').val();
+ 
+        var url = "/Reports/ProductReort?from=" + from + "&to=" + to + "&BillCat=" + BillCat;
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                names = data;
+
+            }
+        })
+        return names;
+    }
 </script>
 
 <center>
@@ -205,6 +229,8 @@
             <br />
             <center>
                 <input type="submit" value="بحث" class="btn btn-info" id="Getsearch" />
+                <input type="submit" value="طباعه" class="btn btn-info" id="GoPrint" onclick="GoPrint()" />
+
 
             </center>
         </fieldset>

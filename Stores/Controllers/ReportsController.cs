@@ -585,12 +585,13 @@ namespace Stores.Controllers
         #endregion
 
 
+        #region print bills
 
         public ActionResult BillsReort(DateTime from, DateTime to, string BillCat, string clientName, string UserName)
         {
 
             ReportDocument rd = new ReportDocument();
- 
+
             rd.Load(Path.Combine(Server.MapPath("~/Report/billStatistics.rpt")));
             Stream stream;
 
@@ -604,7 +605,7 @@ namespace Stores.Controllers
                 var modelBillcat = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Cate_Id == BillCatID && d.User_ID == UserNameID && d.Client_ID == clientNameID).ToList();
                 rd.SetDataSource(modelBillcat.Select(p => new
                 {
-                    id= p.Id,
+                    id = p.Id,
                     Password = from,
                     phone = to,
                     Cate_Id = _db.BillsCategory.Where(d => d.BillCate_ID == BillCatID).Select(f => f.name).FirstOrDefault(),
@@ -613,7 +614,7 @@ namespace Stores.Controllers
                     cost = modelBillcat.Select(f => f.cost).Sum(),
                     discount = modelBillcat.Select(f => f.discount).Sum(),
                     name = modelBillcat.Select(f => f.price).Sum() - modelBillcat.Select(f => f.discount).Sum(),
-                    national_id = (modelBillcat.Select(f => f.price).Sum() - modelBillcat.Select(f => f.discount).Sum())- modelBillcat.Select(f => f.cost).Sum(),
+                    national_id = (modelBillcat.Select(f => f.price).Sum() - modelBillcat.Select(f => f.discount).Sum()) - modelBillcat.Select(f => f.cost).Sum(),
 
                     User_ID = _db.Users.Where(d => d.Id == p.User_ID).First(),
                     Client_ID = _db.Clients.Where(d => d.Client_ID == p.Client_ID).First(),
@@ -623,7 +624,7 @@ namespace Stores.Controllers
                 Response.Buffer = false;
                 Response.ClearContent();
                 Response.ClearHeaders();
-                  stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
                 return File(stream, "aaplication/pdf", "سجل الفواتير.pdf");
             }
@@ -811,14 +812,14 @@ namespace Stores.Controllers
 
 
             var model = _db.Bills.Where(d => d.date >= from && d.date <= to).ToList();
- 
+
             rd.SetDataSource(model.Select(p => new
             {
 
                 id = p.Id,
                 Password = from,
                 phone = to,
-                Cate_Id = _db.BillsCategory.Where(d => d.BillCate_ID == BillCatID).Select(f=>f.name).FirstOrDefault(),
+                Cate_Id = _db.BillsCategory.Where(d => d.BillCate_ID == BillCatID).Select(f => f.name).FirstOrDefault(),
 
                 price = model.Select(f => f.price).Sum(),
                 cost = model.Select(f => f.cost).Sum(),
@@ -834,12 +835,272 @@ namespace Stores.Controllers
             Response.Buffer = false;
             Response.ClearContent();
             Response.ClearHeaders();
-              stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             stream.Seek(0, SeekOrigin.Begin);
             return File(stream, "aaplication/pdf", "سجل الفواتير.pdf");
 
-         }
+        }
 
+        #endregion
+
+
+        #region  Product report Not compelete
+
+
+
+        public ActionResult ProductReort(DateTime from, DateTime to, string BillCat)
+        {
+
+            ReportDocument rd = new ReportDocument();
+
+            rd.Load(Path.Combine(Server.MapPath("~/Report/ProductReport.rpt.rpt")));
+            Stream stream;
+
+
+            var BillCatID = _db.BillsCategory.Where(p => p.name == BillCat).Select(f => f.BillCate_ID).FirstOrDefault();
+
+            if (BillCatID != 0)
+            {
+                var model = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Cate_Id == BillCatID).ToList();
+
+        
+ 
+                rd.SetDataSource(model.Select(p => new
+                {
+
+                    Expr2 = from,
+                    Expr1 = to,
+                    Cate_ID = BillCat,
+                    Pro_ID = _db.Products.Where(d => d.Pro_id == BillCatID).Select(f => f.name).FirstOrDefault(),
+
+                    price = model.Select(f => f.price).Sum(),
+                    cost = model.Select(f => f.cost).Sum(),
+                    discount = model.Select(f => f.discount).Sum(),
+                    name = model.Select(f => f.price).Sum() - model.Select(f => f.discount).Sum(),
+                    national_id = (model.Select(f => f.price).Sum() - model.Select(f => f.discount).Sum()) - model.Select(f => f.cost).Sum(),
+
+                    User_ID = _db.Users.Where(d => d.Id == p.User_ID).First(),
+                    Client_ID = _db.Clients.Where(d => d.Client_ID == p.Client_ID).First(),
+                    Comment = _db.BillsCategory.Where(d => d.BillCate_ID == p.Cate_Id).Select(f => f.name).FirstOrDefault(),
+
+                }).ToList());
+                Response.Buffer = false;
+                Response.ClearContent();
+                Response.ClearHeaders();
+                stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "aaplication/pdf", "سجل الفواتير.pdf");
+
+            }
+            return View();
+        }
+        #endregion
+
+        #region Print customer --compelted
+
+
+        public ActionResult ClientStatistic(DateTime from, DateTime to, int client)
+        {
+
+            ReportDocument rd = new ReportDocument();
+
+            rd.Load(Path.Combine(Server.MapPath("~/Report/ClientReportrpt.rpt")));
+            Stream stream;
+
+            List<string> list = new List<string>();
+
+            var modelClient = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Client_ID == client).ToList();
+
+            rd.SetDataSource(modelClient.Select(p => new
+            {
+                nationalID = from,
+                Comment = to,
+  
+                name = _db.Clients.Where(d => d.Client_ID == client).Select(f => f.name).FirstOrDefault(),
+ 
+                 minimum_bills = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Client_ID == client).Count(),
+                Price = modelClient.Select(f => f.price).Sum(),
+                Payment_amount = _db.Payments.Where(f=>f.client_id == client&&   f.date >= from && f.date <= to).Select(f=>f.Payment_amount).Sum(),
+                phone = modelClient.Where(f => f.Client_ID == client && f.date >= from && f.date <= to).Select(f => f.price).Sum() - _db.Payments.Where(f => f.client_id == client && f.date >= from && f.date <= to).Select(f => f.Payment_amount).Sum(),
+ 
+            }).ToList());
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+            stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            stream.Seek(0, SeekOrigin.Begin);
+            return File(stream, "aaplication/pdf", "سجل العملاء .pdf");
+        }
+        #endregion
+
+
+        #region ExpensesReport --compelted
+
+
+        public ActionResult ExpensesReport(DateTime from, DateTime to, string ExpenesCat, string Client)
+        {
+ 
+
+            ReportDocument rd = new ReportDocument();
+
+            rd.Load(Path.Combine(Server.MapPath("~/Report/ExpensesReport.rpt")));
+            Stream stream;
+
+            var usrId = _db.Users.Where(d => d.name == Client).Select(f => f.Id).FirstOrDefault();
+            var CateExpId = _db.ExpensesType.Where(d => d.name == ExpenesCat).Select(f => f.ExpensesType_ID).FirstOrDefault();
+
+            if (CateExpId != 0 && usrId != 0)
+            {
+                var model = _db.Expenses.Where(d => d.date >= from && d.date <= to && d.ExpensesType_ID == CateExpId && d.User_ID == usrId).ToList();
+                rd.SetDataSource(model.Select(p => new
+                {
+                     Password = from,
+                    phone = to,
+                    TypeID =_db.ExpensesType.Where(f=>f.ExpensesType_ID==p.ExpensesType_ID).Select(f=>f.name).FirstOrDefault(),
+                    comment = p.comment,
+                    //amount = model.Select(f => f.amount).Sum(),
+                    amount =p.amount,
+                    username=_db.Users.Where(f=>f.Id ==p.User_ID).Select(f=>f.name).FirstOrDefault(),
+                    
+
+                }).ToList());
+                Response.Buffer = false;
+                Response.ClearContent();
+                Response.ClearHeaders();
+                stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "aaplication/pdf", "سجل المصروفات.pdf");
+            }
+            if (CateExpId != 0 && usrId == 0)
+            {
+                var model = _db.Expenses.Where(d => d.date >= from && d.date <= to && d.ExpensesType_ID == CateExpId).ToList();
+                rd.SetDataSource(model.Select(p => new
+                {
+                    Password = from,
+                    phone = to,
+                    TypeID = _db.ExpensesType.Where(f => f.ExpensesType_ID == p.ExpensesType_ID).Select(f => f.name).FirstOrDefault(),
+                    comment = p.comment,
+                    //amount = model.Select(f => f.amount).Sum(),
+                    amount = p.amount,
+                    username = _db.Users.Where(f => f.Id == p.User_ID).Select(f => f.name).FirstOrDefault(),
+
+
+                }).ToList());
+                Response.Buffer = false;
+                Response.ClearContent();
+                Response.ClearHeaders();
+                stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "aaplication/pdf", "سجل المصروفات.pdf");
+            }
+            if (CateExpId == 0 && usrId != 0)
+            {
+                var model = _db.Expenses.Where(d => d.date >= from && d.date <= to && d.User_ID == usrId).ToList();
+                rd.SetDataSource(model.Select(p => new
+                {
+                    Password = from,
+                    phone = to,
+                    TypeID = _db.ExpensesType.Where(f => f.ExpensesType_ID == p.ExpensesType_ID).Select(f => f.name).FirstOrDefault(),
+                    comment = p.comment,
+                    //amount = model.Select(f => f.amount).Sum(),
+                    amount = p.amount,
+                    username = _db.Users.Where(f => f.Id == p.User_ID).Select(f => f.name).FirstOrDefault(),
+
+
+                }).ToList());
+                Response.Buffer = false;
+                Response.ClearContent();
+                Response.ClearHeaders();
+                stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "aaplication/pdf", "سجل المصروفات.pdf");
+            }
+            else
+            {
+
+
+                var model = _db.Expenses.Where(d => d.date >= from && d.date <= to).ToList();
+                rd.SetDataSource(model.Select(p => new
+                {
+                    Password = from,
+                    phone = to,
+                    TypeID = _db.ExpensesType.Where(f => f.ExpensesType_ID == p.ExpensesType_ID).Select(f => f.name).FirstOrDefault(),
+                    comment = p.comment,
+                    //amount = model.Select(f => f.amount).Sum(),
+                    amount = p.amount,
+                    username = _db.Users.Where(f => f.Id == p.User_ID).Select(f => f.name).FirstOrDefault(),
+
+
+                }).ToList());
+                Response.Buffer = false;
+                Response.ClearContent();
+                Response.ClearHeaders();
+                stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "aaplication/pdf", "سجل المصروفات.pdf");
+            }
+        }
+        #endregion
+
+        #region PaymentStaticstic --Compelted
+
+        public ActionResult PaymentStaticstic (DateTime from, DateTime to, string client)
+        {
+
+
+            ReportDocument rd = new ReportDocument();
+
+            rd.Load(Path.Combine(Server.MapPath("~/Report/PaymentsReport.rpt")));
+            Stream stream;
+
+            if (client == "")
+            {
+                var model = _db.Payments.Where(d => d.date >= from && d.date <= to).ToList();
+                rd.SetDataSource(model.Select(p => new
+                {
+                     Payments_ID = from,
+                    fatoraID = to,
+                    phone = to,
+                    username  =_db.Clients.Where(a=>a.Client_ID==p.client_id).Select(f=>f.name).FirstOrDefault(),
+                    name = _db.Users.Where(a=>a.Id==p.user_id).Select(f=>f.name).FirstOrDefault(),
+                    Payment_amount = p.Payment_amount,
+                    date = p.date,
+                   
+
+                }).ToList());
+                Response.Buffer = false;
+                Response.ClearContent();
+                Response.ClearHeaders();
+                stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "aaplication/pdf", "سجل الدفعات الماليه.pdf");
+
+            }
+            else
+            {
+                var model = _db.Payments.Where(d => d.date >= from && d.date <= to && d.client_id.ToString() == client).ToList();
+                rd.SetDataSource(model.Select(p => new
+                {
+                    Payments_ID = from,
+                    fatoraID = to,
+                    phone = to,
+                    username     = _db.Clients.Where(a => a.Client_ID == p.client_id).Select(f => f.name).FirstOrDefault(),
+                   name  = _db.Users.Where(a => a.Id == p.user_id).Select(f => f.name).FirstOrDefault(),
+                    Payment_amount = p.Payment_amount,
+                    date = p.date,
+
+
+                }).ToList());
+                Response.Buffer = false;
+                Response.ClearContent();
+                Response.ClearHeaders();
+                stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "aaplication/pdf", "سجل الدفعات الماليه.pdf");
+
+            }
+        }
+        #endregion
 
     }
 
