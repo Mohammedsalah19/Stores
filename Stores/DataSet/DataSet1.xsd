@@ -262,6 +262,33 @@ FROM            Payments INNER JOIN
             </Mappings>
             <Sources />
           </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="PaymentReportTableAdapter" GeneratorDataComponentClassName="PaymentReportTableAdapter" Name="PaymentReport" UserDataComponentName="PaymentReportTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="DBStore (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        Users.Id, Payments.*, Users.active, Users.phone, Users.PicPath
+FROM            Payments INNER JOIN
+                         Users ON Payments.user_id = Users.Id</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Id" DataSetColumn="Id" />
+              <Mapping SourceColumn="Payments_ID" DataSetColumn="Payments_ID" />
+              <Mapping SourceColumn="Payment_amount" DataSetColumn="Payment_amount" />
+              <Mapping SourceColumn="date" DataSetColumn="date" />
+              <Mapping SourceColumn="user_id" DataSetColumn="user_id" />
+              <Mapping SourceColumn="client_id" DataSetColumn="client_id" />
+              <Mapping SourceColumn="fatoraID" DataSetColumn="fatoraID" />
+              <Mapping SourceColumn="active" DataSetColumn="active" />
+              <Mapping SourceColumn="phone" DataSetColumn="phone" />
+              <Mapping SourceColumn="PicPath" DataSetColumn="PicPath" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
         </Tables>
         <Sources />
       </DataSource>
@@ -270,7 +297,7 @@ FROM            Payments INNER JOIN
   <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet1" msprop:Generator_UserDSName="DataSet1">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="Bill" msprop:Generator_TableClassName="BillDataTable" msprop:Generator_TableVarName="tableBill" msprop:Generator_RowChangedName="BillRowChanged" msprop:Generator_TablePropName="Bill" msprop:Generator_RowDeletingName="BillRowDeleting" msprop:Generator_RowChangingName="BillRowChanging" msprop:Generator_RowEvHandlerName="BillRowChangeEventHandler" msprop:Generator_RowDeletedName="BillRowDeleted" msprop:Generator_RowClassName="BillRow" msprop:Generator_UserTableName="Bill" msprop:Generator_RowEvArgName="BillRowChangeEvent">
+        <xs:element name="Bill" msprop:Generator_TableClassName="BillDataTable" msprop:Generator_TableVarName="tableBill" msprop:Generator_TablePropName="Bill" msprop:Generator_RowDeletingName="BillRowDeleting" msprop:Generator_RowChangingName="BillRowChanging" msprop:Generator_RowEvHandlerName="BillRowChangeEventHandler" msprop:Generator_RowDeletedName="BillRowDeleted" msprop:Generator_UserTableName="Bill" msprop:Generator_RowChangedName="BillRowChanged" msprop:Generator_RowEvArgName="BillRowChangeEvent" msprop:Generator_RowClassName="BillRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Id" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:int" />
@@ -404,7 +431,7 @@ FROM            Payments INNER JOIN
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="BillPruchsaes" msprop:Generator_TableClassName="BillPruchsaesDataTable" msprop:Generator_TableVarName="tableBillPruchsaes" msprop:Generator_TablePropName="BillPruchsaes" msprop:Generator_RowDeletingName="BillPruchsaesRowDeleting" msprop:Generator_RowChangingName="BillPruchsaesRowChanging" msprop:Generator_RowEvHandlerName="BillPruchsaesRowChangeEventHandler" msprop:Generator_RowDeletedName="BillPruchsaesRowDeleted" msprop:Generator_UserTableName="BillPruchsaes" msprop:Generator_RowChangedName="BillPruchsaesRowChanged" msprop:Generator_RowEvArgName="BillPruchsaesRowChangeEvent" msprop:Generator_RowClassName="BillPruchsaesRow">
+        <xs:element name="BillPruchsaes" msprop:Generator_TableClassName="BillPruchsaesDataTable" msprop:Generator_TableVarName="tableBillPruchsaes" msprop:Generator_RowChangedName="BillPruchsaesRowChanged" msprop:Generator_TablePropName="BillPruchsaes" msprop:Generator_RowDeletingName="BillPruchsaesRowDeleting" msprop:Generator_RowChangingName="BillPruchsaesRowChanging" msprop:Generator_RowEvHandlerName="BillPruchsaesRowChangeEventHandler" msprop:Generator_RowDeletedName="BillPruchsaesRowDeleted" msprop:Generator_RowClassName="BillPruchsaesRow" msprop:Generator_UserTableName="BillPruchsaes" msprop:Generator_RowEvArgName="BillPruchsaesRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Prd_Pri_ID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnPrd_Pri_ID" msprop:Generator_ColumnPropNameInRow="Prd_Pri_ID" msprop:Generator_ColumnPropNameInTable="Prd_Pri_IDColumn" msprop:Generator_UserColumnName="Prd_Pri_ID" type="xs:int" />
@@ -565,7 +592,7 @@ FROM            Payments INNER JOIN
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="ProductReport" msprop:Generator_TableClassName="ProductReportDataTable" msprop:Generator_TableVarName="tableProductReport" msprop:Generator_RowChangedName="ProductReportRowChanged" msprop:Generator_TablePropName="ProductReport" msprop:Generator_RowDeletingName="ProductReportRowDeleting" msprop:Generator_RowChangingName="ProductReportRowChanging" msprop:Generator_RowEvHandlerName="ProductReportRowChangeEventHandler" msprop:Generator_RowDeletedName="ProductReportRowDeleted" msprop:Generator_RowClassName="ProductReportRow" msprop:Generator_UserTableName="ProductReport" msprop:Generator_RowEvArgName="ProductReportRowChangeEvent">
+        <xs:element name="ProductReport" msprop:Generator_TableClassName="ProductReportDataTable" msprop:Generator_TableVarName="tableProductReport" msprop:Generator_TablePropName="ProductReport" msprop:Generator_RowDeletingName="ProductReportRowDeleting" msprop:Generator_RowChangingName="ProductReportRowChanging" msprop:Generator_RowEvHandlerName="ProductReportRowChangeEventHandler" msprop:Generator_RowDeletedName="ProductReportRowDeleted" msprop:Generator_UserTableName="ProductReport" msprop:Generator_RowChangedName="ProductReportRowChanged" msprop:Generator_RowEvArgName="ProductReportRowChangeEvent" msprop:Generator_RowClassName="ProductReportRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Expr2" msprop:Generator_ColumnVarNameInTable="columnExpr2" msprop:Generator_ColumnPropNameInRow="Expr2" msprop:Generator_ColumnPropNameInTable="Expr2Column" msprop:Generator_UserColumnName="Expr2" type="xs:int" />
@@ -601,7 +628,7 @@ FROM            Payments INNER JOIN
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="ClientReport" msprop:Generator_TableClassName="ClientReportDataTable" msprop:Generator_TableVarName="tableClientReport" msprop:Generator_RowChangedName="ClientReportRowChanged" msprop:Generator_TablePropName="ClientReport" msprop:Generator_RowDeletingName="ClientReportRowDeleting" msprop:Generator_RowChangingName="ClientReportRowChanging" msprop:Generator_RowEvHandlerName="ClientReportRowChangeEventHandler" msprop:Generator_RowDeletedName="ClientReportRowDeleted" msprop:Generator_RowClassName="ClientReportRow" msprop:Generator_UserTableName="ClientReport" msprop:Generator_RowEvArgName="ClientReportRowChangeEvent">
+        <xs:element name="ClientReport" msprop:Generator_TableClassName="ClientReportDataTable" msprop:Generator_TableVarName="tableClientReport" msprop:Generator_TablePropName="ClientReport" msprop:Generator_RowDeletingName="ClientReportRowDeleting" msprop:Generator_RowChangingName="ClientReportRowChanging" msprop:Generator_RowEvHandlerName="ClientReportRowChangeEventHandler" msprop:Generator_RowDeletedName="ClientReportRowDeleted" msprop:Generator_UserTableName="ClientReport" msprop:Generator_RowChangedName="ClientReportRowChanged" msprop:Generator_RowEvArgName="ClientReportRowChangeEvent" msprop:Generator_RowClassName="ClientReportRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Payment_amount" msprop:Generator_ColumnVarNameInTable="columnPayment_amount" msprop:Generator_ColumnPropNameInRow="Payment_amount" msprop:Generator_ColumnPropNameInTable="Payment_amountColumn" msprop:Generator_UserColumnName="Payment_amount" type="xs:decimal" />
@@ -648,7 +675,7 @@ FROM            Payments INNER JOIN
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Expenses" msprop:Generator_TableClassName="ExpensesDataTable" msprop:Generator_TableVarName="tableExpenses" msprop:Generator_TablePropName="Expenses" msprop:Generator_RowDeletingName="ExpensesRowDeleting" msprop:Generator_RowChangingName="ExpensesRowChanging" msprop:Generator_RowEvHandlerName="ExpensesRowChangeEventHandler" msprop:Generator_RowDeletedName="ExpensesRowDeleted" msprop:Generator_UserTableName="Expenses" msprop:Generator_RowChangedName="ExpensesRowChanged" msprop:Generator_RowEvArgName="ExpensesRowChangeEvent" msprop:Generator_RowClassName="ExpensesRow">
+        <xs:element name="Expenses" msprop:Generator_TableClassName="ExpensesDataTable" msprop:Generator_TableVarName="tableExpenses" msprop:Generator_RowChangedName="ExpensesRowChanged" msprop:Generator_TablePropName="Expenses" msprop:Generator_RowDeletingName="ExpensesRowDeleting" msprop:Generator_RowChangingName="ExpensesRowChanging" msprop:Generator_RowEvHandlerName="ExpensesRowChangeEventHandler" msprop:Generator_RowDeletedName="ExpensesRowDeleted" msprop:Generator_RowClassName="ExpensesRow" msprop:Generator_UserTableName="Expenses" msprop:Generator_RowEvArgName="ExpensesRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="username" msprop:Generator_ColumnVarNameInTable="columnusername" msprop:Generator_ColumnPropNameInRow="username" msprop:Generator_ColumnPropNameInTable="usernameColumn" msprop:Generator_UserColumnName="username" minOccurs="0">
@@ -703,7 +730,7 @@ FROM            Payments INNER JOIN
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="PaymentsReport" msprop:Generator_TableClassName="PaymentsReportDataTable" msprop:Generator_TableVarName="tablePaymentsReport" msprop:Generator_TablePropName="PaymentsReport" msprop:Generator_RowDeletingName="PaymentsReportRowDeleting" msprop:Generator_RowChangingName="PaymentsReportRowChanging" msprop:Generator_RowEvHandlerName="PaymentsReportRowChangeEventHandler" msprop:Generator_RowDeletedName="PaymentsReportRowDeleted" msprop:Generator_UserTableName="PaymentsReport" msprop:Generator_RowChangedName="PaymentsReportRowChanged" msprop:Generator_RowEvArgName="PaymentsReportRowChangeEvent" msprop:Generator_RowClassName="PaymentsReportRow">
+        <xs:element name="PaymentsReport" msprop:Generator_TableClassName="PaymentsReportDataTable" msprop:Generator_TableVarName="tablePaymentsReport" msprop:Generator_RowChangedName="PaymentsReportRowChanged" msprop:Generator_TablePropName="PaymentsReport" msprop:Generator_RowDeletingName="PaymentsReportRowDeleting" msprop:Generator_RowChangingName="PaymentsReportRowChanging" msprop:Generator_RowEvHandlerName="PaymentsReportRowChangeEventHandler" msprop:Generator_RowDeletedName="PaymentsReportRowDeleted" msprop:Generator_RowClassName="PaymentsReportRow" msprop:Generator_UserTableName="PaymentsReport" msprop:Generator_RowEvArgName="PaymentsReportRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="name" msprop:Generator_ColumnVarNameInTable="columnname" msprop:Generator_ColumnPropNameInRow="name" msprop:Generator_ColumnPropNameInTable="nameColumn" msprop:Generator_UserColumnName="name" minOccurs="0">
@@ -726,6 +753,34 @@ FROM            Payments INNER JOIN
               <xs:element name="user_id" msprop:Generator_ColumnVarNameInTable="columnuser_id" msprop:Generator_ColumnPropNameInRow="user_id" msprop:Generator_ColumnPropNameInTable="user_idColumn" msprop:Generator_UserColumnName="user_id" type="xs:int" />
               <xs:element name="client_id" msprop:Generator_ColumnVarNameInTable="columnclient_id" msprop:Generator_ColumnPropNameInRow="client_id" msprop:Generator_ColumnPropNameInTable="client_idColumn" msprop:Generator_UserColumnName="client_id" type="xs:int" />
               <xs:element name="fatoraID" msprop:Generator_ColumnVarNameInTable="columnfatoraID" msprop:Generator_ColumnPropNameInRow="fatoraID" msprop:Generator_ColumnPropNameInTable="fatoraIDColumn" msprop:Generator_UserColumnName="fatoraID" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="PaymentReport" msprop:Generator_TableClassName="PaymentReportDataTable" msprop:Generator_TableVarName="tablePaymentReport" msprop:Generator_TablePropName="PaymentReport" msprop:Generator_RowDeletingName="PaymentReportRowDeleting" msprop:Generator_RowChangingName="PaymentReportRowChanging" msprop:Generator_RowEvHandlerName="PaymentReportRowChangeEventHandler" msprop:Generator_RowDeletedName="PaymentReportRowDeleted" msprop:Generator_UserTableName="PaymentReport" msprop:Generator_RowChangedName="PaymentReportRowChanged" msprop:Generator_RowEvArgName="PaymentReportRowChangeEvent" msprop:Generator_RowClassName="PaymentReportRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Id" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:int" />
+              <xs:element name="Payments_ID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnPayments_ID" msprop:Generator_ColumnPropNameInRow="Payments_ID" msprop:Generator_ColumnPropNameInTable="Payments_IDColumn" msprop:Generator_UserColumnName="Payments_ID" type="xs:int" />
+              <xs:element name="Payment_amount" msprop:Generator_ColumnVarNameInTable="columnPayment_amount" msprop:Generator_ColumnPropNameInRow="Payment_amount" msprop:Generator_ColumnPropNameInTable="Payment_amountColumn" msprop:Generator_UserColumnName="Payment_amount" type="xs:decimal" />
+              <xs:element name="date" msprop:Generator_ColumnVarNameInTable="columndate" msprop:Generator_ColumnPropNameInRow="date" msprop:Generator_ColumnPropNameInTable="dateColumn" msprop:Generator_UserColumnName="date" type="xs:dateTime" />
+              <xs:element name="user_id" msprop:Generator_ColumnVarNameInTable="columnuser_id" msprop:Generator_ColumnPropNameInRow="user_id" msprop:Generator_ColumnPropNameInTable="user_idColumn" msprop:Generator_UserColumnName="user_id" type="xs:int" />
+              <xs:element name="client_id" msprop:Generator_ColumnVarNameInTable="columnclient_id" msprop:Generator_ColumnPropNameInRow="client_id" msprop:Generator_ColumnPropNameInTable="client_idColumn" msprop:Generator_UserColumnName="client_id" type="xs:int" />
+              <xs:element name="fatoraID" msprop:Generator_ColumnVarNameInTable="columnfatoraID" msprop:Generator_ColumnPropNameInRow="fatoraID" msprop:Generator_ColumnPropNameInTable="fatoraIDColumn" msprop:Generator_UserColumnName="fatoraID" type="xs:int" minOccurs="0" />
+              <xs:element name="active" msprop:Generator_ColumnVarNameInTable="columnactive" msprop:Generator_ColumnPropNameInRow="active" msprop:Generator_ColumnPropNameInTable="activeColumn" msprop:Generator_UserColumnName="active" type="xs:boolean" />
+              <xs:element name="phone" msprop:Generator_ColumnVarNameInTable="columnphone" msprop:Generator_ColumnPropNameInRow="phone" msprop:Generator_ColumnPropNameInTable="phoneColumn" msprop:Generator_UserColumnName="phone" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PicPath" msprop:Generator_ColumnVarNameInTable="columnPicPath" msprop:Generator_ColumnPropNameInRow="PicPath" msprop:Generator_ColumnPropNameInTable="PicPathColumn" msprop:Generator_UserColumnName="PicPath" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -759,6 +814,11 @@ FROM            Payments INNER JOIN
     </xs:unique>
     <xs:unique name="PaymentsReport_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
       <xs:selector xpath=".//mstns:PaymentsReport" />
+      <xs:field xpath="mstns:Payments_ID" />
+    </xs:unique>
+    <xs:unique name="PaymentReport_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:PaymentReport" />
+      <xs:field xpath="mstns:Id" />
       <xs:field xpath="mstns:Payments_ID" />
     </xs:unique>
   </xs:element>

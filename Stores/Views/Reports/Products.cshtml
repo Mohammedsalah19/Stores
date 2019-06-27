@@ -90,8 +90,15 @@
     
     function getQuntity(Pro_id) {
         var names;
-        var url = "/Reports/getQuntity?Pro_id=" + Pro_id;
+        var dateFrom = new Date($('#from').val());
+        var from = dateFrom.toLocaleDateString();
+        var dateTo = new Date($('#to').val());
+        var to = dateTo.toLocaleDateString();
+        var BillCat = $('#BillCate_ID').val();
 
+        var url = "/Reports/getQuntity?from=" + from + "&to=" + to + "&Pro_id=" + Pro_id + "&BillCat=" + BillCat;
+
+ 
         $.ajax({
             type: "GET",
             url: url,
@@ -107,7 +114,13 @@
 
     function getPrice(Pro_id) {
         var names;
-        var url = "/Reports/getPrice?Pro_id=" + Pro_id;
+        var dateFrom = new Date($('#from').val());
+        var from = dateFrom.toLocaleDateString();
+        var dateTo = new Date($('#to').val());
+        var to = dateTo.toLocaleDateString();
+        var url = "/Reports/getPrice?from=" + from + "&to=" + to + "&Pro_id=" + Pro_id;
+
+ 
 
         $.ajax({
             type: "GET",
@@ -123,8 +136,13 @@
 
     function getCost(Pro_id) {
         var names;
-        var url = "/Reports/getCost?Pro_id=" + Pro_id;
+        var dateFrom = new Date($('#from').val());
+        var from = dateFrom.toLocaleDateString();
+        var dateTo = new Date($('#to').val());
+        var to = dateTo.toLocaleDateString();
+        var url = "/Reports/getCost?from=" + from + "&to=" + to + "&Pro_id=" + Pro_id;
 
+ 
         $.ajax({
             type: "GET",
             url: url,
@@ -140,8 +158,13 @@
 
     function getMaksab(Pro_id) {
         var names;
-        var url = "/Reports/getMaksab?Pro_id=" + Pro_id;
+        var dateFrom = new Date($('#from').val());
+        var from = dateFrom.toLocaleDateString();
+        var dateTo = new Date($('#to').val());
+        var to = dateTo.toLocaleDateString();
+        var url = "/Reports/getMaksab?from=" + from + "&to=" + to + "&Pro_id=" + Pro_id;
 
+ 
         $.ajax({
             type: "GET",
             url: url,
@@ -163,9 +186,7 @@
         var dateTo = new Date($('#to').val());
         var to = dateTo.toLocaleDateString();
         var BillCat = $('#BillCate_ID').val();
- 
         var url = "/Reports/ProductReort?from=" + from + "&to=" + to + "&BillCat=" + BillCat;
-
         $.ajax({
             type: "GET",
             url: url,
@@ -229,7 +250,7 @@
             <br />
             <center>
                 <input type="submit" value="بحث" class="btn btn-info" id="Getsearch" />
-                <input type="submit" value="طباعه" class="btn btn-info" id="GoPrint" onclick="GoPrint()" />
+                <input type="submit" value="طباعه" class="btn btn-info" onclick="GoPrint()" />
 
 
             </center>

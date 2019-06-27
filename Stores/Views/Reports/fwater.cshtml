@@ -44,9 +44,11 @@
 
                             "<td>" + data[i].discount + "</td>" +
                             "<td>" + data[i].cost + "</td>" +
+                         
+                            //"<td>" + dare(data[i].date) + "</td>" +
+                            "<td>" + (data[i].date).replace(/\//g, "") + "</td>" +
 
-                            "<td>" + dare(data[i].date) + "</td>" +
- 
+  
                             "<td>" + getCatName(data[i].Cate_Id) + "</td>" +
                             "<td>" + getClientName(data[i].Client_ID) + "</td>" +
 
@@ -73,7 +75,8 @@
         var value = res2;
         var d = new Date(value);
         var f = d.toLocaleDateString();
-        return f; 
+        alert(value);
+        return new Date(value); 
     }
 
     function getClientName(Client_ID) {

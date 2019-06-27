@@ -256,7 +256,7 @@ namespace Stores.Controllers
                     _bill.Client_ID = ClintID.Client_ID;
                 //    ViewBag.CLientID = ClintID.Client_ID;
                     Session["CLientID"]= ClintID.Client_ID;
-                    _bill.Cate_Id = 1;
+                    _bill.Cate_Id = 2;
 
                     _bill.User_ID = int.Parse(Session["userID"].ToString());
                     _bill.Viewed = true;
@@ -494,9 +494,12 @@ namespace Stores.Controllers
                    Quantity = p.Quantity,
  
                     Product_ID = _db.Products.Where(d => d.Pro_id == p.Product_ID).Select(f => f.name).FirstOrDefault(),
+                     //info
+                      Viewed = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                    active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                    status = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
 
-
-                }).ToList());
+                 }).ToList());
 
                 Response.Buffer = false;
                 Response.ClearContent();
@@ -645,7 +648,7 @@ namespace Stores.Controllers
                     // get client id
                     var ClintID = _db.Clients.Where(p => p.name == Client_ID).FirstOrDefault();
                     _bill.Client_ID = ClintID.Client_ID;
-                    _bill.Cate_Id = 2;
+                    _bill.Cate_Id = 1;
 
                     _bill.User_ID = int.Parse(Session["userID"].ToString());
                     _bill.Viewed = true;
@@ -787,6 +790,11 @@ namespace Stores.Controllers
                     Quantity = p.Quantity,
 
                     Pro_ID = _db.Products.Where(d => d.Pro_id == p.Product_ID).Select(f => f.name).FirstOrDefault(),
+
+                    //info
+                    Viewed = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                    active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                    status = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
 
 
                 }).ToList());
@@ -937,6 +945,8 @@ namespace Stores.Controllers
                 _db.Entry(bill).State = EntityState.Modified;
                 _db.SaveChanges();
             }
+
+
             catch (Exception ex)
             {
                 throw ex;

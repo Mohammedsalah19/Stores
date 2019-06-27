@@ -301,6 +301,10 @@
     <Compile Include="Migrations\201906101717235_editPrinter.Designer.cs">
       <DependentUpon>201906101717235_editPrinter.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906261300369_placeInfo.cs" />
+    <Compile Include="Migrations\201906261300369_placeInfo.Designer.cs">
+      <DependentUpon>201906261300369_placeInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bills.cs" />
     <Compile Include="Models\BillsCategory.cs" />
@@ -319,6 +323,7 @@
     <Compile Include="Models\Expenses.cs" />
     <Compile Include="Models\ExpensesType.cs" />
     <Compile Include="Models\Payments.cs" />
+    <Compile Include="Models\PLaceInfo.cs" />
     <Compile Include="Models\ProductCategory.cs" />
     <Compile Include="Models\Products.cs" />
     <Compile Include="Models\Produt_Price.cs" />
@@ -362,10 +367,10 @@
       <DependentUpon>FwaterReport.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Report\PaymentsReport.cs">
+    <Compile Include="Report\PaymentReport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PaymentsReport.rpt</DependentUpon>
+      <DependentUpon>PaymentReport.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Report\ProductReport.cs">
@@ -378,6 +383,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ExpensesReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\ReturnBill.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReturnBill.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
@@ -459,6 +470,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -521,6 +536,8 @@
     <Content Include="Views\Reports\Expenses.cshtml" />
     <Content Include="Views\Reports\payments.cshtml" />
     <Content Include="Views\Reports\prirnt.cshtml" />
+    <Content Include="Views\Home\PlaceInfo.cshtml" />
+    <Content Include="Views\Home\DeleteInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -634,6 +651,9 @@
     <EmbeddedResource Include="Migrations\201906101717235_editPrinter.resx">
       <DependentUpon>201906101717235_editPrinter.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906261300369_placeInfo.resx">
+      <DependentUpon>201906261300369_placeInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\BillPruches.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BillPruches.cs</LastGenOutput>
@@ -658,9 +678,9 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>FwaterReport.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Report\PaymentsReport.rpt">
+    <EmbeddedResource Include="Report\PaymentReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>PaymentsReport.cs</LastGenOutput>
+      <LastGenOutput>PaymentReport.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\ProductReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -669,6 +689,10 @@
     <EmbeddedResource Include="Report\ExpensesReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ExpensesReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\ReturnBill.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReturnBill.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

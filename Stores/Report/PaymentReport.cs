@@ -16,14 +16,14 @@ namespace Stores.Report {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class PaymentsReport : ReportClass {
+    public class PaymentReport : ReportClass {
         
-        public PaymentsReport() {
+        public PaymentReport() {
         }
         
         public override string ResourceName {
             get {
-                return "PaymentsReport.rpt";
+                return "PaymentReport.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace Stores.Report {
         
         public override string FullResourceName {
             get {
-                return "Stores.Report.PaymentsReport.rpt";
+                return "Stores.Report.PaymentReport.rpt";
             }
             set {
                 // Do nothing
@@ -90,9 +90,9 @@ namespace Stores.Report {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedPaymentsReport : Component, ICachedReport {
+    public class CachedPaymentReport : Component, ICachedReport {
         
-        public CachedPaymentsReport() {
+        public CachedPaymentReport() {
         }
         
         [Browsable(false)]
@@ -129,7 +129,7 @@ namespace Stores.Report {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            PaymentsReport rpt = new PaymentsReport();
+            PaymentReport rpt = new PaymentReport();
             rpt.Site = this.Site;
             return rpt;
         }

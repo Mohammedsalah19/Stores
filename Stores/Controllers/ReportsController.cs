@@ -196,8 +196,7 @@ namespace Stores.Controllers
                 foreach (var item in model)
                 {
 
-                    BillsContent _BillContent = new BillsContent();
-                    var models = _db.BillsContent.Where(p => p.Bill_ID == item.Id).ToList();
+                     var models = _db.BillsContent.Where(p => p.Bill_ID == item.Id).ToList();
 
                     foreach (var items in models.Select(f => f.Product_ID))
                     {
@@ -214,8 +213,7 @@ namespace Stores.Controllers
 
                     }
                 }
-                //    var res = _db.Products.Where(p=>p.Pro_id==)
-                return Json(list2, JsonRequestBehavior.AllowGet);
+                 return Json(list2, JsonRequestBehavior.AllowGet);
 
             }
             else
@@ -273,11 +271,25 @@ namespace Stores.Controllers
         }
 
 
-        public JsonResult getQuntity(int Pro_id)
+        public JsonResult getQuntity(int Pro_id, DateTime from, DateTime to, string BillCat)
         {
+            List<BillsContent> list = new List<BillsContent>();
+            var BillCatID = _db.BillsCategory.Where(p => p.name == BillCat).Select(f => f.BillCate_ID).FirstOrDefault();
 
-            var res = _db.BillsContent.Where(id => id.Product_ID == Pro_id).Sum(f => f.Quantity);
-            return Json(res, JsonRequestBehavior.AllowGet);
+            var model = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Cate_Id== BillCatID).ToList();
+            foreach (var item in model)
+            {
+
+                var models = _db.BillsContent.Where(p => p.Bill_ID == item.Id).ToList();
+
+                foreach (var items in models)
+                {
+                    list.Add(items);
+                }
+            }
+            var s = list.Where(f => f.Product_ID == Pro_id).Select(f => f.Quantity).Sum();
+             //var res = _db.BillsContent.Where(id => id.Product_ID == Pro_id).Sum(f => f.Quantity);
+            return Json(s, JsonRequestBehavior.AllowGet);
 
         }
 
@@ -297,7 +309,7 @@ namespace Stores.Controllers
 
         }
 
-        public JsonResult getMaksab(int Pro_id)
+        public JsonResult getMaksab(int Pro_id, DateTime from, DateTime to)
         {
 
             var cost = _db.Produt_Price.Where(id => id.Pro_ID == Pro_id).Select(f => f.cost).FirstOrDefault();
@@ -619,6 +631,10 @@ namespace Stores.Controllers
                     User_ID = _db.Users.Where(d => d.Id == p.User_ID).First(),
                     Client_ID = _db.Clients.Where(d => d.Client_ID == p.Client_ID).First(),
                     Comment = _db.BillsCategory.Where(d => d.BillCate_ID == p.Cate_Id).Select(f => f.name).FirstOrDefault(),
+                    //info
+                    Viewed = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                    active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                    status = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
 
                 }).ToList());
                 Response.Buffer = false;
@@ -649,6 +665,10 @@ namespace Stores.Controllers
                     User_ID = _db.Users.Where(d => d.Id == p.User_ID).First(),
                     Client_ID = _db.Clients.Where(d => d.Client_ID == p.Client_ID).First(),
                     Comment = _db.BillsCategory.Where(d => d.BillCate_ID == p.Cate_Id).Select(f => f.name).FirstOrDefault(),
+                    //info
+                    Viewed = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                    active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                    status = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
 
                 }).ToList());
                 Response.Buffer = false;
@@ -679,6 +699,10 @@ namespace Stores.Controllers
                     User_ID = _db.Users.Where(d => d.Id == p.User_ID).First(),
                     Client_ID = _db.Clients.Where(d => d.Client_ID == p.Client_ID).First(),
                     Comment = _db.BillsCategory.Where(d => d.BillCate_ID == p.Cate_Id).Select(f => f.name).FirstOrDefault(),
+                    //info
+                    Viewed = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                    active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                    status = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
 
                 }).ToList());
                 Response.Buffer = false;
@@ -709,6 +733,10 @@ namespace Stores.Controllers
                     User_ID = _db.Users.Where(d => d.Id == p.User_ID).First(),
                     Client_ID = _db.Clients.Where(d => d.Client_ID == p.Client_ID).First(),
                     Comment = _db.BillsCategory.Where(d => d.BillCate_ID == p.Cate_Id).Select(f => f.name).FirstOrDefault(),
+                    //info
+                    Viewed = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                    active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                    status = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
 
                 }).ToList());
                 Response.Buffer = false;
@@ -740,6 +768,10 @@ namespace Stores.Controllers
                     User_ID = _db.Users.Where(d => d.Id == p.User_ID).First(),
                     Client_ID = _db.Clients.Where(d => d.Client_ID == p.Client_ID).First(),
                     Comment = _db.BillsCategory.Where(d => d.BillCate_ID == p.Cate_Id).Select(f => f.name).FirstOrDefault(),
+                    //info
+                    Viewed = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                    active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                    status = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
 
                 }).ToList());
                 Response.Buffer = false;
@@ -770,6 +802,10 @@ namespace Stores.Controllers
                     User_ID = _db.Users.Where(d => d.Id == p.User_ID).First(),
                     Client_ID = _db.Clients.Where(d => d.Client_ID == p.Client_ID).First(),
                     Comment = _db.BillsCategory.Where(d => d.BillCate_ID == p.Cate_Id).Select(f => f.name).FirstOrDefault(),
+                    //info
+                    Viewed = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                    active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                    status = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
 
                 }).ToList());
                 Response.Buffer = false;
@@ -800,6 +836,10 @@ namespace Stores.Controllers
                     User_ID = _db.Users.Where(d => d.Id == p.User_ID).First(),
                     Client_ID = _db.Clients.Where(d => d.Client_ID == p.Client_ID).First(),
                     Comment = _db.BillsCategory.Where(d => d.BillCate_ID == p.Cate_Id).Select(f => f.name).FirstOrDefault(),
+                    //info
+                    Viewed = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                    active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                    status = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
 
                 }).ToList());
                 Response.Buffer = false;
@@ -830,6 +870,11 @@ namespace Stores.Controllers
                 User_ID = _db.Users.Where(d => d.Id == p.User_ID).First(),
                 Client_ID = _db.Clients.Where(d => d.Client_ID == p.Client_ID).First(),
                 Comment = _db.BillsCategory.Where(d => d.BillCate_ID == p.Cate_Id).Select(f => f.name).FirstOrDefault(),
+                //info
+                Viewed = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                status = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
+
 
             }).ToList());
             Response.Buffer = false;
@@ -853,7 +898,7 @@ namespace Stores.Controllers
 
             ReportDocument rd = new ReportDocument();
 
-            rd.Load(Path.Combine(Server.MapPath("~/Report/ProductReport.rpt.rpt")));
+            rd.Load(Path.Combine(Server.MapPath("~/Report/ProductReport.rpt")));
             Stream stream;
 
 
@@ -861,27 +906,47 @@ namespace Stores.Controllers
 
             if (BillCatID != 0)
             {
-                var model = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Cate_Id == BillCatID).ToList();
+                var model = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Cate_Id == BillCatID).Select(f=>f.Id).ToList();
+                List<int> list = new List<int>();
+               List<Products> list2 = new List<Products>();
+                List<BillsContent> list3 = new List<BillsContent>();
 
-        
- 
-                rd.SetDataSource(model.Select(p => new
+                // Products list2 = new Products();
+
+                foreach (var item in model)
                 {
+                  var   models = _db.BillsContent.Where(d => d.Bill_ID == item).ToList();
 
+                    foreach (var items in models)
+                    {
+                        list.Add(items.Product_ID);
+                        list3.Add(items);
+
+
+                    }
+                }
+
+
+                foreach (var item in list.Distinct())
+                {
+                    var res = _db.Products.Where(p => p.Pro_id == item);
+                    foreach (var items in res)
+                    {
+                        list2.Add(items);
+
+                    }
+                }
+
+                rd.SetDataSource(list2.Select(p => new
+                {
+                   
                     Expr2 = from,
                     Expr1 = to,
                     Cate_ID = BillCat,
-                    Pro_ID = _db.Products.Where(d => d.Pro_id == BillCatID).Select(f => f.name).FirstOrDefault(),
+                    Pro_id = p.name,
+                    Quantity = list3.Where(f => f.Product_ID == p.Pro_id).Select(f => f.Quantity).Sum(),
 
-                    price = model.Select(f => f.price).Sum(),
-                    cost = model.Select(f => f.cost).Sum(),
-                    discount = model.Select(f => f.discount).Sum(),
-                    name = model.Select(f => f.price).Sum() - model.Select(f => f.discount).Sum(),
-                    national_id = (model.Select(f => f.price).Sum() - model.Select(f => f.discount).Sum()) - model.Select(f => f.cost).Sum(),
-
-                    User_ID = _db.Users.Where(d => d.Id == p.User_ID).First(),
-                    Client_ID = _db.Clients.Where(d => d.Client_ID == p.Client_ID).First(),
-                    Comment = _db.BillsCategory.Where(d => d.BillCate_ID == p.Cate_Id).Select(f => f.name).FirstOrDefault(),
+               // Quantity = _db.BillsContent.Where(d => d.Product_ID == p.Pro_id).Select(f => f.Quantity).Sum(),
 
                 }).ToList());
                 Response.Buffer = false;
@@ -922,7 +987,14 @@ namespace Stores.Controllers
                 Price = modelClient.Select(f => f.price).Sum(),
                 Payment_amount = _db.Payments.Where(f=>f.client_id == client&&   f.date >= from && f.date <= to).Select(f=>f.Payment_amount).Sum(),
                 phone = modelClient.Where(f => f.Client_ID == client && f.date >= from && f.date <= to).Select(f => f.price).Sum() - _db.Payments.Where(f => f.client_id == client && f.date >= from && f.date <= to).Select(f => f.Payment_amount).Sum(),
- 
+                //info
+                Clients_Type_ID = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                Active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                Address = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
+
+                
+
+
             }).ToList());
             Response.Buffer = false;
             Response.ClearContent();
@@ -961,7 +1033,14 @@ namespace Stores.Controllers
                     //amount = model.Select(f => f.amount).Sum(),
                     amount =p.amount,
                     username=_db.Users.Where(f=>f.Id ==p.User_ID).Select(f=>f.name).FirstOrDefault(),
-                    
+
+
+                    //info
+                    PicPath = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                    active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                    name = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
+
+
 
                 }).ToList());
                 Response.Buffer = false;
@@ -983,6 +1062,11 @@ namespace Stores.Controllers
                     //amount = model.Select(f => f.amount).Sum(),
                     amount = p.amount,
                     username = _db.Users.Where(f => f.Id == p.User_ID).Select(f => f.name).FirstOrDefault(),
+                    //info
+                    PicPath = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                    active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                    name = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
+
 
 
                 }).ToList());
@@ -1005,6 +1089,11 @@ namespace Stores.Controllers
                     //amount = model.Select(f => f.amount).Sum(),
                     amount = p.amount,
                     username = _db.Users.Where(f => f.Id == p.User_ID).Select(f => f.name).FirstOrDefault(),
+
+                    //info
+                    PicPath = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                    active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                    name = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
 
 
                 }).ToList());
@@ -1029,6 +1118,11 @@ namespace Stores.Controllers
                     //amount = model.Select(f => f.amount).Sum(),
                     amount = p.amount,
                     username = _db.Users.Where(f => f.Id == p.User_ID).Select(f => f.name).FirstOrDefault(),
+                    //info
+                    PicPath = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                    active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                    name = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
+
 
 
                 }).ToList());
@@ -1050,7 +1144,7 @@ namespace Stores.Controllers
 
             ReportDocument rd = new ReportDocument();
 
-            rd.Load(Path.Combine(Server.MapPath("~/Report/PaymentsReport.rpt")));
+            rd.Load(Path.Combine(Server.MapPath("~/Report/PaymentReport.rpt")));
             Stream stream;
 
             if (client == "")
@@ -1060,12 +1154,15 @@ namespace Stores.Controllers
                 {
                      Payments_ID = from,
                     fatoraID = to,
-                    phone = to,
-                    username  =_db.Clients.Where(a=>a.Client_ID==p.client_id).Select(f=>f.name).FirstOrDefault(),
-                    name = _db.Users.Where(a=>a.Id==p.user_id).Select(f=>f.name).FirstOrDefault(),
+                    client_id = _db.Clients.Where(a => a.Client_ID == p.client_id).Select(f => f.name).FirstOrDefault(),
+                    user_id = _db.Users.Where(a => a.Id == p.user_id).Select(f => f.name).FirstOrDefault(),
                     Payment_amount = p.Payment_amount,
-                    date = p.date,
-                   
+                      date = p.date,
+                    //info
+                    PicPath = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                    active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                    phone = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
+
 
                 }).ToList());
                 Response.Buffer = false;
@@ -1083,11 +1180,15 @@ namespace Stores.Controllers
                 {
                     Payments_ID = from,
                     fatoraID = to,
-                    phone = to,
-                    username     = _db.Clients.Where(a => a.Client_ID == p.client_id).Select(f => f.name).FirstOrDefault(),
-                   name  = _db.Users.Where(a => a.Id == p.user_id).Select(f => f.name).FirstOrDefault(),
+                    client_id     = _db.Clients.Where(a => a.Client_ID == p.client_id).Select(f => f.name).FirstOrDefault(),
+                    user_id  = _db.Users.Where(a => a.Id == p.user_id).Select(f => f.name).FirstOrDefault(),
                     Payment_amount = p.Payment_amount,
                     date = p.date,
+
+                    //info
+                    PicPath = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                    active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                    phone = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
 
 
                 }).ToList());
