@@ -1,13 +1,11 @@
 ﻿@model Stores.Models.CommonClasses.UserAndPrivilage
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "المواظفين";
 }
 
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
-<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-
+ 
 <center>
     <p>
         <a href="@Url.Action("NewEmployee")" class="btn btn-default"><i class="fas fa-user-plus"></i> موظف جديد</a>
@@ -102,68 +100,7 @@
 </table>
     
 
-@*<table class="table table-hover" id="myTable" style="text-align:center">
-        <thead>
-            <tr class="table-heading" style="background-color:#40BCBA">
-            <tr>
-                <th>
-                    الاسم
-                </th>
-                <th>
-                    كلمه المرور
-                </th>
-
-                <th>
-                    التليفون
-                </th>
-
-                <th>
-                    حاله الحساب
-                </th>
-                <th>
-                    اسم الطابعه
-                </th>
-                <th></th>
-
-            </tr>
-
-        </thead>
-        @foreach (var item in Model.UserX)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Password)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.phone)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.active)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.printer_name)
-                </td>
-
-                <td style="width:60px">
-                    @foreach (var items in Model.PreviX.Where(h => h.User_ID == item.Id))
-                    {
-                        <a href="@Url.Action("Privilage", new { id = items.id })" class="btn btn-default"><i class="fas fa-check-circle"></i> تعديل الصلاحيات</a>
-                    }
-
-                    <a href="@Url.Action("UserEdit", new { id = item.Id })" class="btn btn-default"><i class="fas fa-user-edit"></i>    تعديل</a>
-                    <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-default"><i class="fas fa-info-circle"></i>    تفاصيل</a>
-
-
-                </td>
-            </tr>
-        }
-
-    </table>*@
+ 
 
 
 

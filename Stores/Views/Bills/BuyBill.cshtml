@@ -416,7 +416,7 @@
                                         <select name="Client_ID" id="Client_ID" class="form-control" required="required">
                                             <option value="">اسم المورد</option>
                                             @{
-                                                foreach (var item in Model.ClientsX)
+                                                foreach (var item in Model.ClientsX.Where(f=>f.Active==true))
                                                 {
                                                     <option @item.Client_ID> @item.name </option>
                                                 }

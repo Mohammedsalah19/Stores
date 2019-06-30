@@ -26,10 +26,13 @@ namespace Stores.Models
         [DisplayName("الوصف")]
 
         public string Comment { get; set; }
+        [DisplayName("الحاله")]
+
         public bool Active { get; set; }
         [DisplayName("اقل عدد فواتير")]
 
         public decimal minimum_bills { get; set; }
+        [DisplayName("النوع")]
 
         public virtual int Clients_Type_ID { get; set; }
     }

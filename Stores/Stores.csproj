@@ -313,6 +313,7 @@
     <Compile Include="Models\Clients_Type.cs" />
     <Compile Include="Models\CommonClasses\BillsWithExten.cs" />
     <Compile Include="Models\CommonClasses\ClientWithExten.cs" />
+    <Compile Include="Models\CommonClasses\EndDay.cs" />
     <Compile Include="Models\CommonClasses\ExpensesWithExten.cs" />
     <Compile Include="Models\CommonClasses\NotificationWithExten.cs" />
     <Compile Include="Models\CommonClasses\PaymentsWithExten.cs" />
@@ -359,6 +360,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ClientReportrpt.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Report\EndDayReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EndDayReport.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Report\FwaterReport.cs">
@@ -483,6 +490,7 @@
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Content\sliderLayout.css" />
+    <Content Include="uptop.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -538,6 +546,8 @@
     <Content Include="Views\Reports\prirnt.cshtml" />
     <Content Include="Views\Home\PlaceInfo.cshtml" />
     <Content Include="Views\Home\DeleteInfo.cshtml" />
+    <Content Include="Views\Clients\EditClient.cshtml" />
+    <Content Include="Views\Employee\EndDay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -673,6 +683,10 @@
     <EmbeddedResource Include="Report\ClientReportrpt.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ClientReportrpt.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\EndDayReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>EndDayReport.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FwaterReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

@@ -15,7 +15,7 @@
     $(document).ready(function () {
         $("#section").change(function () {
             var id = $(this);
-             $.ajax({
+            $.ajax({
                 url: '/Bills/GetcategoryPro?Pro_id=' + id.val(),
                 contentType: "application/json;charset=utf-8",
                 dataType: "Json",
@@ -139,7 +139,7 @@
                             "<td>" + data[i].BillsContent_ID + "</td>" +
                             "<td>" + getClientName(data[i].BillsContent_ID) + "</td>" +
                             "<td>" + getProName(data[i].Product_ID) + "</td>" +
-                             "<td>" + data[i].Quantity + "</td>" +
+                            "<td>" + data[i].Quantity + "</td>" +
                             "<td>" + data[i].Price + "</td>" +
                             //"<td>" + data[i].Status + "</td>" +
                             "<td>" + sum(data[i].Price, data[i].Quantity) + "</td>" +
@@ -156,7 +156,7 @@
     });
 
 
- 
+
     // get pto name in content
     function getProName(Product_ID) {
         var name;
@@ -167,26 +167,26 @@
             async: false,
             success: function (data) {
                 name = data.name;
- 
-              }
+
+            }
         })
         return name;
     }
 
-        // get client in content
+    // get client in content
 
     function getClientName(BillsContent_ID) {
         var names;
         var url = "/Bills/ReturnClientName?BillsContent_ID=" + BillsContent_ID;
 
-         $.ajax({
+        $.ajax({
             type: "GET",
             url: url,
             async: false,
-             success: function (data) {
-                 names = data.name;
-  
-              }
+            success: function (data) {
+                names = data.name;
+
+            }
         })
         return names;
     }
@@ -317,13 +317,13 @@
             var _elmotwafer = $('#elmotwafer').val();
 
             if (_elmotwafer > _quantity) {
-       
+
                 //     alert("الكميه اكبر من المتوفر فى المخزن ")
                 $("#amount").css("border-color", "green");
                 $("#AddContentID").attr("disabled", false);
-          
+
             }
-            else   {
+            else {
                 $("#amount").css("border-color", "red");
                 $("#AddContentID").attr("disabled", true);
             }
@@ -332,7 +332,7 @@
 
 
 
-     
+
 
     $(document).ready(function () {
 
@@ -350,6 +350,30 @@
     });
 
 
+
+    function Newfatora() {
+        var data = $("#SubmitForm").serialize();
+
+        var fatoraID = $('#fatoraID').val();
+        var discount = $('#discount').val();
+        var elmodfoa = $('#elmodfoa').val();
+
+        var url = "/Bills/NewFatora?fatoraID=" + fatoraID + "&discount=" + discount + "&elmodfoa=" + elmodfoa;
+
+        $.ajax({
+            type: "Post",
+            url: url,
+            data: data,
+            success: function (result) {
+
+              //  $("#MyModal").modal("hide");
+                 location.reload(true);
+
+
+            }
+        })
+
+    };
 
 
 </script>
@@ -433,7 +457,7 @@
                                             <option value=""> - اختار العميل-</option>
 
                                             @{
-                                                foreach (var item in Model.ClientsX)
+                                                foreach (var item in Model.ClientsX.Where(f=>f.Active==true))
                                                 {
                                                     <option @item.Client_ID> @item.name </option>
                                                 }
@@ -496,81 +520,80 @@
     <hr style="color:black;background-color:black" />
     <div class="row">
 
-        @using (Html.BeginForm("NewFatora", "Bills", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            <div class="col-xs-12">
-                <div class="fatora">
+        @*@using (Html.BeginForm("NewFatora", "Bills", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {*@
+        <div class="col-xs-12">
+            <div class="fatora">
 
-                    <fieldset id="SubmitForm">
-                        <table style="text-align:center">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        رقم الفاتوره
-                                    </th>
+                <fieldset id="SubmitForm">
+                    <table style="text-align:center">
+                        <thead>
+                            <tr>
+                                <th>
+                                    رقم الفاتوره
+                                </th>
 
-                                    <th>
-                                        اجمالى الفاتوره
-                                    </th>
+                                <th>
+                                    اجمالى الفاتوره
+                                </th>
 
-                                    <th>
-                                        الخصم الفاتوره
-                                    </th>
+                                <th>
+                                    الخصم الفاتوره
+                                </th>
 
-                                    <th>
-                                        السعر بعد الخصم الفاتوره
-                                    </th>
+                                <th>
+                                    السعر بعد الخصم الفاتوره
+                                </th>
 
-                                    <th>
-                                        المدفوع
-                                    </th>
-                                    <th>
-                                        الباقى
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <input type="text" name="fatoraID" class="form-control" id="fatoraID" readonly />
+                                <th>
+                                    المدفوع
+                                </th>
+                                <th>
+                                    الباقى
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="text" name="fatoraID" class="form-control" id="fatoraID" readonly />
 
-                                    </td>
-                                    <td>
-                                        <input type="text" name="totalFatora" class="form-control" id="totalFatora" readonly />
+                                </td>
+                                <td>
+                                    <input type="text" name="totalFatora" class="form-control" id="totalFatora" readonly />
 
-                                    </td>
-                                    <td>
-                                        <input type="text" name="discount" class="form-control" id="discount" required onchange="saveBtn()" />
+                                </td>
+                                <td>
+                                    <input type="text" name="discount" class="form-control" id="discount" required />
 
-                                    </td>
-                                    <td>
-                                        <input type="text" name="AfterDiscount" class="form-control" id="AfterDiscount" readonly />
+                                </td>
+                                <td>
+                                    <input type="text" name="AfterDiscount" class="form-control" id="AfterDiscount" readonly />
 
-                                    </td>
-                                    <td>
-                                        <input type="text" name="elmodfoa" class="form-control" id="elmodfoa" required />
+                                </td>
+                                <td>
+                                    <input type="text" name="elmodfoa" class="form-control" id="elmodfoa" required />
 
-                                    </td>
-                                    <td>
-                                        <input type="text" name="Elbaqy" class="form-control" id="Elbaqy" readonly />
+                                </td>
+                                <td>
+                                    <input type="text" name="Elbaqy" class="form-control" id="Elbaqy" readonly />
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <br />
-                        <center>
-                            <input type="submit" value="حفظ وطباعه" class="btn btn-info" id="saveprintID" onclick="Newfatora()" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                    <center>
+                        <input type="submit" value="حفظ وطباعه" class="btn btn-info" id="saveprintID" onclick="Newfatora()" />
 
-                            @*@Html.ActionLink("حفظ وطباعه", "NewFatora", "Bills", null, new { @class = "btn btn-info", onclick = "NewFatora();" })*@
-                        </center>
-                    </fieldset>
+                    </center>
+                </fieldset>
 
-
-                </div>
 
             </div>
-        }
+
+        </div>
+        @*}*@
     </div>
 
 

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CrystalDecisions.CrystalReports.Engine;
+using Newtonsoft.Json;
 using Stores.Models;
 using Stores.Models.CommonClasses;
 using Stores.Models.DAL;
@@ -322,6 +323,9 @@ namespace Stores.Controllers
         }
         #endregion
 
+
+        #region details
+
         [HttpGet]
 
         public ActionResult Details(int? id)
@@ -347,7 +351,10 @@ namespace Stores.Controllers
             return RedirectToAction("HavntAccess", "Employee");
 
         }
+        #endregion
 
+
+        #region Printer type
 
 
         public ActionResult PrintType()
@@ -375,12 +382,13 @@ namespace Stores.Controllers
 
 
 
-        
+        #endregion
+
 
 
         #region Delete record 
 
-            public JsonResult DeletePrintType(int? ID)
+        public JsonResult DeletePrintType(int? ID)
              {
             bool result = false;
             var print = _db.PrintType.SingleOrDefault(x => x.ID == ID);
@@ -397,6 +405,112 @@ namespace Stores.Controllers
         }
         #endregion
 
+
+        #region EndDay -- secure
+
+        public DateTime EndOfDay(  DateTime date)
+        {
+            return new DateTime(date.Year, date.Month, date.Day, 23, 59, 59, 999);
+        }
+
+        public   DateTime StartOfDay(  DateTime date)
+        {
+            return new DateTime(date.Year, date.Month, date.Day, 0, 0, 0, 0);
+        }
+
+
+        public ActionResult EndDay()
+        {
+            bool res = s.endDay();
+            if (res == true)
+            {
+                DateTime endday = EndOfDay(DateTime.Now);
+                DateTime startday = StartOfDay(DateTime.Now);
+                int userID = int.Parse(Session["userID"].ToString());
+
+                var model = new EndDay();
+                model.BillsX = _db.Bills.Where(d => d.date >= startday && d.date <= endday&& d.User_ID == userID).ToList();
+
+                model.ExpensesX = _db.Expenses.Where(d => d.date >= startday && d.date <= endday &&d.User_ID== userID).ToList();
+                model.ClientX = _db.Clients.ToList();
+                model.PaymentsX = _db.Payments.Where(d => d.date >= startday && d.date <= endday &&d.user_id == userID).ToList();
+                model.ExpensesTypeX = _db.ExpensesType.ToList();
+
+
+                return View(model);
+            }
+            return RedirectToAction("HavntAccess", "Employee");
+
+        }
+
+
+        #endregion
+
+
+
+        public ActionResult PrintEndDa()
+        {
+
+
+            DateTime endday = EndOfDay(DateTime.Now);
+            DateTime startday = StartOfDay(DateTime.Now);
+            int userID = int.Parse(Session["userID"].ToString());
+
+            var model = new EndDay();
+            model.BillsX = _db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).ToList();
+
+            model.ExpensesX = _db.Expenses.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).ToList();
+            model.ClientX = _db.Clients.ToList();
+            model.PaymentsX = _db.Payments.Where(d => d.date >= startday && d.date <= endday && d.user_id == userID).ToList();
+            model.ExpensesTypeX = _db.ExpensesType.ToList();
+
+
+
+
+            ReportDocument rd = new ReportDocument();
+
+            rd.Load(Path.Combine(Server.MapPath("~/Report/EndDayReport.rpt")));
+            Stream stream;
+
+
+
+            rd.SetDataSource(_db.Bills.Select(p => new
+            {
+                date = endday,
+                date2 = startday,
+                User_ID = _db.Users.Where(f => f.Id == userID).Select(f => f.name).FirstOrDefault(),
+                FatoraID = _db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Count(),
+                price = _db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f=>f.price).Sum(),
+                discount = _db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f=>f.discount).Sum(),
+                cost = _db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f=>f.cost).Sum(),
+                comment = (_db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => f.price).Sum() - _db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => f.discount).Sum()) - _db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => f.cost).Sum(),
+              
+                //expesnes
+                 amount = _db.Expenses.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => f.amount).Sum(),
+                phone = _db.Expenses.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Count(),
+ 
+                //payment
+                Payments_ID = _db.Payments.Where(d => d.date >= startday && d.date <= endday && d.user_id == userID).Count(),
+              Payment_amount = _db.Payments.Where(d => d.date >= startday && d.date <= endday && d.user_id == userID).Select(f=>f.Payment_amount).Sum(),
+
+
+                //info
+                PicPath = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                status = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
+
+
+
+
+            }).ToList());
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+            stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            stream.Seek(0, SeekOrigin.Begin);
+            return File(stream, "aaplication/pdf", "تقرير انهاء اليوم.pdf");
+        }
+
         #region Havent access
 
 
@@ -408,6 +522,10 @@ namespace Stores.Controllers
 
         }
         #endregion
+
+
+
+
 
 
 

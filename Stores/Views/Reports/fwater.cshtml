@@ -44,9 +44,10 @@
 
                             "<td>" + data[i].discount + "</td>" +
                             "<td>" + data[i].cost + "</td>" +
-                         
-                            //"<td>" + dare(data[i].date) + "</td>" +
-                            "<td>" + (data[i].date).replace(/\//g, "") + "</td>" +
+
+                            //"<td>" + dare((data[i].date).replace(/\//g, "")) + "</td>" +
+                              //"<td>" +  (data[i].date)  + "</td>" +
+                            //"<td>" + Date(dare((data[i].date).replace(/\//g, ""))) + "</td>" +
 
   
                             "<td>" + getCatName(data[i].Cate_Id) + "</td>" +
@@ -75,8 +76,8 @@
         var value = res2;
         var d = new Date(value);
         var f = d.toLocaleDateString();
-        alert(value);
-        return new Date(value); 
+        //  return  Date(value); 
+        return Date(res2);
     }
 
     function getClientName(Client_ID) {
@@ -273,9 +274,9 @@
         <th>
             التكلفه
         </th>
-        <th>
+        @*<th>
             التاريخ والوقت
-        </th>
+        </th>*@
 
         <th>
             النوع

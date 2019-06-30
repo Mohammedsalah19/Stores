@@ -1,0 +1,204 @@
+﻿@model Stores.Models.CommonClasses.EndDay
+
+@{
+    ViewBag.Title = "انهاء اليوم";
+}
+
+<script>
+
+
+    function goPrint() {
+
+    var names;
+ 
+
+    var url = "/Employee/PrintEndDa";
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        async: false,
+        success: function (data) {
+            names = data;
+
+        }
+    })
+    return names;
+    }
+</script>
+
+<div class="text-center">
+    <h2>انهاء اليوم</h2>
+
+    <h3>التاريخ : @DateTime.Now.ToShortDateString()</h3>
+    <br />
+
+    <a href="#" class="btn btn-info" onclick="goPrint()">الطباعه</a> <br /><br />
+
+</div>
+
+<div style="border:1px #000000 solid">
+    <h3 class="text-right" style="margin-right:50px">الفواتير</h3>
+
+    <table class="table table-hover" id="myTable" style="text-align:center">
+        <tr class="table-heading " style="background-color:#40BCBA">
+
+
+            <th>
+
+                المكسب
+            </th>
+            <th>
+                التكلفه
+            </th>
+            <th>
+                الاجمالى بعد الخصم
+            </th>
+            <th>
+                اجمالى الخصم
+            </th>
+            <th>
+                اجمالى السعر
+
+            </th>
+            <th>
+                عدد الفواتير
+            </th>
+            <th>
+                نوع الفواتير
+            </th>
+        </tr>
+
+        <tr>
+            <td>
+                <p>
+                    @((Model.BillsX.Select(f => f.price).Sum() - Model.BillsX.Select(f => f.discount).Sum()) - Model.BillsX.Select(f => f.cost).Sum())
+                </p>
+            </td>
+
+            <td>
+
+                <p>     @(Model.BillsX.Select(f => f.price).Sum() - Model.BillsX.Select(f => f.discount).Sum()) </p>
+
+            </td>
+            <td>
+                @Model.BillsX.Select(f => f.cost).Sum()
+
+            </td>
+            <td>
+                @Model.BillsX.Sum(f => f.discount)
+            </td>
+            <td>
+                @Model.BillsX.Select(f => f.price).Sum()
+
+            </td>
+            <td>
+                @Model.BillsX.Where(f => f.Viewed == false).Count()
+
+
+            </td>
+            <td>
+                <p>فاتوره بيع </p>
+
+
+            </td>
+
+        </tr>
+
+
+    </table>
+</div>
+<br />
+<div style="border:1px #000000 solid">
+
+    <h3 class="text-right" style="margin-right:50px">المصاريف</h3>
+
+    <table class="table table-hover" id="myTable" style="text-align:center">
+        <tr class="table-heading " style="background-color:#40BCBA">
+
+
+            <th>
+                الوصف
+            </th>
+            <th>
+                النوع
+            </th>
+            <th>
+                المبلغ
+            </th>
+        </tr>
+        @foreach (var item in Model.ExpensesX)
+        {
+            <tr>
+
+                <td>
+                    @item.comment
+                </td>
+                <td>
+                    @foreach (var items in Model.ExpensesTypeX.Where(d => d.ExpensesType_ID == item.ExpensesType_ID))
+                    {
+                        @items.name
+                    }
+
+                </td>
+                <td>
+
+                    @item.amount
+
+                </td>
+
+            </tr>
+        }
+
+    </table>
+    <div class="text-center">
+        <h4> العدد : @Model.ExpensesX.Count() </h4>
+
+        <h4>الاجمالى :  @Model.ExpensesX.Sum(d => d.amount) </h4>
+    </div>
+</div>
+<br />
+<div style="border:1px #000000 solid">
+
+
+    <h3 class="text-right" style="margin-right:50px">الدفعات الماليه</h3>
+
+    <table class="table table-hover" id="myTable" style="text-align:center">
+        <tr class="table-heading " style="background-color:#40BCBA">
+
+
+            <th>
+                المبلغ
+            </th>
+            <th>
+                العميل
+            </th>
+        </tr>
+        @foreach (var item in Model.PaymentsX)
+        {
+            <tr>
+
+                <td>
+                    @item.Payment_amount
+                </td>
+
+                <td>
+                    @foreach (var items in Model.ClientX.Where(d => d.Client_ID == item.client_id))
+                    {
+                        @items.name
+                    }
+
+                </td>
+
+            </tr>
+        }
+
+    </table>
+    <div class="text-center">
+        <h4> العدد : @Model.PaymentsX.Count() </h4>
+
+        <h4>الاجمالى :  @Model.PaymentsX.Sum(d => d.Payment_amount) </h4>
+    </div>
+    <br />
+
+</div>

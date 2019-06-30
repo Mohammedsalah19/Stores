@@ -19,7 +19,8 @@ namespace Stores.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            var model = _db.PLaceInfo.FirstOrDefault();
+            return View(model);
         }
 
         public ActionResult About()

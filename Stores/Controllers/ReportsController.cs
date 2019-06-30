@@ -907,10 +907,14 @@ namespace Stores.Controllers
             if (BillCatID != 0)
             {
                 var model = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Cate_Id == BillCatID).Select(f=>f.Id).ToList();
+                var modelX = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Cate_Id == BillCatID).ToList();
+
+              
                 List<int> list = new List<int>();
                List<Products> list2 = new List<Products>();
                 List<BillsContent> list3 = new List<BillsContent>();
 
+           
                 // Products list2 = new Products();
 
                 foreach (var item in model)
@@ -937,16 +941,30 @@ namespace Stores.Controllers
                     }
                 }
 
+                decimal price = 0;
+                decimal cost = 0;
+                foreach (var item in list3)
+                {
+                    price += (item.Price * item.Quantity);
+                    cost += (item.Cost * item.Quantity);
+                }
+
                 rd.SetDataSource(list2.Select(p => new
                 {
-                   
+
                     Expr2 = from,
                     Expr1 = to,
-                    Cate_ID = BillCat,
+                    Expr5 = BillCat,
                     Pro_id = p.name,
                     Quantity = list3.Where(f => f.Product_ID == p.Pro_id).Select(f => f.Quantity).Sum(),
+                    Price =  price,
+                    Expr4=price-cost,
+                    cost=cost,
 
-               // Quantity = _db.BillsContent.Where(d => d.Product_ID == p.Pro_id).Select(f => f.Quantity).Sum(),
+                    //info
+                    many_price = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                    active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                    Minmum = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
 
                 }).ToList());
                 Response.Buffer = false;
