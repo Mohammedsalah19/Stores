@@ -451,21 +451,36 @@ namespace Stores.Controllers
         public ActionResult PrintEndDa()
         {
 
+            int userID = int.Parse(Session["userID"].ToString());
+            // printer name
+            string PrinterID = _db.Users.Where(d => d.Id == userID).Select(f => f.printer_name).FirstOrDefault();
+            string printerName = _db.PrintType.Where(id => id.ID.ToString() == PrinterID).Select(f => f.PrinterName).FirstOrDefault();
+
 
             DateTime endday = EndOfDay(DateTime.Now);
             DateTime startday = StartOfDay(DateTime.Now);
-            int userID = int.Parse(Session["userID"].ToString());
-
+ 
             var model = new EndDay();
             model.BillsX = _db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).ToList();
 
             model.ExpensesX = _db.Expenses.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).ToList();
             model.ClientX = _db.Clients.ToList();
+
             model.PaymentsX = _db.Payments.Where(d => d.date >= startday && d.date <= endday && d.user_id == userID).ToList();
             model.ExpensesTypeX = _db.ExpensesType.ToList();
 
 
+            var s = _db.Expenses.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => (decimal?)f.amount).Sum();
 
+            decimal? amount = 0;
+            if (s==null)
+            {
+                amount = 0;
+            }
+            else
+            {
+                amount = s;
+            }
 
             ReportDocument rd = new ReportDocument();
 
@@ -484,15 +499,19 @@ namespace Stores.Controllers
                 discount = _db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f=>f.discount).Sum(),
                 cost = _db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f=>f.cost).Sum(),
                 comment = (_db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => f.price).Sum() - _db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => f.discount).Sum()) - _db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => f.cost).Sum(),
-              
+
                 //expesnes
-              //   amount = _db.Expenses.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => f.amount).Sum(),
-               // phone = _db.Expenses.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Count(),
- 
+                  // amount = _db.Expenses.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => f.amount).Sum(),
+                   amount = amount,
+                     phone = _db.Expenses.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Count(),
+
+             
+
                 //payment
                 Payments_ID = _db.Payments.Where(d => d.date >= startday && d.date <= endday && d.user_id == userID).Count(),
-              Payment_amount = _db.Payments.Where(d => d.date >= startday && d.date <= endday && d.user_id == userID).Select(f=>f.Payment_amount).Sum(),
+                 Payment_amount = _db.Payments.Where(d => d.date >= startday && d.date <= endday && d.user_id == userID).Select(f=>f.Payment_amount).Sum(),
 
+          
 
                 //info
                 PicPath = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
@@ -508,7 +527,14 @@ namespace Stores.Controllers
             Response.ClearHeaders();
             stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             stream.Seek(0, SeekOrigin.Begin);
-            return File(stream, "aaplication/pdf", "تقرير انهاء اليوم.pdf");
+
+            rd.PrintOptions.PrinterName = printerName;
+
+            rd.PrintToPrinter(1, false, 0, 0);
+            rd.Refresh();
+            return RedirectToAction("EndDay");
+
+            //   return File(stream, "aaplication/pdf", "تقرير انهاء اليوم.pdf");
         }
 
         #region Havent access

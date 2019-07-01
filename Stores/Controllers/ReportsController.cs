@@ -602,6 +602,12 @@ namespace Stores.Controllers
         public ActionResult BillsReort(DateTime from, DateTime to, string BillCat, string clientName, string UserName)
         {
 
+            int userID = int.Parse(Session["userID"].ToString());
+            // printer name
+            string PrinterID = _db.Users.Where(d => d.Id == userID).Select(f => f.printer_name).FirstOrDefault();
+            string printerName = _db.PrintType.Where(id => id.ID.ToString() == PrinterID).Select(f => f.PrinterName).FirstOrDefault();
+
+
             ReportDocument rd = new ReportDocument();
 
             rd.Load(Path.Combine(Server.MapPath("~/Report/billStatistics.rpt")));
@@ -642,7 +648,12 @@ namespace Stores.Controllers
                 Response.ClearHeaders();
                 stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "aaplication/pdf", "سجل الفواتير.pdf");
+
+                rd.PrintOptions.PrinterName = printerName;
+
+                rd.PrintToPrinter(1, false, 0, 0);
+                rd.Refresh();
+                return RedirectToAction("fwater");
             }
             else if (BillCatID != 0 && clientNameID != 0 && UserNameID == 0)
 
@@ -676,7 +687,11 @@ namespace Stores.Controllers
                 Response.ClearHeaders();
                 stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "aaplication/pdf", "سجل الفواتير.pdf");
+                rd.PrintOptions.PrinterName = printerName;
+
+                rd.PrintToPrinter(1, false, 0, 0);
+                rd.Refresh();
+                return RedirectToAction("fwater");
             }
             else if (BillCatID != 0 && clientNameID == 0 && UserNameID != 0)
 
@@ -710,7 +725,11 @@ namespace Stores.Controllers
                 Response.ClearHeaders();
                 stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "aaplication/pdf", "سجل الفواتير.pdf");
+                rd.PrintOptions.PrinterName = printerName;
+
+                rd.PrintToPrinter(1, false, 0, 0);
+                rd.Refresh();
+                return RedirectToAction("fwater");
             }
             else if (BillCatID == 0 && clientNameID != 0 && UserNameID != 0)
 
@@ -744,7 +763,11 @@ namespace Stores.Controllers
                 Response.ClearHeaders();
                 stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "aaplication/pdf", "سجل الفواتير.pdf");
+                rd.PrintOptions.PrinterName = printerName;
+
+                rd.PrintToPrinter(1, false, 0, 0);
+                rd.Refresh();
+                return RedirectToAction("fwater");
             }
 
             else if (BillCatID != 0 && clientNameID == 0 && UserNameID == 0)
@@ -779,7 +802,11 @@ namespace Stores.Controllers
                 Response.ClearHeaders();
                 stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "aaplication/pdf", "سجل الفواتير.pdf");
+                rd.PrintOptions.PrinterName = printerName;
+
+                rd.PrintToPrinter(1, false, 0, 0);
+                rd.Refresh();
+                return RedirectToAction("fwater");
             }
             else if (BillCatID == 0 && clientNameID != 0 && UserNameID == 0)
 
@@ -813,7 +840,11 @@ namespace Stores.Controllers
                 Response.ClearHeaders();
                 stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "aaplication/pdf", "سجل الفواتير.pdf");
+                rd.PrintOptions.PrinterName = printerName;
+
+                rd.PrintToPrinter(1, false, 0, 0);
+                rd.Refresh();
+                return RedirectToAction("fwater");
             }
             else if (BillCatID == 0 && clientNameID == 0 && UserNameID != 0)
 
@@ -847,7 +878,11 @@ namespace Stores.Controllers
                 Response.ClearHeaders();
                 stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "aaplication/pdf", "سجل الفواتير.pdf");
+                rd.PrintOptions.PrinterName = printerName;
+
+                rd.PrintToPrinter(1, false, 0, 0);
+                rd.Refresh();
+                return RedirectToAction("fwater");
             }
 
 
@@ -882,19 +917,27 @@ namespace Stores.Controllers
             Response.ClearHeaders();
             stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             stream.Seek(0, SeekOrigin.Begin);
-            return File(stream, "aaplication/pdf", "سجل الفواتير.pdf");
+            rd.PrintOptions.PrinterName = printerName;
 
+            rd.PrintToPrinter(1, false, 0, 0);
+            rd.Refresh();
+            return RedirectToAction("fwater");
         }
 
         #endregion
 
 
-        #region  Product report Not compelete
+        #region  Product report   compelete
 
 
 
         public ActionResult ProductReort(DateTime from, DateTime to, string BillCat)
         {
+            int userID = int.Parse(Session["userID"].ToString());
+            // printer name
+            string PrinterID = _db.Users.Where(d => d.Id == userID).Select(f => f.printer_name).FirstOrDefault();
+            string printerName = _db.PrintType.Where(id => id.ID.ToString() == PrinterID).Select(f => f.PrinterName).FirstOrDefault();
+
 
             ReportDocument rd = new ReportDocument();
 
@@ -972,8 +1015,12 @@ namespace Stores.Controllers
                 Response.ClearHeaders();
                 stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "aaplication/pdf", "سجل الفواتير.pdf");
 
+                rd.PrintOptions.PrinterName = printerName;
+
+                rd.PrintToPrinter(1, false, 0, 0);
+                rd.Refresh();
+                return RedirectToAction("expenses");
             }
             return View();
         }
@@ -984,6 +1031,10 @@ namespace Stores.Controllers
 
         public ActionResult ClientStatistic(DateTime from, DateTime to, int client)
         {
+            int userID = int.Parse(Session["userID"].ToString());
+            // printer name
+            string PrinterID = _db.Users.Where(d => d.Id == userID).Select(f => f.printer_name).FirstOrDefault();
+            string printerName = _db.PrintType.Where(id => id.ID.ToString() == PrinterID).Select(f => f.PrinterName).FirstOrDefault();
 
             ReportDocument rd = new ReportDocument();
 
@@ -1019,7 +1070,12 @@ namespace Stores.Controllers
             Response.ClearHeaders();
             stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             stream.Seek(0, SeekOrigin.Begin);
-            return File(stream, "aaplication/pdf", "سجل العملاء .pdf");
+
+            rd.PrintOptions.PrinterName = printerName;
+
+            rd.PrintToPrinter(1, false, 0, 0);
+            rd.Refresh();
+            return RedirectToAction("clients");
         }
         #endregion
 
@@ -1029,7 +1085,11 @@ namespace Stores.Controllers
 
         public ActionResult ExpensesReport(DateTime from, DateTime to, string ExpenesCat, string Client)
         {
- 
+            int userID = int.Parse(Session["userID"].ToString());
+            // printer name
+            string PrinterID = _db.Users.Where(d => d.Id == userID).Select(f => f.printer_name).FirstOrDefault();
+            string printerName = _db.PrintType.Where(id => id.ID.ToString() == PrinterID).Select(f => f.PrinterName).FirstOrDefault();
+
 
             ReportDocument rd = new ReportDocument();
 
@@ -1066,8 +1126,15 @@ namespace Stores.Controllers
                 Response.ClearHeaders();
                 stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "aaplication/pdf", "سجل المصروفات.pdf");
-            }
+
+
+                rd.PrintOptions.PrinterName = printerName;
+
+                rd.PrintToPrinter(1, false, 0, 0);
+                rd.Refresh();
+                return RedirectToAction("expenses");
+
+             }
             if (CateExpId != 0 && usrId == 0)
             {
                 var model = _db.Expenses.Where(d => d.date >= from && d.date <= to && d.ExpensesType_ID == CateExpId).ToList();
@@ -1093,7 +1160,11 @@ namespace Stores.Controllers
                 Response.ClearHeaders();
                 stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "aaplication/pdf", "سجل المصروفات.pdf");
+                rd.PrintOptions.PrinterName = printerName;
+
+                rd.PrintToPrinter(1, false, 0, 0);
+                rd.Refresh();
+                return RedirectToAction("expenses");
             }
             if (CateExpId == 0 && usrId != 0)
             {
@@ -1120,7 +1191,11 @@ namespace Stores.Controllers
                 Response.ClearHeaders();
                 stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "aaplication/pdf", "سجل المصروفات.pdf");
+                rd.PrintOptions.PrinterName = printerName;
+
+                rd.PrintToPrinter(1, false, 0, 0);
+                rd.Refresh();
+                return RedirectToAction("expenses");
             }
             else
             {
@@ -1149,7 +1224,11 @@ namespace Stores.Controllers
                 Response.ClearHeaders();
                 stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "aaplication/pdf", "سجل المصروفات.pdf");
+                rd.PrintOptions.PrinterName = printerName;
+
+                rd.PrintToPrinter(1, false, 0, 0);
+                rd.Refresh();
+                return RedirectToAction("expenses");
             }
         }
         #endregion
@@ -1158,6 +1237,10 @@ namespace Stores.Controllers
 
         public ActionResult PaymentStaticstic (DateTime from, DateTime to, string client)
         {
+            int userID = int.Parse(Session["userID"].ToString());
+            // printer name
+            string PrinterID = _db.Users.Where(d => d.Id == userID).Select(f => f.printer_name).FirstOrDefault();
+            string printerName = _db.PrintType.Where(id => id.ID.ToString() == PrinterID).Select(f => f.PrinterName).FirstOrDefault();
 
 
             ReportDocument rd = new ReportDocument();
@@ -1188,8 +1271,11 @@ namespace Stores.Controllers
                 Response.ClearHeaders();
                 stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "aaplication/pdf", "سجل الدفعات الماليه.pdf");
+                rd.PrintOptions.PrinterName = printerName;
 
+                rd.PrintToPrinter(1, false, 0, 0);
+                rd.Refresh();
+                return RedirectToAction("payments");
             }
             else
             {
@@ -1215,8 +1301,11 @@ namespace Stores.Controllers
                 Response.ClearHeaders();
                 stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "aaplication/pdf", "سجل الدفعات الماليه.pdf");
+                rd.PrintOptions.PrinterName = printerName;
 
+                rd.PrintToPrinter(1, false, 0, 0);
+                rd.Refresh();
+                return RedirectToAction("payments");
             }
         }
         #endregion

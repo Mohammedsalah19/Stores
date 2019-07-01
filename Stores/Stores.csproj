@@ -548,7 +548,6 @@
     <Content Include="Views\Home\DeleteInfo.cshtml" />
     <Content Include="Views\Clients\EditClient.cshtml" />
     <Content Include="Views\Employee\EndDay.cshtml" />
-    <Content Include="Views\StoreHouse\GoEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

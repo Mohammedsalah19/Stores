@@ -32,9 +32,8 @@
                             "<td>" + getActive(data[i].Pro_id) + "</td>" +
                             "<td>" + getCatName(data[i].Cate_ID) + "</td>" +
  
-                            //"<td>" + "<a href='#' class='btn btn-warning' onclick='EditProRecord(" + data[i].Pro_id + ")' ><span class='glyphicon glyphicon-edit'></span> تعديل</a>" + "</td>" +
-                            "<td>" + "<a href='#' class='btn btn-warning' onclick='goPrint(" + data[i].Pro_id + ")' ><span class='glyphicon glyphicon-edit'></span> تعديل</a>" + "</td>" +
-
+                             "<td>" + "<a href='#' class='btn btn-warning' onclick='goPrint(" + data[i].Pro_id + ")' ><span class='glyphicon glyphicon-edit'></span> تفعيل / الغاء التفعيل </a>" + "</td>" +
+ 
 
                             "</tr>";
                         SetData.append(Data);
@@ -46,17 +45,20 @@
     });
 
 
-    function goPrint(Pro_id) {
+    function goPrint(Pro_id ) {
         var names;
         var url = "/StoreHouse/GoEdit?Pro_id=" + Pro_id;
- 
+  
         $.ajax({
             type: "GET",
             url: url,
              success: function (data) {
-                names = data;
+                 names = data;
+                 alert("تم التعديل بنجاح!..");
+                 window.location.href = "/StoreHouse/index";
 
             }
+
         })
      }
 

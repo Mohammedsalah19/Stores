@@ -61,7 +61,7 @@ namespace Stores.Controllers
 
 
             var s = _db.ProductCategory.Where(ss => ss.name == Pro_id).FirstOrDefault();
-            var obj = _db.Products.Where(p => p.Cate_ID == s.Cate_ID).ToList();
+            var obj = _db.Products.Where(p => p.Cate_ID == s.Cate_ID&& p.active== true).ToList();
 
             if (obj != null && obj.Count() > 0)
             {

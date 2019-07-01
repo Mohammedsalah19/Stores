@@ -121,7 +121,7 @@ namespace Stores.Controllers
 
         #endregion
 
-        #region save after edit 
+        #region Tafeal and not 
 
 
         [HttpGet]
@@ -132,54 +132,75 @@ namespace Stores.Controllers
                 return HttpNotFound();
             }
 
-            var model = _db.Produt_Price.Where(f=>f.Pro_ID== Pro_id).FirstOrDefault();
-            if (model== null)
+            var model = _db.Produt_Price.Where(f => f.Pro_ID == Pro_id).FirstOrDefault();
+            var modelProduct = _db.Products.Where(f => f.Pro_id == Pro_id).FirstOrDefault();
+            if (model == null)
             {
                 return HttpNotFound();
             }
-            return View(model);
-        }
 
-        [HttpPost]
-        public ActionResult GoEdit(Produt_Price _pro)
-        {
-            _db.Entry(_pro).State = EntityState.Modified;
-
-            _db.SaveChanges();
-
-
-            return RedirectToAction("index");
-        }
-
-
-            public JsonResult SaveDataInDatabase(Produt_Price model,bool active)
-        {
-            var result = false;
-            try
+            if (model.active == true )
             {
-                Produt_Price pro = _db.Produt_Price.SingleOrDefault(x => x.Prd_Pri_ID == model.Prd_Pri_ID);
-                pro.cost = model.cost;
-                pro.Price = model.Price;
-                pro.Quantity = model.Quantity;
-                pro.Minmum = model.Minmum;
-                pro.Discount = model.Discount;
-                pro.many_price = model.many_price;
-                pro.active = model.active;
+                model.active = false;
+                _db.Entry(model).State = EntityState.Modified;
+                _db.SaveChanges();
+                modelProduct.active = false;
 
-                pro.Pro_ID = model.Pro_ID;
+                _db.Entry(modelProduct).State = EntityState.Modified;
+
                 _db.SaveChanges();
 
+                return RedirectToAction("index");
 
-                result = true;
             }
-
-            catch (Exception ex)
+            else
             {
-                throw ex;
+                model.active = true;
+                modelProduct.active = true;
+                _db.Entry(model).State = EntityState.Modified;
+
+                _db.SaveChanges();
+
+                modelProduct.active = true;
+                _db.Entry(modelProduct).State = EntityState.Modified;
+                _db.SaveChanges();
+
+                return RedirectToAction("index");
+
             }
 
-            return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+
+
+        //public JsonResult SaveDataInDatabase(Produt_Price model, bool active)
+        //{
+        //    var result = false;
+        //    try
+        //    {
+        //        Produt_Price pro = _db.Produt_Price.SingleOrDefault(x => x.Prd_Pri_ID == model.Prd_Pri_ID);
+        //        pro.cost = model.cost;
+        //        pro.Price = model.Price;
+        //        pro.Quantity = model.Quantity;
+        //        pro.Minmum = model.Minmum;
+        //        pro.Discount = model.Discount;
+        //        pro.many_price = model.many_price;
+        //        pro.active = model.active;
+
+        //        pro.Pro_ID = model.Pro_ID;
+        //        _db.SaveChanges();
+
+
+        //        result = true;
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
         #endregion
 
         #region  save new product
@@ -248,70 +269,70 @@ namespace Stores.Controllers
         #region  add stores
 
 
-            #region index -secure
+        #region index -secure
 
-            public ActionResult Stores()
+        public ActionResult Stores()
+        {
+            bool res = s.products();
+            if (res == true)
             {
-                bool res = s.products();
-                if (res == true)
-                {
-                    var model = _db.Storehouse.ToList();
+                var model = _db.Storehouse.ToList();
                 return View(model);
-                }
-                return RedirectToAction("HavntAccess", "Employee");
-
             }
-            #endregion
+            return RedirectToAction("HavntAccess", "Employee");
+
+        }
+        #endregion
 
 
-            #region add new store
+        #region add new store
 
-            public JsonResult Addstore(Storehouse model)
+        public JsonResult Addstore(Storehouse model)
+        {
+
+            var result = false;
+            try
             {
+                Storehouse newStore = new Storehouse();
+                newStore.name = model.name;
+                newStore.place = model.place;
+                newStore.Description = model.Description;
+                _db.Storehouse.Add(newStore);
 
-                var result = false;
-                try
-                {
-                    Storehouse newStore = new Storehouse();
-                    newStore.name = model.name;
-                    newStore.place = model.place;
-                    newStore.Description = model.Description;
-                    _db.Storehouse.Add(newStore);
-
-                     _db.SaveChanges();
+                _db.SaveChanges();
 
 
-                    result = true;
-                }
-
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-
-                return Json(result, JsonRequestBehavior.AllowGet);
+                result = true;
             }
-            #endregion
 
-
-            #region Delete record 
-
-            public JsonResult DeleteStore(int? Store_Id)
+            catch (Exception ex)
             {
-                bool result = false;
-                var store = _db.Storehouse.SingleOrDefault(x => x.Store_Id == Store_Id);
-                 if (store != null)
-                {
-                    _db.Storehouse.Remove(store);
-
-                     _db.SaveChanges();
-
-                    result = true;
-                }
-
-                return Json(result, JsonRequestBehavior.AllowGet);
+                throw ex;
             }
-            #endregion
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+
+        #region Delete record 
+
+        public JsonResult DeleteStore(int? Store_Id)
+        {
+            bool result = false;
+            var store = _db.Storehouse.SingleOrDefault(x => x.Store_Id == Store_Id);
+            if (store != null)
+            {
+                _db.Storehouse.Remove(store);
+
+                _db.SaveChanges();
+
+                result = true;
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
 
 
         #endregion
@@ -319,76 +340,77 @@ namespace Stores.Controllers
         #region category
 
 
-            #region index -secure
+        #region index -secure
 
-            public ActionResult Category()
-            { bool res = s.products();
-                if (res == true)
-                {
-                    var model = _db.ProductCategory.ToList();
-
-                    return View(model);
-                }
-                return RedirectToAction("HavntAccess", "Employee");
-
-            }
-
-            #endregion
-
-
-
-            #region add new cate
-
-            public JsonResult AddCate(ProductCategory model)
+        public ActionResult Category()
+        { bool res = s.products();
+            if (res == true)
             {
+                var model = _db.ProductCategory.ToList();
 
-                var result = false;
-                try
-                {
-                    ProductCategory newCate = new ProductCategory();
-                    newCate.name = model.name;
-                    newCate.description = model.description;
-                     _db.ProductCategory.Add(newCate);
-
-                    _db.SaveChanges();
-
-
-                    result = true;
-                }
-
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-
-                return Json(result, JsonRequestBehavior.AllowGet);
+                return View(model);
             }
-            #endregion
+            return RedirectToAction("HavntAccess", "Employee");
+
+        }
+
+        #endregion
 
 
-            #region Delete record 
 
-            public JsonResult DeleteCate(int? Cate_ID)
+        #region add new cate
+
+        public JsonResult AddCate(ProductCategory model)
+        {
+
+            var result = false;
+            try
             {
-                bool result = false;
-                var cate = _db.ProductCategory.SingleOrDefault(x => x.Cate_ID == Cate_ID);
-                if (cate != null)
-                {
-                    _db.ProductCategory.Remove(cate);
+                ProductCategory newCate = new ProductCategory();
+                newCate.name = model.name;
+                newCate.description = model.description;
+                _db.ProductCategory.Add(newCate);
 
-                    _db.SaveChanges();
+                _db.SaveChanges();
 
-                    result = true;
-                }
 
-                return Json(result, JsonRequestBehavior.AllowGet);
+                result = true;
             }
 
-            #endregion
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+
+        #region Delete record 
+
+        public JsonResult DeleteCate(int? Cate_ID)
+        {
+            bool result = false;
+            var cate = _db.ProductCategory.SingleOrDefault(x => x.Cate_ID == Cate_ID);
+            if (cate != null)
+            {
+                _db.ProductCategory.Remove(cate);
+
+                _db.SaveChanges();
+
+                result = true;
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
 
 
         #endregion
 
+    
     }
 
 }
