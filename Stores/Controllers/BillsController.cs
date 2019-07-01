@@ -415,6 +415,10 @@ namespace Stores.Controllers
             if (res == true)
             {
                 int userID = int.Parse(Session["userID"].ToString());
+                // printer name
+                string PrinterID = _db.Users.Where(d => d.Id == userID).Select(f => f.printer_name).FirstOrDefault();
+                string printerName = _db.PrintType.Where(id => id.ID.ToString() == PrinterID).Select(f => f.PrinterName).FirstOrDefault();
+
 
                 var mo = _db.Bills.Where(p => p.User_ID == userID).ToList();
 
@@ -471,7 +475,7 @@ namespace Stores.Controllers
 
 
                 //   print
-
+                Stream stream;
                 ReportDocument rd = new ReportDocument();
 
 
@@ -504,63 +508,67 @@ namespace Stores.Controllers
                 Response.Buffer = false;
                 Response.ClearContent();
                 Response.ClearHeaders();
-                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                 stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "aaplication/pdf", "فاتوره بيع.pdf");
 
+                rd.PrintOptions.PrinterName = printerName;
+                
+                rd.PrintToPrinter(1, false, 0, 0);
+                rd.Refresh();
+          
 
-                // return RedirectToAction("Purchases");
+                 return RedirectToAction("Purchases");
             }
 
             return RedirectToAction("HavntAccess", "Employee");
 
         }
         #endregion
-        public ActionResult ss()
-        {
+        //public ActionResult ss()
+        //{
 
-            int userID = int.Parse(Session["userID"].ToString());
+        //    int userID = int.Parse(Session["userID"].ToString());
 
-            var mo = _db.Bills.Where(p => p.User_ID == userID).ToList();
+        //    var mo = _db.Bills.Where(p => p.User_ID == userID).ToList();
 
-            var lastIDInBIlls = mo.OrderByDescending(p => p.Id).FirstOrDefault();
+        //    var lastIDInBIlls = mo.OrderByDescending(p => p.Id).FirstOrDefault();
 
-            ReportDocument rd = new ReportDocument();
+        //    ReportDocument rd = new ReportDocument();
 
 
-            rd.Load(Path.Combine(Server.MapPath("~/Report/BillPruches.rpt")));
-            rd.SetDataSource(_db.BillsContent.Where(d => d.Bill_ID == lastIDInBIlls.Id && d.IsDeleted == false).Select(p => new
-            {
-                id = p.Bill_ID,
+        //    rd.Load(Path.Combine(Server.MapPath("~/Report/BillPruches.rpt")));
+        //    rd.SetDataSource(_db.BillsContent.Where(d => d.Bill_ID == lastIDInBIlls.Id && d.IsDeleted == false).Select(p => new
+        //    {
+        //        id = p.Bill_ID,
 
-                User_ID = _db.Users.Where(f => f.Id == _db.Bills.Where(d => d.Id == lastIDInBIlls.Id).Select(ff => ff.User_ID).FirstOrDefault()).Select(f => f.name).FirstOrDefault(),
-                Client_ID = _db.Clients.Where(f => f.Client_ID == _db.Bills.Where(d => d.Id == lastIDInBIlls.Id).Select(ff => ff.Client_ID).FirstOrDefault()).Select(f => f.name).FirstOrDefault(),
-                phone = _db.Clients.Where(f => f.Client_ID == _db.Bills.Where(d => d.Id == lastIDInBIlls.Id).Select(ff => ff.Client_ID).FirstOrDefault()).Select(f => f.phone).FirstOrDefault(),
-                date = _db.Bills.Where(f => f.Id == lastIDInBIlls.Id).Select(ff => ff.date).FirstOrDefault(),
+        //        User_ID = _db.Users.Where(f => f.Id == _db.Bills.Where(d => d.Id == lastIDInBIlls.Id).Select(ff => ff.User_ID).FirstOrDefault()).Select(f => f.name).FirstOrDefault(),
+        //        Client_ID = _db.Clients.Where(f => f.Client_ID == _db.Bills.Where(d => d.Id == lastIDInBIlls.Id).Select(ff => ff.Client_ID).FirstOrDefault()).Select(f => f.name).FirstOrDefault(),
+        //        phone = _db.Clients.Where(f => f.Client_ID == _db.Bills.Where(d => d.Id == lastIDInBIlls.Id).Select(ff => ff.Client_ID).FirstOrDefault()).Select(f => f.phone).FirstOrDefault(),
+        //        date = _db.Bills.Where(f => f.Id == lastIDInBIlls.Id).Select(ff => ff.date).FirstOrDefault(),
 
-                Discount = _db.Bills.Where(f => f.Id == lastIDInBIlls.Id).Select(ff => ff.discount).FirstOrDefault(),
-                Expr19 = _db.Bills.Where(f => f.Id == lastIDInBIlls.Id).Select(ff => ff.price).FirstOrDefault(),
-                Expr14 = _db.Bills.Where(f => f.Id == lastIDInBIlls.Id).Select(ff => ff.price).FirstOrDefault() - _db.Bills.Where(f => f.Id == lastIDInBIlls.Id).Select(ff => ff.discount).FirstOrDefault(),
+        //        Discount = _db.Bills.Where(f => f.Id == lastIDInBIlls.Id).Select(ff => ff.discount).FirstOrDefault(),
+        //        Expr19 = _db.Bills.Where(f => f.Id == lastIDInBIlls.Id).Select(ff => ff.price).FirstOrDefault(),
+        //        Expr14 = _db.Bills.Where(f => f.Id == lastIDInBIlls.Id).Select(ff => ff.price).FirstOrDefault() - _db.Bills.Where(f => f.Id == lastIDInBIlls.Id).Select(ff => ff.discount).FirstOrDefault(),
 
-                Price = p.Price,
-                Quantity = p.Quantity,
+        //        Price = p.Price,
+        //        Quantity = p.Quantity,
 
-                Product_ID = _db.Products.Where(d => d.Pro_id == p.Product_ID).Select(f => f.name).FirstOrDefault(),
-                //info
-                Viewed = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
-                active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
-                status = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
+        //        Product_ID = _db.Products.Where(d => d.Pro_id == p.Product_ID).Select(f => f.name).FirstOrDefault(),
+        //        //info
+        //        Viewed = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+        //        active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+        //        status = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
 
-            }).ToList());
+        //    }).ToList());
 
-            Response.Buffer = false;
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
-            stream.Seek(0, SeekOrigin.Begin);
-            return File(stream, "aaplication/pdf", "فاتوره بيع.pdf");
+        //    Response.Buffer = false;
+        //    Response.ClearContent();
+        //    Response.ClearHeaders();
+        //    Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+        //    stream.Seek(0, SeekOrigin.Begin);
+        //    return File(stream, "aaplication/pdf", "فاتوره بيع.pdf");
 
-        }
+        //}
 
         #region Delete record from data table
 
@@ -750,6 +758,10 @@ namespace Stores.Controllers
             {
 
                 int userID = int.Parse(Session["userID"].ToString());
+                // printer name
+                string PrinterID = _db.Users.Where(d => d.Id == userID).Select(f => f.printer_name).FirstOrDefault();
+                string printerName = _db.PrintType.Where(id => id.ID.ToString() == PrinterID).Select(f => f.PrinterName).FirstOrDefault();
+
 
                 var mo = _db.Bills.Where(p => p.User_ID == userID).ToList();
 
@@ -848,16 +860,21 @@ namespace Stores.Controllers
                 Response.ClearHeaders();
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "aaplication/pdf", "فاتوره بيع.pdf");
+                rd.PrintOptions.PrinterName = printerName;
+
+                rd.PrintToPrinter(1, false, 0, 0);
+                rd.Refresh();
+
+                //   return File(stream, "aaplication/pdf", "فاتوره بيع.pdf");
 
 
-                // return RedirectToAction("Purchases");
+                   return RedirectToAction("BuyBill");
             }
 
 
 
             //    return RedirectToAction("BuyBill");
- 
+
 
             return RedirectToAction("HavntAccess", "Employee");
 
@@ -964,6 +981,12 @@ namespace Stores.Controllers
         {
             // bool result = true;
 
+            int userID = int.Parse(Session["userID"].ToString());
+
+            // printer name
+            string PrinterID = _db.Users.Where(d => d.Id == userID).Select(f => f.printer_name).FirstOrDefault();
+            string printerName = _db.PrintType.Where(id => id.ID.ToString() == PrinterID).Select(f => f.PrinterName).FirstOrDefault();
+
             content.Price = price;
             var GetProID = _db.Products.Where(i => i.name == pro).FirstOrDefault();
             content.Product_ID = GetProID.Pro_id;
@@ -1023,7 +1046,14 @@ namespace Stores.Controllers
             Response.ClearHeaders();
             Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             stream.Seek(0, SeekOrigin.Begin);
-            return File(stream, "aaplication/pdf", "فاتوره بيع.pdf");
+
+            rd.PrintOptions.PrinterName = printerName;
+
+            rd.PrintToPrinter(1, false, 0, 0);
+            rd.Refresh();
+            return RedirectToAction("ReturnBill");
+
+            //return File(stream, "aaplication/pdf", "فاتوره بيع.pdf");
 
         }
 

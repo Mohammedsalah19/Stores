@@ -4,6 +4,7 @@ using Stores.Models.CommonClasses;
 using Stores.Models.DAL;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -123,7 +124,35 @@ namespace Stores.Controllers
         #region save after edit 
 
 
-        public JsonResult SaveDataInDatabase(Produt_Price model)
+        [HttpGet]
+        public ActionResult GoEdit(int? Pro_id)
+        {
+            if (Pro_id == null)
+            {
+                return HttpNotFound();
+            }
+
+            var model = _db.Produt_Price.Where(f=>f.Pro_ID== Pro_id).FirstOrDefault();
+            if (model== null)
+            {
+                return HttpNotFound();
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult GoEdit(Produt_Price _pro)
+        {
+            _db.Entry(_pro).State = EntityState.Modified;
+
+            _db.SaveChanges();
+
+
+            return RedirectToAction("index");
+        }
+
+
+            public JsonResult SaveDataInDatabase(Produt_Price model,bool active)
         {
             var result = false;
             try

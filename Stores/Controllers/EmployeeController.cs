@@ -486,8 +486,8 @@ namespace Stores.Controllers
                 comment = (_db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => f.price).Sum() - _db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => f.discount).Sum()) - _db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => f.cost).Sum(),
               
                 //expesnes
-                 amount = _db.Expenses.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => f.amount).Sum(),
-                phone = _db.Expenses.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Count(),
+              //   amount = _db.Expenses.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => f.amount).Sum(),
+               // phone = _db.Expenses.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Count(),
  
                 //payment
                 Payments_ID = _db.Payments.Where(d => d.date >= startday && d.date <= endday && d.user_id == userID).Count(),

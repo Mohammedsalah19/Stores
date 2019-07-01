@@ -31,7 +31,9 @@
                             "<td>" + data[i].barcode + "</td>" +
                             "<td>" + getActive(data[i].Pro_id) + "</td>" +
                             "<td>" + getCatName(data[i].Cate_ID) + "</td>" +
-                            "<td>" + "<a href='#' class='btn btn-warning' onclick='EditProRecord(" + data[i].Pro_id + ")' ><span class='glyphicon glyphicon-edit'></span> تعديل</a>" + "</td>" +
+ 
+                            //"<td>" + "<a href='#' class='btn btn-warning' onclick='EditProRecord(" + data[i].Pro_id + ")' ><span class='glyphicon glyphicon-edit'></span> تعديل</a>" + "</td>" +
+                            "<td>" + "<a href='#' class='btn btn-warning' onclick='goPrint(" + data[i].Pro_id + ")' ><span class='glyphicon glyphicon-edit'></span> تعديل</a>" + "</td>" +
 
 
                             "</tr>";
@@ -43,6 +45,22 @@
         });
     });
 
+
+    function goPrint(Pro_id) {
+        var names;
+        var url = "/StoreHouse/GoEdit?Pro_id=" + Pro_id;
+ 
+        $.ajax({
+            type: "GET",
+            url: url,
+             success: function (data) {
+                names = data;
+
+            }
+        })
+     }
+
+    
 
     function TrueOrFalse(active) {
 
@@ -131,7 +149,7 @@
                 $("#Discount").val(obj.Discount);
                 $("#Store_Id").val(obj.Store_Id);
                 $("#Minmum").val(obj.Minmum);
-                $("#active").val(obj.active);
+                $("#activeX").val(obj.active);
 
             }
         })
@@ -251,7 +269,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <a href="#" class="close" data-dismiss="modal">&times;</a>
-                <h4 id="ModalTitle">تعديل الفاتوره</h4>
+                <h4 id="ModalTitle">تعديل ألمنتج</h4>
             </div>
             <div class="modal-body">
                 <form id="form" style="text-align:right;direction:rtl">
@@ -289,7 +307,7 @@
                         </div>
                         <div class="form-group">
                             <label>الحاله</label>
-                            <input type="checkbox" name="active" id="active" value="true" class="" />
+                            <input type="checkbox" name="activeX" id="activeX" value="True" class="" />
                         </div>
 
                         <div class="form-group">
@@ -362,7 +380,7 @@
                         </div>
                         <div class="form-group">
                             <label>الحاله</label>
-                            <input type="checkbox" name="active" id="active" value="true" class="" />
+                            <input type="checkbox" name="active" id="active" value="True" class="" />
                         </div>
 
                         <div class="form-group">
