@@ -56,10 +56,14 @@ namespace Stores.Controllers
 
             if (BillCatID != 0 && clientNameID != 0 && UserNameID != 0)
             {
-                var modelBillcat = _db.Bills.Where(d => d.date >= from && d.date <= to && d.Cate_Id == BillCatID && d.User_ID == UserNameID && d.Client_ID == clientNameID).ToList();
+                var modelBillcat = _db.Bills.Where(d => d.date >= from && d.date <= to &&
+                                                   d.Cate_Id == BillCatID && d.User_ID == UserNameID 
+                                                   && d.Client_ID == clientNameID).ToList();
+
                 return Json(modelBillcat, JsonRequestBehavior.AllowGet);
 
             }
+
             else if (BillCatID != 0 && clientNameID != 0 && UserNameID == 0)
 
 

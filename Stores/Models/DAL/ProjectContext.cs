@@ -30,6 +30,7 @@ namespace Stores.Models.DAL
         public DbSet<Payments> Payments { get; set; }
         public DbSet<PrintType> PrintType { get; set; }
         public DbSet<PLaceInfo> PLaceInfo { get; set; }
+        public DbSet<Tables> Tables { get; set; }
 
         public System.Data.Entity.DbSet<Stores.Models.CommonClasses.BillsWithExten> BillsWithExtens { get; set; }
     }

@@ -17,6 +17,7 @@ namespace Stores.Models
         public string username { get; set; }
         [DisplayName("كلمه المرور")]
 
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [DisplayName("اسم الموظف")]

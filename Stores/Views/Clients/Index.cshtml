@@ -29,7 +29,8 @@
 
             $.ajax({
                 type: "Post",
-                url: '/Clients/SaveClientData',
+                 url: '@Url.Action("SaveClientData","Clients")',
+              //  url: '/Clients/SaveClientData',
                 data: data,
                 success: function (result) {
                     alert("تمت الاضافه بنجاج");

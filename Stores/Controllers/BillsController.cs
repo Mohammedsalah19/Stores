@@ -256,7 +256,7 @@ namespace Stores.Controllers
                     _bill.Client_ID = ClintID.Client_ID;
                 //    ViewBag.CLientID = ClintID.Client_ID;
                     Session["CLientID"]= ClintID.Client_ID;
-                    _bill.Cate_Id = 2;
+                    _bill.Cate_Id = 4;
 
                     _bill.User_ID = int.Parse(Session["userID"].ToString());
                     _bill.Viewed = true;
@@ -512,12 +512,13 @@ namespace Stores.Controllers
                 stream.Seek(0, SeekOrigin.Begin);
 
                 rd.PrintOptions.PrinterName = printerName;
-                
                 rd.PrintToPrinter(1, false, 0, 0);
                 rd.Refresh();
-          
 
-                 return RedirectToAction("Purchases");
+                //  stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                //stream.Seek(0, SeekOrigin.Begin);
+                //return File(stream, "aaplication/pdf", "تفاصيل المستند.pdf");
+                return RedirectToAction("Purchases");
             }
 
             return RedirectToAction("HavntAccess", "Employee");
@@ -648,7 +649,7 @@ namespace Stores.Controllers
                 ViewBag.product = new SelectList(_db.Products.ToList(), "Pro_id", "name");
                 ViewBag.productCat = new SelectList(_db.ProductCategory.ToList(), "Cate_ID", "name");
 
-                Session["BillCategory"] = 2;
+                Session["BillCategory"] = 5;
                 return View(model);
 
 
@@ -700,7 +701,7 @@ namespace Stores.Controllers
                     // get client id
                     var ClintID = _db.Clients.Where(p => p.name == Client_ID).FirstOrDefault();
                     _bill.Client_ID = ClintID.Client_ID;
-                    _bill.Cate_Id = 1;
+                    _bill.Cate_Id = 5;
 
                     _bill.User_ID = int.Parse(Session["userID"].ToString());
                     _bill.Viewed = true;
@@ -995,7 +996,7 @@ namespace Stores.Controllers
             _db.BillsContent.Add(content);
             _db.SaveChanges();
 
-            //edit countity
+            //edit quantity
             pro_price = _db.Produt_Price.Where(p => p.Pro_ID == GetProID.Pro_id).FirstOrDefault();
             pro_price.Quantity = pro_price.Quantity + Quantity;
             _db.Entry(pro_price).State = EntityState.Modified;

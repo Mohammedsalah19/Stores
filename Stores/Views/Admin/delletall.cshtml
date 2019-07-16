@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Stores.Models.Tables>
+
+@{
+
+    ViewBag.Title = "حذف الداتا بيز";
+}
+ 
+ 
+<script>
+
+
+    function ss(values) {
+        $.ajax({
+            type: "POST",
+            url: "/Admin/DeleteAllTables?Tablevalues=" + values,
+            success: function (result) {
+                alert("تمت الحذف بنجاج");
+                location.reload(true);
+            }
+        })
+    }
+   
+</script>
+
+<style>
+
+    td {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    th {
+        text-align: center;
+        color: white;
+    }
+
+
+    body {
+        font-family: 'Cairo';
+    }
+
+    thead {
+        background-color: orange;
+    }
+
+    .ss {
+        background-color: orange;
+    }
+</style>
+<h4 class="text-right">حذف الداتا بيز</h4>
+
+<div class="table-responsive">
+
+    <table class="table  table-bordered table-hover table-striped">
+        <thead class="table-heading bg-primary">
+
+            <tr>
+                <th>
+                    اسم الجدول
+
+                </th>
+                <th>
+                    حذف
+                </th>
+            </tr>
+        </thead>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+ 
+                    <input type="submit" class='btn btn-danger' value="حذف" class="btn btn-info" onclick="ss(@item.ID)" />
+
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<br />
+<a href="@Url.Action("index","admin")" class="btn btn-default"><i class="fas fa-backward"></i> الرجوع</a>

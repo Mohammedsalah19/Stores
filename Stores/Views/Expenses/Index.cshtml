@@ -26,7 +26,10 @@
             var data = $("#SubmitForm2").serialize();
             $.ajax({
                 type: "Post",
-                url: "/Expenses/AddExpenses",
+                //for local host
+             
+                url: '@Url.Action("AddExpenses","Expenses")',
+                // url: "/Expenses/AddExpenses",
                 data: data,
                 success: function (result) {
                     alert("تم الاضافه بنجاح!..");

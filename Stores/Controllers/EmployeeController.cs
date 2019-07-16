@@ -63,7 +63,7 @@ namespace Stores.Controllers
                 Session["userID"] = model.Id;
                 Session["flag"] = "true";
 
-                Session.Timeout = 24;
+                Session.Timeout = 1;
                 return RedirectToAction("Index", "Home");
             }
             Session["userName"] = null;

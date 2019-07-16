@@ -149,6 +149,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BillsController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
@@ -305,6 +306,18 @@
     <Compile Include="Migrations\201906261300369_placeInfo.Designer.cs">
       <DependentUpon>201906261300369_placeInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907151625169_tablesmif.cs" />
+    <Compile Include="Migrations\201907151625169_tablesmif.Designer.cs">
+      <DependentUpon>201907151625169_tablesmif.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907151627136_updatetablesmig.cs" />
+    <Compile Include="Migrations\201907151627136_updatetablesmig.Designer.cs">
+      <DependentUpon>201907151627136_updatetablesmig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907161659177_ff.cs" />
+    <Compile Include="Migrations\201907161659177_ff.Designer.cs">
+      <DependentUpon>201907161659177_ff.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bills.cs" />
     <Compile Include="Models\BillsCategory.cs" />
@@ -329,6 +342,7 @@
     <Compile Include="Models\Products.cs" />
     <Compile Include="Models\Produt_Price.cs" />
     <Compile Include="Models\Storehouse.cs" />
+    <Compile Include="Models\Tables.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Models\Users_Privileges.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -424,6 +438,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\fontawesome.js" />
+    <Content Include="Content\main.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -548,6 +563,9 @@
     <Content Include="Views\Home\DeleteInfo.cshtml" />
     <Content Include="Views\Clients\EditClient.cshtml" />
     <Content Include="Views\Employee\EndDay.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\delletall.cshtml" />
+    <Content Include="Views\Admin\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -663,6 +681,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906261300369_placeInfo.resx">
       <DependentUpon>201906261300369_placeInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907151625169_tablesmif.resx">
+      <DependentUpon>201907151625169_tablesmif.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907151627136_updatetablesmig.resx">
+      <DependentUpon>201907151627136_updatetablesmig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907161659177_ff.resx">
+      <DependentUpon>201907161659177_ff.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\BillPruches.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
