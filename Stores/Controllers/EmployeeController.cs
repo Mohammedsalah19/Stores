@@ -63,7 +63,7 @@ namespace Stores.Controllers
                 Session["userID"] = model.Id;
                 Session["flag"] = "true";
 
-                Session.Timeout = 1;
+                Session.Timeout = 720;
                 return RedirectToAction("Index", "Home");
             }
             Session["userName"] = null;
@@ -470,9 +470,9 @@ namespace Stores.Controllers
             model.ExpensesTypeX = _db.ExpensesType.ToList();
 
 
-            var s = _db.Expenses.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => (decimal?)f.amount).Sum();
+            var s = _db.Expenses.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => f.amount).Sum();
 
-            decimal? amount = 0;
+            decimal amount = 0;
             if (s==null)
             {
                 amount = 0;
@@ -501,8 +501,8 @@ namespace Stores.Controllers
                 comment = (_db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => f.price).Sum() - _db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => f.discount).Sum()) - _db.Bills.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => f.cost).Sum(),
 
                 //expesnes
-                  // amount = _db.Expenses.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f => f.amount).Sum(),
-                   amount = amount,
+                 amount = _db.Expenses.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Select(f =>f.amount).Sum(),
+                   //  amount = 520,
                      phone = _db.Expenses.Where(d => d.date >= startday && d.date <= endday && d.User_ID == userID).Count(),
 
              

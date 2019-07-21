@@ -54,7 +54,7 @@
             type: "Post",
                url: '@Url.Action("SaveClientData","Bills")',
           //  url: '/Bills/SaveClientData',
-            
+
             data: data,
             success: function (result) {
                 alert("تمت الاضافه بنجاج");
@@ -68,7 +68,7 @@
 
     };
 
-    // return value of price and cost
+    // return value of price and cost when pro change
 
     $(document).ready(function () {
         $("#pro").change(function () {
@@ -86,6 +86,36 @@
                     $.each(data, function (index, value) {
                         $('#elmotwafer').val(value.Quantity);
                         $('#Price').val(value.Price);
+                        $('#barcode').val(value.Price);
+                     });
+                }
+
+
+            });
+        });
+    });
+
+
+
+    // return value of barcode and productname when pro change
+
+    $(document).ready(function () {
+        $("#pro").change(function () {
+            var id = $(this);
+            $.ajax({
+
+                url: '/Bills/ReturnBarcodeValue?Pro_id=' + id.val(),
+                contentType: "application/json;charset=utf-8",
+                dataType: "Json",
+                type: 'GET',
+                async: true,
+                cache: false,
+                success: function (data) {
+
+                    $.each(data, function (index, value) {
+                       
+                        $('#barcodeProduct').val(value.name);
+                        $('#barcode').val(value.barcode);
                     });
                 }
 
@@ -93,6 +123,86 @@
             });
         });
     });
+
+    // return value of price and cost when barcode change
+
+    $(document).ready(function () {
+        $("#barcode").change(function () {
+            var id = $("#barcode").val();
+            $.ajax({
+
+                url: '/Bills/Barecode?_barcode=' + id,
+                contentType: "application/json;charset=utf-8",
+                dataType: "Json",
+                type: 'GET',
+                async: true,
+                cache: false,
+                success: function (data) {
+
+                    $.each(data, function (index, value) {
+                        $('#elmotwafer').val(value.Quantity);
+                        $('#Price').val(value.Price);
+ 
+                    });
+                }
+
+
+            });
+        });
+    });
+ 
+
+
+    //return barcodeProduct Name
+
+    $(document).ready(function () {
+        $("#barcode").change(function () {
+
+            var id = $("#barcode").val();
+
+            var url = "/Bills/getProNameFromBarcode?barcode=" + id;
+            $.ajax({
+                type: "GET",
+                url: url,
+                async: false,
+                success: function (data) {
+                  
+
+                    $('#barcodeProduct').val(data.name);
+                    $('#pro').val(data.name);
+
+ 
+ 
+                }
+            })
+        });
+    });
+
+    //return barcodeProduct category
+
+    $(document).ready(function () {
+        $("#barcode").change(function () {
+
+            var id = $("#barcode").val();
+            var s = $("#barcodeProduct").val();
+            var url = "/Bills/getCateNameFromBarcode?barcode=" + id;
+            $.ajax({
+                type: "GET",
+                url: url,
+                async: false,
+                success: function (data) {
+                     $('#section').val(data.name);
+
+ 
+ 
+ 
+                }
+            })
+        });
+    });
+
+
+
 
 
     //return total price before discount
@@ -132,21 +242,15 @@
 
                     for (var i = 0; i < data.length; i++) {
                         var SetData = $("#SetStudentList");
-                        var ss = data[i].Quantity
-                        //  var amount = 4;
-                        var dd = data[i].price;
-                        //  var price = 3;
-                        var res = dd * ss;
+                         
                         var Data = "<tr class='row_" + data[i].BillsContent_ID + "'>" +
                             "<td>" + data[i].BillsContent_ID + "</td>" +
                             "<td>" + getClientName(data[i].BillsContent_ID) + "</td>" +
                             "<td>" + getProName(data[i].Product_ID) + "</td>" +
                             "<td>" + data[i].Quantity + "</td>" +
                             "<td>" + data[i].Price + "</td>" +
-                            //"<td>" + data[i].Status + "</td>" +
-                            "<td>" + sum(data[i].Price, data[i].Quantity) + "</td>" +
-                            //"<td>" + "<a href='#' class='btn btn-warning' onclick='EditBillRecord(" + data[i].BillsContent_ID+")' ><span class='glyphicon glyphicon-edit'></span> تعديل</a>" + "</td>" +
-                            "<td>" + "<a href='#' class='btn btn-danger' onclick='DeleteStudentRecord(" + data[i].BillsContent_ID + ")'><span class='glyphicon glyphicon-trash'></span> حذف</a>" + "</td>" +
+                             "<td>" + sum(data[i].Price, data[i].Quantity) + "</td>" +
+                             "<td>" + "<a href='#' class='btn btn-danger' onclick='DeleteStudentRecord(" + data[i].BillsContent_ID + ")'><span class='glyphicon glyphicon-trash'></span> حذف</a>" + "</td>" +
                             "</tr>";
                         SetData.append(Data);
                         $("#LoadingStatus").html(" ");
@@ -159,7 +263,7 @@
 
 
 
-    // get pto name in content
+    // get pro name in content
     function getProName(Product_ID) {
         var name;
         var url = "/Bills/ReturnProName?Product_ID=" + Product_ID;
@@ -169,7 +273,6 @@
             async: false,
             success: function (data) {
                 name = data.name;
-
             }
         })
         return name;
@@ -255,8 +358,7 @@
             type: 'GET',
             success: function (data) {
                 $('#fatoraID').val(data);
-                //$('#Price').val(value.Price);
-            }
+             }
         });
 
 
@@ -292,8 +394,7 @@
             var totaFatora = $('#totalFatora').val();
             var dicount = $('#discount').val()
             $('#AfterDiscount').val(totaFatora - dicount)
-            //alert(lll)
-
+ 
         });
     });
 
@@ -305,32 +406,33 @@
             var AfterDiscount = $('#AfterDiscount').val();
             var elmodfoa = $('#elmodfoa').val()
             $('#Elbaqy').val(AfterDiscount - elmodfoa)
-            //alert(lll)
-
+ 
         });
     });
 
 
-    //$(document).ready(function () {
-    //    $("#amount").change(function () {
+    //validation for quntity
 
-    //        var _quantity = $('#amount').val();
+    $(document).ready(function () {
+        $("#amount").change(function () {
 
-    //        var _elmotwafer = $('#elmotwafer').val();
+            var _quantity = $('#amount').val();
 
-    //        if (_elmotwafer > _quantity) {
+            var _elmotwafer = $('#elmotwafer').val();
+            var res = _quantity - _elmotwafer;
+            if (res >= 0) {
 
-    //            //     alert("الكميه اكبر من المتوفر فى المخزن ")
-    //            $("#amount").css("border-color", "green");
-    //            $("#AddContentID").attr("disabled", false);
+                     alert("الكميه اكبر من المتوفر فى المخزن ")
+                $("#amount").css("border-color", "red");
+                $("#AddContentID").attr("disabled", true);
 
-    //        }
-    //        else {
-    //            $("#amount").css("border-color", "red");
-    //            $("#AddContentID").attr("disabled", true);
-    //        }
-    //    });
-    //});
+            }
+            else {
+                $("#amount").css("border-color", "green");
+                $("#AddContentID").attr("disabled", false);
+            }
+        });
+    });
 
 
 
@@ -368,8 +470,7 @@
             data: data,
             success: function (result) {
 
-              //  $("#MyModal").modal("hide");
-                 location.reload(true);
+                  location.reload(true);
 
 
             }
@@ -434,7 +535,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select name="pro" id="pro" class="form-control" required="required">
+                                        <select name="pro" id="pro" class="form-control" >
 
                                             <option value=""> اختار المنتج</option>
                                             @{
@@ -459,7 +560,7 @@
                                             <option value=""> - اختار العميل-</option>
 
                                             @{
-                                                foreach (var item in Model.ClientsX.Where(f=>f.Active==true))
+                                                foreach (var item in Model.ClientsX.Where(f => f.Active == true))
                                                 {
                                                     <option @item.Client_ID> @item.name </option>
                                                 }
@@ -474,9 +575,28 @@
                             </tbody>
 
                         </table>
-                        <br />
-
                         <center>
+                             <label>
+                                <b>
+                                    الباركود
+                                </b>
+                            </label>
+
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="barcode" class="form-control" id="barcode" placeholder="الباركود" />
+
+                                    </td>
+                                    <td>
+                                        <input type="text" name="barcodeProduct" class="form-control" id="barcodeProduct"  readonly />
+
+                                    </td>
+                                </tr>
+                            </table> 
+
+
+
                             <input type="submit" value="اضافه" class="btn btn-info" id="AddContentID" />
                         </center>
 

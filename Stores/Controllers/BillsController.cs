@@ -50,6 +50,48 @@ namespace Stores.Controllers
         #endregion
 
 
+        // barcode
+        public JsonResult Barecode(string _barcode)
+        {
+
+            List<Produt_Price> result = new List<Produt_Price>();
+
+            var model = _db.Products.Where(i => i.barcode == _barcode).FirstOrDefault();
+            var model2 = _db.Produt_Price.Where(i => i.Pro_ID == model.Pro_id).ToList();
+            // decimal result = model.Quantity;
+            foreach (var item in model2)
+            {
+                Produt_Price mo = new Produt_Price();
+                mo.Prd_Pri_ID = item.Prd_Pri_ID;
+                mo.Quantity = item.Quantity;
+                mo.Minmum = item.Minmum;
+                mo.cost = item.cost;
+                mo.Price = item.Price;
+                mo.Pro_ID = item.Pro_ID;
+                result.Add(mo);
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+
+        }
+
+        // barcode product name 
+
+        public JsonResult getProNameFromBarcode(string barcode)
+        {
+            var model = _db.Products.Where(id => id.barcode == barcode).FirstOrDefault();
+            return Json(model, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult getCateNameFromBarcode(string barcode)
+        {
+            var model = _db.Products.Where(id => id.barcode == barcode).Select(f => f.Cate_ID).FirstOrDefault();
+            var model2 = _db.ProductCategory.Where(id => id.Cate_ID == model).FirstOrDefault();
+            return Json(model2, JsonRequestBehavior.AllowGet);
+
+        }
+
+
 
         #region retuern cat
 
@@ -61,7 +103,7 @@ namespace Stores.Controllers
 
 
             var s = _db.ProductCategory.Where(ss => ss.name == Pro_id).FirstOrDefault();
-            var obj = _db.Products.Where(p => p.Cate_ID == s.Cate_ID&& p.active== true).ToList();
+            var obj = _db.Products.Where(p => p.Cate_ID == s.Cate_ID && p.active == true).ToList();
 
             if (obj != null && obj.Count() > 0)
             {
@@ -106,21 +148,21 @@ namespace Stores.Controllers
 
         public JsonResult FillBills()
         {
-             List<BillsContent> list = new List<BillsContent>();
+            List<BillsContent> list = new List<BillsContent>();
             // List<BillsWithExten> list = new List<BillsWithExten>();
 
-            int UserId =int.Parse(Session["userID"].ToString());
+            int UserId = int.Parse(Session["userID"].ToString());
 
-            var mo = _db.Bills.Where(p => p.User_ID == UserId && p.Viewed== true).ToList();
+            var mo = _db.Bills.Where(p => p.User_ID == UserId && p.Viewed == true).ToList();
 
             var lastIDInBIlls = mo.OrderByDescending(p => p.Id).FirstOrDefault();
 
 
-             
 
-            var obj = _db.BillsContent.Where(ss => ss.Bill_ID == lastIDInBIlls.Id && ss.IsDeleted == false && ss.Viewed == true ).ToList();
 
-             if (obj != null && obj.Count() > 0)
+            var obj = _db.BillsContent.Where(ss => ss.Bill_ID == lastIDInBIlls.Id && ss.IsDeleted == false && ss.Viewed == true).ToList();
+
+            if (obj != null && obj.Count() > 0)
             {
                 foreach (var item in obj)
                 {
@@ -136,7 +178,7 @@ namespace Stores.Controllers
                 }
 
 
-        
+
             }
 
             return Json(list, JsonRequestBehavior.AllowGet);
@@ -174,7 +216,7 @@ namespace Stores.Controllers
 
         public JsonResult SaveClientData(Clients model)
         {
- 
+
             try
             {
                 model.Clients_Type_ID = 1; ;
@@ -215,6 +257,30 @@ namespace Stores.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+
+
+        //return barcode and productname value when pro change
+
+        public JsonResult ReturnBarcodeValue(int Pro_id)
+        {
+            List<Products> result = new List<Products>();
+
+            var model = _db.Products.Where(i => i.Pro_id == Pro_id);
+            // decimal result = model.Quantity;
+            foreach (var item in model)
+            {
+                Products mo = new Products();
+                mo.Pro_id = item.Pro_id;
+                mo.name = item.name;
+                mo.barcode = item.barcode;
+                mo.active = item.active;
+
+                result.Add(mo);
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
         #endregion
 
         #region SaveBillData
@@ -242,20 +308,90 @@ namespace Stores.Controllers
 
         #region AddBillsContent 
         //add client id
+        //[HttpPost]
+        //public ActionResult AddBillsContent(BillsContent _BillContent, Bills _bill, int pro, int barcodeProduct, Produt_Price pro_price, int Quantity, string Client_ID)
+        //{
+
+        //    bool res = s.Users();
+        //    if (res == true)
+        //    {
+
+
+
+        //        if (Session["flag"].ToString() == "true")
+        //        {
+        //            _bill.date = DateTime.Now;
+        //         
+        //            var ClintID = _db.Clients.Where(p => p.name == Client_ID).FirstOrDefault();
+        //            _bill.Client_ID = ClintID.Client_ID;
+        //      
+        //            Session["CLientID"]= ClintID.Client_ID;
+        //            _bill.Cate_Id = 4;
+
+        //            _bill.User_ID = int.Parse(Session["userID"].ToString());
+        //            _bill.Viewed = true;
+        //            _db.Bills.Add(_bill);
+        //            _db.SaveChanges();
+        //        }
+
+        //        var LastId = _db.Bills.OrderByDescending(u => u.Id).FirstOrDefault();
+        //        _BillContent.Bill_ID = LastId.Id;
+
+        //       
+
+        //        _BillContent.Quantity = _BillContent.Quantity;
+        //        _BillContent.Product_ID =   pro;
+        //        _BillContent.Cost = _db.Produt_Price.Where(s => s.Pro_ID == pro).Select(p => p.cost).FirstOrDefault();
+        //        _BillContent.Viewed = true;
+
+        //        _db.BillsContent.Add(_BillContent);
+        //        _db.SaveChanges();
+
+        //        //edit quntity
+        //        var proQuantity = _db.Produt_Price.Where(s => s.Pro_ID == pro).FirstOrDefault();
+        //        Produt_Price model = _db.Produt_Price.Find(proQuantity.Prd_Pri_ID);
+
+        //        model.Quantity = model.Quantity - Quantity;
+        //        model.Store_Id = 1;
+        //        model.Pro_ID = pro;
+        //        model.Minmum = model.Minmum;
+        //        model.many_price = model.many_price;
+        //        model.Price = model.Price;
+        //        model.cost = model.cost;
+
+
+        //        _db.Entry(model).State = EntityState.Modified;
+        //        _db.SaveChanges();
+
+
+        //        Session["flag"] = "false";
+
+        //        return RedirectToAction("Purchases");
+        //    }
+
+        //    return RedirectToAction("HavntAccess", "Employee");
+
+        //}
+
+
         [HttpPost]
-        public ActionResult AddBillsContent(BillsContent _BillContent, Bills _bill, int pro, Produt_Price pro_price, int Quantity, string Client_ID)
+        public ActionResult AddBillsContent(BillsContent _BillContent, Bills _bill, string barcodeProduct, Produt_Price pro_price, int Quantity, string Client_ID)
         {
+
             bool res = s.Users();
             if (res == true)
             {
+
+
+
                 if (Session["flag"].ToString() == "true")
                 {
                     _bill.date = DateTime.Now;
-                    // get client id
+
                     var ClintID = _db.Clients.Where(p => p.name == Client_ID).FirstOrDefault();
                     _bill.Client_ID = ClintID.Client_ID;
-                //    ViewBag.CLientID = ClintID.Client_ID;
-                    Session["CLientID"]= ClintID.Client_ID;
+
+                    Session["CLientID"] = ClintID.Client_ID;
                     _bill.Cate_Id = 4;
 
                     _bill.User_ID = int.Parse(Session["userID"].ToString());
@@ -270,20 +406,21 @@ namespace Stores.Controllers
                 //    _BillContent.Price = price;
 
                 _BillContent.Quantity = _BillContent.Quantity;
-                _BillContent.Product_ID = pro;
-                _BillContent.Cost = _db.Produt_Price.Where(s => s.Pro_ID == pro).Select(p => p.cost).FirstOrDefault();
+                var prodids = _db.Products.Where(d => d.name == barcodeProduct).Select(f => f.Pro_id).FirstOrDefault();
+                _BillContent.Product_ID = prodids;
+                _BillContent.Cost = _db.Produt_Price.Where(s => s.Pro_ID == prodids).Select(p => p.cost).FirstOrDefault();
                 _BillContent.Viewed = true;
 
                 _db.BillsContent.Add(_BillContent);
                 _db.SaveChanges();
 
                 //edit quntity
-                var proQuantity = _db.Produt_Price.Where(s => s.Pro_ID == pro).FirstOrDefault();
+                var proQuantity = _db.Produt_Price.Where(s => s.Pro_ID == prodids).FirstOrDefault();
                 Produt_Price model = _db.Produt_Price.Find(proQuantity.Prd_Pri_ID);
 
                 model.Quantity = model.Quantity - Quantity;
                 model.Store_Id = 1;
-                model.Pro_ID = pro;
+                model.Pro_ID = prodids;
                 model.Minmum = model.Minmum;
                 model.many_price = model.many_price;
                 model.Price = model.Price;
@@ -408,8 +545,8 @@ namespace Stores.Controllers
 
 
         #region Newfatora
-            [HttpPost]
-        public ActionResult Newfatora(decimal? discount, decimal? elmodfoa, Payments payments,int fatoraID)
+        [HttpPost]
+        public ActionResult Newfatora(decimal? discount, decimal? elmodfoa, Payments payments, int fatoraID)
         {
             bool res = s.purchasebill();
             if (res == true)
@@ -437,7 +574,7 @@ namespace Stores.Controllers
 
                 decimal price = 0;
                 decimal cost = 0;
-                var model = _db.BillsContent.Where(s => s.Bill_ID == lastIDInBIlls.Id&&s.IsDeleted==false).ToList();
+                var model = _db.BillsContent.Where(s => s.Bill_ID == lastIDInBIlls.Id && s.IsDeleted == false).ToList();
 
                 foreach (var item in model)
                 {
@@ -450,7 +587,7 @@ namespace Stores.Controllers
                 }
 
 
-             
+
 
                 bill.price = price;
                 bill.cost = cost;
@@ -508,7 +645,7 @@ namespace Stores.Controllers
                 Response.Buffer = false;
                 Response.ClearContent();
                 Response.ClearHeaders();
-                 stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
 
                 rd.PrintOptions.PrinterName = printerName;
@@ -583,10 +720,9 @@ namespace Stores.Controllers
                 Stu.IsDeleted = true;
                 _db.SaveChanges();
 
-                var editPrice = _db.Produt_Price.Find(model.Prd_Pri_ID);
-                model.Quantity = model.Quantity - Stu.Quantity;
+                model.Quantity = model.Quantity + Stu.Quantity;
 
-                _db.Entry(editPrice).State = EntityState.Modified;
+                _db.Entry(model).State = EntityState.Modified;
                 _db.SaveChanges();
 
                 result = true;
@@ -595,7 +731,7 @@ namespace Stores.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         #endregion
-            
+
         #region return last id in fatora 
 
         public JsonResult returnLastid()
@@ -688,8 +824,74 @@ namespace Stores.Controllers
 
         #region AddBillsBuyContent
 
+        //[HttpPost]
+        //public ActionResult AddBillsBuyContent(BillsContent _BillContent, Bills _bill, int pro, Produt_Price pro_price, int Quantity, string Client_ID)
+        //{
+
+        //    bool res = s.purchasebill();
+        //    if (res == true)
+        //    {
+        //        if (Session["flag"].ToString() == "true")
+        //        {
+        //            _bill.date = DateTime.Now;
+        //            // get client id
+        //            var ClintID = _db.Clients.Where(p => p.name == Client_ID).FirstOrDefault();
+        //            _bill.Client_ID = ClintID.Client_ID;
+        //            _bill.Cate_Id = 5;
+
+        //            _bill.User_ID = int.Parse(Session["userID"].ToString());
+        //            _bill.Viewed = true;
+        //            _db.Bills.Add(_bill);
+        //            _db.SaveChanges();
+        //        }
+
+        //        var LastId = _db.Bills.OrderByDescending(u => u.Id).FirstOrDefault();
+        //        _BillContent.Bill_ID = LastId.Id;
+
+        //        //    _BillContent.Price = price;
+        //        _BillContent.Quantity = _BillContent.Quantity;
+        //        _BillContent.Product_ID = pro;
+        //        _BillContent.Cost = _db.Produt_Price.Where(s => s.Pro_ID == pro).Select(p => p.cost).FirstOrDefault();
+        //        _BillContent.Viewed = true;
+
+        //        _db.BillsContent.Add(_BillContent);
+        //        _db.SaveChanges();
+
+        //        //edit quntity
+        //        var proQuantity = _db.Produt_Price.Where(s => s.Pro_ID == pro).FirstOrDefault();
+        //        Produt_Price model = _db.Produt_Price.Find(proQuantity.Prd_Pri_ID);
+
+        //        model.Quantity = model.Quantity + Quantity;
+        //        model.Store_Id = 1;
+        //        model.Pro_ID = pro;
+        //        model.Minmum = model.Minmum;
+        //        model.many_price = model.many_price;
+        //        model.Price = model.Price;
+        //        model.cost = model.cost;
+
+
+        //        _db.Entry(model).State = EntityState.Modified;
+        //        _db.SaveChanges();
+
+
+        //        Session["flag"] = "false";
+
+        //        return RedirectToAction("BuyBill");
+        //    }
+
+        //    return RedirectToAction("HavntAccess", "Employee");
+
+        //}
+
+
+
+
+
+
+
+
         [HttpPost]
-        public ActionResult AddBillsBuyContent(BillsContent _BillContent, Bills _bill, int pro, Produt_Price pro_price, int Quantity, string Client_ID)
+        public ActionResult AddBillsBuyContent(BillsContent _BillContent, Bills _bill, string barcodeProduct, Produt_Price pro_price, int Quantity, string Client_ID)
         {
 
             bool res = s.purchasebill();
@@ -714,20 +916,22 @@ namespace Stores.Controllers
 
                 //    _BillContent.Price = price;
                 _BillContent.Quantity = _BillContent.Quantity;
-                _BillContent.Product_ID = pro;
-                _BillContent.Cost = _db.Produt_Price.Where(s => s.Pro_ID == pro).Select(p => p.cost).FirstOrDefault();
+                var prodids = _db.Products.Where(d => d.name == barcodeProduct).Select(f => f.Pro_id).FirstOrDefault();
+                _BillContent.Product_ID = prodids;
+
+                _BillContent.Cost = _db.Produt_Price.Where(s => s.Pro_ID == prodids).Select(p => p.cost).FirstOrDefault();
                 _BillContent.Viewed = true;
 
                 _db.BillsContent.Add(_BillContent);
                 _db.SaveChanges();
 
                 //edit quntity
-                var proQuantity = _db.Produt_Price.Where(s => s.Pro_ID == pro).FirstOrDefault();
+                var proQuantity = _db.Produt_Price.Where(s => s.Pro_ID == prodids).FirstOrDefault();
                 Produt_Price model = _db.Produt_Price.Find(proQuantity.Prd_Pri_ID);
 
                 model.Quantity = model.Quantity + Quantity;
                 model.Store_Id = 1;
-                model.Pro_ID = pro;
+                model.Pro_ID = prodids;
                 model.Minmum = model.Minmum;
                 model.many_price = model.many_price;
                 model.Price = model.Price;
@@ -749,10 +953,32 @@ namespace Stores.Controllers
         #endregion
 
 
+        #region Delete record from data table
 
+        public JsonResult DeleteContentRecordOfBuy(int BillsContent_ID, Produt_Price _proPrice)
+        {
+            bool result = false;
+            var Stu = _db.BillsContent.SingleOrDefault(x => x.BillsContent_ID == BillsContent_ID);
+            var model = _db.Produt_Price.Where(p => p.Pro_ID == Stu.Product_ID).FirstOrDefault();
+            if (Stu != null)
+            {
+                Stu.IsDeleted = true;
+                _db.SaveChanges();
+
+                model.Quantity = model.Quantity - Stu.Quantity;
+
+                _db.Entry(model).State = EntityState.Modified;
+                _db.SaveChanges();
+
+                result = true;
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
         #region New Buy fatora
 
-        public ActionResult NewBuyfatora(decimal? discount, decimal? elmodfoa, Payments payments,int fatoraID)
+        public ActionResult NewBuyfatora(decimal? discount, decimal? elmodfoa, Payments payments, int fatoraID)
         {
             bool res = s.purchasebill();
             if (res == true)
@@ -825,12 +1051,12 @@ namespace Stores.Controllers
 
 
                 //print
- 
+
                 ReportDocument rd = new ReportDocument();
 
 
                 rd.Load(Path.Combine(Server.MapPath("~/Report/BuyBill.rpt")));
-                rd.SetDataSource(_db.BillsContent.Where(d => d.Bill_ID == lastIDInBIlls.Id&&d.IsDeleted==false).Select(p => new
+                rd.SetDataSource(_db.BillsContent.Where(d => d.Bill_ID == lastIDInBIlls.Id && d.IsDeleted == false).Select(p => new
                 {
                     id = p.Bill_ID,
 
@@ -869,7 +1095,7 @@ namespace Stores.Controllers
                 //   return File(stream, "aaplication/pdf", "فاتوره بيع.pdf");
 
 
-                   return RedirectToAction("BuyBill");
+                return RedirectToAction("BuyBill");
             }
 
 
@@ -902,7 +1128,7 @@ namespace Stores.Controllers
                 model.productX = _db.Products.ToList();
                 model.ClientsX = _db.Clients.ToList();
                 int UserId = int.Parse(Session["userID"].ToString());
-                model.billsX = _db.Bills.Where(p=>p.User_ID == UserId).ToList();
+                model.billsX = _db.Bills.Where(p => p.User_ID == UserId).ToList();
                 model.billCOntentX = _db.BillsContent.ToList();
 
                 return View(model);
@@ -1018,7 +1244,7 @@ namespace Stores.Controllers
 
 
 
-          var usernameID=  _db.Bills.Where(d => d.Id == Bill_ID).Select(f => f.User_ID).FirstOrDefault();
+            var usernameID = _db.Bills.Where(d => d.Id == Bill_ID).Select(f => f.User_ID).FirstOrDefault();
             //print
 
             ReportDocument rd = new ReportDocument();
@@ -1067,7 +1293,7 @@ namespace Stores.Controllers
             List<Produt_Price> result = new List<Produt_Price>();
 
             var model = _db.Products.Where(i => i.name == name).FirstOrDefault();
-            var model2 = _db.Produt_Price.Where(i => i.Pro_ID == model.Pro_id).ToList(); 
+            var model2 = _db.Produt_Price.Where(i => i.Pro_ID == model.Pro_id).ToList();
             // decimal result = model.Quantity;
             foreach (var item in model2)
             {
@@ -1088,6 +1314,85 @@ namespace Stores.Controllers
         #endregion
 
 
+
+
+
+        public ActionResult PriintFatoraWithID()
+        {
+            bool res = s.purchasebill();
+            if (res == true)
+            {
+
+                return View();
+            }
+            return RedirectToAction("HavntAccess", "Employee");
+
+        }
+
+        public ActionResult PriintID(int Id)
+        {
+
+            bool res = s.purchasebill();
+            if (res == true)
+            {
+
+                int userID = int.Parse(Session["userID"].ToString());
+                // printer name
+                string PrinterID = _db.Users.Where(d => d.Id == userID).Select(f => f.printer_name).FirstOrDefault();
+                string printerName = _db.PrintType.Where(s => s.ID.ToString() == PrinterID).Select(f => f.PrinterName).FirstOrDefault();
+
+
+                var mo = _db.Bills.Where(p => p.User_ID == userID).ToList();
+
+                //   print
+                Stream stream;
+                ReportDocument rd = new ReportDocument();
+
+
+                rd.Load(Path.Combine(Server.MapPath("~/Report/BillPruches.rpt")));
+                rd.SetDataSource(_db.BillsContent.Where(d => d.Bill_ID == Id && d.IsDeleted == false).Select(p => new
+                {
+                    id = p.Bill_ID,
+
+                    User_ID = _db.Users.Where(f => f.Id == _db.Bills.Where(d => d.Id == Id).Select(ff => ff.User_ID).FirstOrDefault()).Select(f => f.name).FirstOrDefault(),
+                    Client_ID = _db.Clients.Where(f => f.Client_ID == _db.Bills.Where(d => d.Id == Id).Select(ff => ff.Client_ID).FirstOrDefault()).Select(f => f.name).FirstOrDefault(),
+                    phone = _db.Clients.Where(f => f.Client_ID == _db.Bills.Where(d => d.Id == Id).Select(ff => ff.Client_ID).FirstOrDefault()).Select(f => f.phone).FirstOrDefault(),
+                    date = _db.Bills.Where(f => f.Id == Id).Select(ff => ff.date).FirstOrDefault(),
+
+                    Discount = _db.Bills.Where(f => f.Id == Id).Select(ff => ff.discount).FirstOrDefault(),
+                    Expr19 = _db.Bills.Where(f => f.Id == Id).Select(ff => ff.price).FirstOrDefault(),
+                    Expr14 = _db.Bills.Where(f => f.Id == Id).Select(ff => ff.price).FirstOrDefault() - _db.Bills.Where(f => f.Id == Id).Select(ff => ff.discount).FirstOrDefault(),
+
+                    Price = p.Price,
+                    Quantity = p.Quantity,
+
+                    Product_ID = _db.Products.Where(d => d.Pro_id == p.Product_ID).Select(f => f.name).FirstOrDefault(),
+                    //info
+                    Viewed = _db.PLaceInfo.Select(f => f.Img).FirstOrDefault(),
+                    active = _db.PLaceInfo.Select(f => f.PlaceName).FirstOrDefault(),
+                    status = _db.PLaceInfo.Select(f => f.Number).FirstOrDefault(),
+
+                }).ToList());
+
+
+                Response.Buffer = false;
+                Response.ClearContent();
+                Response.ClearHeaders();
+                stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+
+                rd.PrintOptions.PrinterName = printerName;
+                rd.PrintToPrinter(1, false, 0, 0);
+                rd.Refresh();
+
+                //stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                //stream.Seek(0, SeekOrigin.Begin);
+                //return File(stream, "aaplication/pdf", "تفاصيل المستند.pdf");
+                return RedirectToAction("PriintFatoraWithID");
+            }
+            return RedirectToAction("HavntAccess", "Employee");
+
+        }
     }
 
 }

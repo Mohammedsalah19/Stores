@@ -3,24 +3,25 @@
 @{
     ViewBag.Title = "انهاء اليوم";
 }
-
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
 <script>
 
 
     function goPrint() {
-    var names;
-    var url = "/Employee/PrintEndDa";
+        var names;
+        var url = "/Employee/PrintEndDa";
 
-    $.ajax({
-        type: "GET",
-        url: url,
-        async: false,
-        success: function (data) {
-            names = data;
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                names = data;
 
-        }
-    })
-    return names;
+            }
+        })
+        return names;
     }
 </script>
 

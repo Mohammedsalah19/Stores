@@ -8,13 +8,7 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 
-@*@using (Ajax.BeginForm("Search", "Bills", new AjaxOptions()
-    {
-        UpdateTargetId = "searchID",
-        HttpMethod = "Post",
-        InsertionMode = InsertionMode.Replace
-
-    }))*@
+ 
 @using (Html.BeginForm("Search", "Bills"))
 
 {

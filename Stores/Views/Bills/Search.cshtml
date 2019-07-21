@@ -6,11 +6,10 @@
 
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 
+ 
 
 <table class="table table-bordered " id="myTable">
-
-    @*@foreach (var item in Model.billsY)
-        {*@
+  
     <tr>
         <td colspan="5">
 
@@ -40,15 +39,14 @@
 
     <tr class="table-heading " style="background-color:#40BCBA">
 
-        @*<th>رقم الوصل</th>*@
+     
         <th style="text-align:center"> رقم المنتج  </th>
         <th style="text-align:center">المنتج </th>
 
         <th style="text-align:center"> السعر  </th>
         <th style="text-align:center">  الكميه </th>
 
-
-        @*<th style="text-align:center">الاجمالى : </th>*@
+ 
 
 
     </tr>
@@ -83,14 +81,7 @@
                     <input type="text" value="@items.Quantity" readonly id="Qu" name="Qu" hidden>
 
                 </td>
-                @*<td>
-
-                    <input type="text" readonly id="totla" name="totla" value=""  />
-                     
-
-                    Total
-
-                </td>*@
+ 
 
             </tr>
 
@@ -98,12 +89,14 @@
 
 
     }
-    @*}*@
+ 
 
 </table>
 
 <center>
-    <a href='#' class='btn btn-info' onclick='EditBillRecord(@Model.billsY.Id)'><span class='glyphicon glyphicon-edit'></span>انشاء مرتجع</a>
+    <input type="submit" value="انشاء مرتجع" class="btn btn-info" onclick='EditBillRecord(@Model.billsY.Id)' id="btnMortaga" />
+
+    @*<a href='#' class='btn btn-info' onclick='EditBillRecord(@Model.billsY.Id)' id="btnMortaga"><span class='glyphicon glyphicon-edit'></span>انشاء مرتجع</a>*@
 
 </center>
 
@@ -197,6 +190,10 @@
     }
 
 
+    if (@Model.billsY.price == 0) {
+        $("#btnMortaga").attr("disabled", true);
+
+    }
 
 
 

@@ -94,6 +94,124 @@
     });
 
 
+
+
+
+
+
+
+
+
+
+    // return value of barcode and productname when pro change
+
+    $(document).ready(function () {
+        $("#pro").change(function () {
+            var id = $(this);
+            $.ajax({
+
+                url: '/Bills/ReturnBarcodeValue?Pro_id=' + id.val(),
+                contentType: "application/json;charset=utf-8",
+                dataType: "Json",
+                type: 'GET',
+                async: true,
+                cache: false,
+                success: function (data) {
+
+                    $.each(data, function (index, value) {
+
+                        $('#barcodeProduct').val(value.name);
+                        $('#barcode').val(value.barcode);
+                    });
+                }
+
+
+            });
+        });
+    });
+
+    // return value of price and cost when barcode change
+
+    $(document).ready(function () {
+        $("#barcode").change(function () {
+            var id = $("#barcode").val();
+            $.ajax({
+
+                url: '/Bills/Barecode?_barcode=' + id,
+                contentType: "application/json;charset=utf-8",
+                dataType: "Json",
+                type: 'GET',
+                async: true,
+                cache: false,
+                success: function (data) {
+
+                    $.each(data, function (index, value) {
+                        $('#elmotwafer').val(value.Quantity);
+                        $('#Price').val(value.Price);
+
+                    });
+                }
+
+
+            });
+        });
+    });
+
+
+
+    //return barcodeProduct Name
+
+    $(document).ready(function () {
+        $("#barcode").change(function () {
+
+            var id = $("#barcode").val();
+
+            var url = "/Bills/getProNameFromBarcode?barcode=" + id;
+            $.ajax({
+                type: "GET",
+                url: url,
+                async: false,
+                success: function (data) {
+
+
+                    $('#barcodeProduct').val(data.name);
+                    $('#pro').val(data.name);
+
+
+
+                }
+            })
+        });
+    });
+
+    //return barcodeProduct category
+
+    $(document).ready(function () {
+        $("#barcode").change(function () {
+
+            var id = $("#barcode").val();
+            var s = $("#barcodeProduct").val();
+            var url = "/Bills/getCateNameFromBarcode?barcode=" + id;
+            $.ajax({
+                type: "GET",
+                url: url,
+                async: false,
+                success: function (data) {
+                    $('#section').val(data.name);
+
+
+
+
+                }
+            })
+        });
+    });
+
+
+
+
+
+
     //return total price before discount
 
     $(document).ready(function () {
@@ -234,7 +352,7 @@
         var BillsContent_ID = $("#BillsContent_ID").val();
         $.ajax({
             type: "POST",
-            url: "/Bills/DeleteContentRecord?BillsContent_ID=" + BillsContent_ID,
+            url: "/Bills/DeleteContentRecordOfBuy?BillsContent_ID=" + BillsContent_ID,
             success: function (result) {
                 $("#DeleteConfirmation").modal("hide");
                 $(".row_" + BillsContent_ID).remove();
@@ -392,7 +510,7 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select name="pro" id="pro" class="form-control" required="required">
+                                        <select name="pro" id="pro" class="form-control"  >
                                             <option value=""> اختار المنتج</option>
                                             @{
 
@@ -416,7 +534,7 @@
                                         <select name="Client_ID" id="Client_ID" class="form-control" required="required">
                                             <option value="">اسم المورد</option>
                                             @{
-                                                foreach (var item in Model.ClientsX.Where(f=>f.Active==true))
+                                                foreach (var item in Model.ClientsX.Where(f => f.Active == true))
                                                 {
                                                     <option @item.Client_ID> @item.name </option>
                                                 }
@@ -444,11 +562,28 @@
                             </tbody>
 
                         </table>
-                        <br />
-
                         <center>
-                            <input type="submit" value="اضافه" class="btn btn-info" id="AddContentID" />
-                        </center>
+                            <label>
+                                <b>
+                                    الباركود
+                                </b>
+                            </label>
+
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="barcode" class="form-control" id="barcode" placeholder="الباركود" />
+
+                                    </td>
+                                    <td>
+                                        <input type="text" name="barcodeProduct" class="form-control" id="barcodeProduct" readonly />
+
+                                    </td>
+                                </tr>
+                            </table>
+                     
+                                <input type="submit" value="اضافه" class="btn btn-info" id="AddContentID" />
+                            </center>
 
                     </fieldset>
                 </div>

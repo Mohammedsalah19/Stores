@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "طباعه فاتوره";
+}
+
+<h3 style="text-align:right;margin-right:80px">طباعه فاتوره</h3>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+@using (Html.BeginForm("PriintID", "Bills"))
+
+{
+
+    <Center>
+
+
+        <div class="form-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i> </span>
+            <input type="text" id="id" name="id" placeholder="الرقم التسلسلى" class="form-control" />
+            <br />
+            <input type="submit" value="search" class="btn btn-info" />
+
+        </div>
+    </Center>
+
+}

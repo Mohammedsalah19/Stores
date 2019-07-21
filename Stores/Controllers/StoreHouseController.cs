@@ -250,7 +250,7 @@ namespace Stores.Controllers
             {
                 var model = new NotificationWithExten();
 
-                model.ProPricX = _db.Produt_Price.Where(p => p.Quantity == p.Minmum).ToList();
+                model.ProPricX = _db.Produt_Price.Where(p => p.Quantity <= p.Minmum).ToList();
                 model.ProductX = _db.Products.ToList();
                 model.StorehousesX = _db.Storehouse.ToList();
 
