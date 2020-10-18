@@ -5,16 +5,18 @@
     {
         @Html.AntiForgeryToken()
 
+        @*<a href='@Url.Action( "profile", "employees")' class='text-right font-weight-bold mr-2'><i class="fas fa-user-circle fa-2x"></i></a>*@
+        <li class='nav-item  '>
 
-        <li class="nav-item">
-            @Html.ActionLink("" + Session["userName"], "profile", "employees", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })
-        </li>
-        <li class="nav-item">
-            @Html.ActionLink(" تسجيل الخروج ", "LogOff", "Employee", routeValues: null, htmlAttributes: new { @class = "nav-link" })
+            <a href='@Url.Action("LogOff", "Employee")' class='nav-link  font-weight-bold text-right'><i class="fas fa-sign-out-alt fa-lg"></i></a>
         </li>
     }
 }
 else
 {
-    <li class="nav-item">@Html.ActionLink("تسجيل الدخول", "Login", "Employee", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    <li class='nav-item  '>
+
+        <a href='@Url.Action( "Login", "Employee")' class='nav-link  font-weight-bold text-right'><i class="fas fa-sign-in-alt fa-2x"></i></a>
+    </li>
+
 }

@@ -1,441 +1,301 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+
+
+
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="author" content="Gipsy - 01097154297 - fb.com/Gipsy.EG">
+
+    <title id="titletag">@ViewBag.Title</title>
+    <meta name="description" content="">
+    <link rel="icon" href="" type="image/png" />
+    <link rel="apple-touch-icon" href="" />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:image" content="">
+
+    <!-- Google / Search Engine Tags -->
+    <meta itemprop="name" content="">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="">
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://Gipsy-eg.netlify.app">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="">
+
+
+    @*@Styles.Render("~/Content/css")*@
     @Scripts.Render("~/bundles/modernizr")
 
     <link href="~/Content/alertifyjs/alertify.min.css" rel="stylesheet" />
     <link href="~/Content/alertifyjs/themes/default.min.css" rel="stylesheet" />
 
     <link href="https://fonts.googleapis.com/css?family=Cairo" rel="stylesheet">
-    <link href="~/Content/sliderLayout.css" rel="stylesheet" />
- 
-    <script src="~/Content/all.min.js"></script>
-    <script src="~/Content/fontawesome.js"></script>
+    @*<link href="~/Content/sliderLayout.css" rel="stylesheet" />*@
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha256-L/W5Wfqfa0sdBNIKN9cG6QA5F2qx4qICmU2VgLruv9Y=" crossorigin="anonymous" />
+
+
+
+    @*<script src="~/Content/all.min.js"></script>
+        <script src="~/Content/fontawesome.js"></script>*@
+
+
+
     <style>
-        * {
-            box-sizing: border-box
-        }
-
         body {
-            font-family: Cairo;
+            background-image: url('../Assets/Images/bg.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            font-family: 'Cairo';
+            background-attachment: fixed;
+            background-position: center;
         }
 
-        /* Style the tab */
-        .tab {
-            margin-top: 0px;
-            border: 1px solid #ccc;
-            background-color: #f1f1f1;
-            width: 15%;
-            height: 500px;
-            position: relative;
-            float: right;
-            font-size: .99em;
-            text-align: center;
-            color: black;
+        .hover:hover {
+            box-shadow: 5px 0px 40px rgba(0, 0, 0, .2);
         }
 
 
-
-        .list_li {
-            display: block;
-            background-color: inherit;
-            padding: 18px 6px;
-            width: 100%;
-            border: none;
-            outline: none;
-            text-align: left;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: .8em;
-            text-align: center;
-            color: black;
-            text-decoration: none;
+        .shadowup {
+            box-shadow: 0px -10px 25px 0px rgba(0, 0, 0, .5);
         }
 
-        /* Change background color of buttons on hover */
-        .card-header:hover {
-            background-color: #40BCBA;
-            color: white;
+        .shadowdown {
+            box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, .2);
         }
 
-        a:active {
-            color: #3F4A5D;
+        .text-shadow {
+            text-shadow: 0 0 5px #000000;
         }
 
-
-        /* Create an active/current "tab button" class */
-        .list_li.active {
-            background-color: #ccc;
+        .Gridcontrol {
+            min-width: 150px;
         }
 
-        /* Style the tab content */
-        .tabcontent {
-            float: left;
-            padding: 0px 12px;
-            border: 1px solid #ccc;
-            width: 70%;
-            border-left: none;
-            height: 300px;
+        .text-pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
         }
 
-        .content {
-            float: left;
-            width: 80%;
+        .carousel-caption {
+            right: 0px;
+            left: 0px;
+            opacity: .8;
         }
 
-        a {
-            text-decoration: none;
-        }
-
-        ul {
-            list-style-type: none;
-        }
-
-        li {
-            text-align: right;
-            font-size: .9em;
-        }
-
-        .btn-link {
-            text-decoration: none;
-        }
-
-        .card-header {
-            height: 70px;
-            width: 100%;
+        .fullimg {
+            height: 25vh;
+            object-fit: cover;
         }
     </style>
+
+
 
 </head>
 
 <body>
 
-    <div class="w3-sidebar w3-bar-block w3-card w3-animate-left " id="mySidebar" style="display:none; overflow-y:scroll;">
-        <button class="w3-bar-item w3-button w3-large"
-                onclick="w3_close()">
-            اغلاق &times;
-        </button>
-        <div class="accordion" id="accordionExample">
 
-            <div class="card">
-                <div class="card-header" id="headingOne">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="" aria-expanded="true" aria-controls="collapseOne">
-                            <i class="fas fa-binoculars"></i>
-
-                            @Html.ActionLink("انهاء اليوم ", "EndDay", "Employee")
-                        </button>
-                    </h5>
-                </div>
-
-            </div>
-
-
-
-
-
-            <div class="card">
-                <div class="card-header" id="headingOne">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseTwo">
-                            <i class="fas fa-child"></i>  العملاء
-                        </button>
-                    </h5>
-                </div>
-                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                    <div class="card-body">
-                        <ul>
-                            <li><a href="@Url.Action("Index", "Clients")" class="" style="">قائمه العملاء</a></li>
-
-                            @*<li><a href="@Url.Action("about", "Home")" class="" style="">اضافه عميل</a></li>*@
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            @*<div class="card">
-                <div class="card-header" id="headingTwo">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            <i class="fas fa-user-friends"></i>   الموردين
-                        </button>
-                    </h5>
-                </div>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                    <div class="card-body">
-                        <ul>
-                            <li><a href="@Url.Action("about", "Home")"> قائمه الموردين</a></li>
-                            <li><a href="@Url.Action("about", "Home")">اضافه مورد</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>*@
-
-
-            <div class="card">
-                <div class="card-header" id="headingThree">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                            <i class="fas fa-file-invoice"></i>   الفواتير
-                        </button>
-                    </h5>
-                </div>
-                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-
-                    <div class="selling">
-                        <p style="font-size:.8em;text-align:center">  المبيعات</p>
-                        <ul>
-                            @*<li><a href="@Url.Action("about", "Home")">عرض فواتير </a></li>*@
-                            <li><a href="@Url.Action("Purchases", "bills")">انشاء فاتوره بيع</a></li>
-                            <li><a href="@Url.Action("PriintFatoraWithID", "bills")">طباعه فاتوره بالرقم التسلسلى</a></li>
-
-                        </ul>
-                    </div>
-
-                    <div class="buy">
-                        <p style="font-size:.8em;text-align:center"> المشتريات</p>
-                        <ul>
-                            @*<li><a href="@Url.Action("about", "Home")">عرض فواتير الشراء</a></li>*@
-                            <li><a href="@Url.Action("BuyBill", "bills")">انشاء فاتوره شراء</a></li>
-                            @*<li><a href="@Url.Action("about", "Home")"> قائمه المرتجعات</a></li>*@
-                            <li><a href="@Url.Action("ReturnBill", "Bills")">انشاء مرتجع شراء</a></li>
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header" id="headingfour">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="#collapsefour" aria-expanded="false" aria-controls="collapseTwo">
-                            <i class="fas fa-shopping-basket"></i>  الدفعات
-                        </button>
-                    </h5>
-                </div>
-                <div id="collapsefour" class="collapse" aria-labelledby="headingfour" data-parent="#accordionExample">
-                    <div class="card-body">
-
-                        <div class="selling">
-                            <p style="font-size:.8em;text-align:center">المبيعات</p>
-                            <ul>
-                                <li><a href="@Url.Action("index", "Payments")">عرض دفعات البيع والشراء </a></li>
-                                @*<li><a href="@Url.Action("about", "Home")">انشاء دفع بيع</a></li>*@
-
-                            </ul>
-                        </div>
-
-                        @*<div class="buy">
-                            <p style="font-size:.8em;text-align:center">المشتريات</p>
-                            <ul>
-                                <li><a href="@Url.Action("about", "Home")">عرض دفعات شراء</a></li>
-                                <li><a href="@Url.Action("about", "Home")">انشاء دفع شراء</a></li>
-                            </ul>
-                        </div>*@
-
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-            <div class="card">
-                <div class="card-header" id="headingfour">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="#collapsefive" aria-expanded="false" aria-controls="collapseTwo">
-                            <i class="fas fa-store-alt"></i>     المخزن
-                        </button>
-                    </h5>
-                </div>
-                <div id="collapsefive" class="collapse" aria-labelledby="headingfive" data-parent="#accordionExample">
-                    <div class="card-body">
-
-                        <ul>
-                            <li><a href="@Url.Action("index", "StoreHouse")">عرض لائحه المنتجات </a></li>
-                            <li><a href="@Url.Action("Category", "StoreHouse")">عرض لائحه الاصناف </a></li>
-                             <li><a href="@Url.Action("Notification", "StoreHouse")">عرض تنبيهات المنتجات</a></li>
-                            <li><a href="@Url.Action("Stores", "StoreHouse")">عرض مخازن المنتجات</a></li>
-                        
-
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header" id="headingfour">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="#collapsesix" aria-expanded="false" aria-controls="collapseTwo">
-                            <i class="fas fa-money-check-alt"></i>   المصروفات
-                        </button>
-                    </h5>
-                </div>
-                <div id="collapsesix" class="collapse" aria-labelledby="headingsix" data-parent="#accordionExample">
-                    <div class="card-body">
-
-                        <ul>
-                            <li><a href="@Url.Action("index", "Expenses")">عرض قائمه المصروفات  </a></li>
-                             <li><a href="@Url.Action("ExpensesType", "Expenses")">عرض تصنيفات المصروفات</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-            <div class="card">
-                <div class="card-header" id="headingfour">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="#collapsesseven" aria-expanded="false" aria-controls="collapseTwo">
-                            <i class="fas fa-file-pdf"></i>   التقارير
-                        </button>
-                    </h5>
-                </div>
-                <div id="collapsesseven" class="collapse" aria-labelledby="headingsseven" data-parent="#accordionExample">
-                    <div class="card-body">
-
-                        <ul>
-                            <li><a href="@Url.Action("fwater", "Reports")">الفواتير</a></li>
-                            <li><a href="@Url.Action("Products", "Reports")">الاصناف</a></li>
-                            <li><a href="@Url.Action("clients", "Reports")">العملاء والموردين</a></li>
-                            <li><a href="@Url.Action("expenses", "Reports")"> المصروفات</a></li>
-                            <li><a href="@Url.Action("payments", "Reports")"> الدفعات الماليه</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-            <div class="card">
-                <div class="card-header" id="headingfour">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link tablinks list_li" style="border-radius:0;width:100%; height:100%;text-decoration:none" type="button" data-toggle="collapse" data-target="#collapseeight" aria-expanded="false" aria-controls="collapseTwo">
-                            <i class="fas fa-cogs"></i>  الاعدادات
-                        </button>
-                    </h5>
-                </div>
-                <div id="collapseeight" class="collapse" aria-labelledby="headingeight" data-parent="#accordionExample">
-                    <div class="card-body">
-
-                        <ul>
-                            <li><a href="@Url.Action("index", "Employee")"> قائمه الموظفين</a></li>
-                            <li><a href="@Url.Action("NewEmployee", "Employee")"> موظف جديد </a></li>
-                            <li><a href="@Url.Action("PrintType", "Employee")">انواع الطابعات</a></li>
-                            <li><a href="@Url.Action("PlaceInfo", "Home")">معلومات المكان</a></li>
-
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-
-
-
-
-    <nav class="navbar navbar-expand-md navbar-light bg-light font-weight-bold"
-         style="transition: all 1s ease-out;direction: rtl;">
-        <div class="container">
-
-            @Html.ActionLink("المخازن", "login", "employee", new { area = "" }, new { @class = "navbar-brand float-right" })
-
-            <button class="navbar-toggler navbar-toggler-right" id="menubutton" type="button" data-toggle="collapse"
-                    data-target="#navbarDarkSupportedContent" aria-controls="navbar2SupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg shadow-sm  navbar-light bg-light" style="opacity:1;">
+        <div class="container-fluid">
+            <a href="Index.html" class="navbar-brand font-weight-bolder">
+                <img class="img-fluid mr-2 animate__animated animate__swing animate__slower animate__repeat-2	2" src="../logo.png" id="logo" style="height: 40px" />
+                <span class="font-weight-bolder" id="brandName">اسم المكان</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse text-center  justify-content-end" id="navbarDarkSupportedContent">
-                <form class="form-inline my-2 my-lg-0">
-                    <ul class="navbar-nav text-right">
+            <div class="collapse navbar-collapse" dir="rtl" id="navbarNavAltMarkup">
+                <ul class="navbar-nav ml-auto p-0" dir="rtl">
+                    @Html.Partial("_LoginPartial")
+                    <li class="border"></li>
 
-                        @Html.Partial("_LoginPartial")
+                    <li class='nav-item  '>
+                        <a href='@Url.Action("Index", "Clients")' class='nav-link  font-weight-bold text-right'><i class="fas fa-home"></i>&nbsp;&nbsp;العملاء</a>
+                    </li>
+                    <li class="border"></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle font-weight-bold text-right" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-laptop-house"></i>&nbsp;&nbsp;الفواتير&nbsp;&nbsp;
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a href='@Url.Action("Purchases", "bills")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;فاتورة بيع</a>
+                            <div class='dropdown-divider'></div>
+                            <a href='@Url.Action("BuyBill", "bills")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;فاتورة شراء</a>
+                            <div class='dropdown-divider'></div>
+                            <a href='@Url.Action("ReturnBill", "Bills")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;فاتورة مرتجع</a>
+                            <div class='dropdown-divider'></div>
+                            <a href='@Url.Action("PriintFatoraWithID", "bills")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;طباعة فاتورة</a>
+                        </div>
+                    </li>
+                    <li class="border"></li>
+                    <li class='nav-item  '>
+                        <a href='@Url.Action("index", "Payments")' class='nav-link  font-weight-bold text-right'><i class="fas fa-home"></i>&nbsp;&nbsp;الدفعات المالية</a>
+                    </li>
+                    <li class="border"></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle font-weight-bold text-right" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-laptop-house"></i>&nbsp;&nbsp;المخازن&nbsp;&nbsp;
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a href='@Url.Action("index", "StoreHouse")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;المنتجات</a>
+                            <div class='dropdown-divider'></div>
+                            <a href='@Url.Action("Category", "StoreHouse")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;الأصناف</a>
+                            <div class='dropdown-divider'></div>
+                            <a href='@Url.Action("Notification", "StoreHouse")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;التنبيهات</a>
+                            <div class='dropdown-divider'></div>
+                            <a href='@Url.Action("Stores", "StoreHouse")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;المخازن</a>
+                        </div>
+                    </li>
+                    <li class="border"></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle font-weight-bold text-right" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-laptop-house"></i>&nbsp;&nbsp;المصروفات&nbsp;&nbsp;
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a href='@Url.Action("index", "Expenses")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;المصروفات</a>
+                            <div class='dropdown-divider'></div>
+                            <a href='@Url.Action("ExpensesType", "Expenses")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;انواع المصروفات</a>
+                        </div>
+                    </li>
+                    <li class="border"></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle font-weight-bold text-right" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-laptop-house"></i>&nbsp;&nbsp;التقارير&nbsp;&nbsp;
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a href='@Url.Action("EndDay", "Employee")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;التقرير اليومى</a>
+                            <div class='dropdown-divider'></div>
 
-                    </ul>
+                            <a href='@Url.Action("fwater", "Reports")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;الفواتير</a>
+                            <div class='dropdown-divider'></div>
 
+                            <a href='@Url.Action("Products", "Reports")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;الأصناف</a>
+                            <div class='dropdown-divider'></div>
+                            <a href='@Url.Action("clients", "Reports")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;العملاء و الموردين</a>
+                            <div class='dropdown-divider'></div>
+                            <a href='@Url.Action("expenses", "Reports")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;المصروفات</a>
+                            <div class='dropdown-divider'></div>
+                            <a href='@Url.Action("payments", "Reports")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;الدفعات المالية</a>
+                        </div>
+                    </li>
+                    <li class="border"></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle font-weight-bold text-right" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-laptop-house"></i>&nbsp;&nbsp;الاعدادات&nbsp;&nbsp;
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a href='@Url.Action("index", "Employee")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;الموظفين</a>
+                            <div class='dropdown-divider'></div>
 
-                </form>
+                            <a href='@Url.Action("NewEmployee", "Employee")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;موظف جديد</a>
+                            <div class='dropdown-divider'></div>
+                            <a href='@Url.Action("PrintType", "Employee")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;الطابعات</a>
+                            <div class='dropdown-divider'></div>
+                            <a href='@Url.Action("PlaceInfo", "Home")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;معلومات المكان</a>
+                        </div>
+                    </li>
+                </ul>
+                <div class="form-inline my-2 my-lg-0" dir="ltr">
+
+                </div>
             </div>
         </div>
     </nav>
 
 
-    <div id="main" style="" >
-        <button id="openNav" style="    " class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
-        @RenderBody()
-        <br />
-        <center>
-            <div style="background-color:#;color:# ;position:relative;opacity:.9;border-top:2px solid #0094ff" class="bg-light text-dark font-weight-bold">
-                <div class="container text-right">
-                    <div class=" row py-5">
+    <div class="container-fluid  text-primary font-weight-bold  mt-3 pt-4" style="" id="masterpagecontainer">
+        <div class="jumbotron shadow border border-primary font-weight-bold text-center py-4 " id="masteragejumbotron">
 
+            <div class=" " id="">
+                @RenderBody()
 
-                        <div class="col-md-3  text-center">
-                            <a href="https://WWW.UPTOP-EG.COM">   <img class="d-block mx-auto img-fluid" src="/uptop.png" style="height:150px;position:relative;" alt="Second slide"></a>
-
-                            <p class="footer-company-name">UP-TOP - For Media and Programming Solutions &copy; 2019</p>
-                        </div>
-
-
-
-                        <div class="col-md-9">
-                            <div class="row text-right">
-                                <div class="col-12 py-2">
-                                    <p class="d-inline ">  كفر الشيخ - دوران النصر - بجوار فرع فودافون - أعلى المصريه للادويه - الور الثانى علوى  <i class="fas fa-map-marker mx-1  fa-lg"></i></p>
-                                </div>
-                                <div class="col-12 py-2">
-                                    <p class="d-inline "> 01013004509 - 01009136830 - 01111468462 <i class="fas fa-phone mx-1 fa-lg"></i></p>
-                                </div>
-                                <div class="col-12 py-2">
-                                    <p class="d-inline "> <a href="mailto:Support@UPTOP-EG.COM">Support@UPTOP-EG.COM</a> <i class="fas fa-envelope fa-lg mx-1"></i></p>
-                                </div>
-                            </div>
-
-
-                        </div>
-
-                        @*<div class="col-md-4 ">
-
-                        <p class="footer-company-about">
-                            <h3>عن المشروع</h3><br>
-                            توفر الجامعة خدمة النقل الآمن للطلبات و ذلك عن طريقة  التسجيل عبر الموقع الاكتروني و تأكيد التسجسل و الدفع عبر مواقعنا بالكليت
-                        </p>
-
-                        <div class=" text-white">
-
-                            <a href="https://www.facebook.com/uptopeg" class="px-2"><i class="fab fa-3x fa-facebook text-white"></i></a>
-                            @*<a href="#" class="px-2"><i class="fab fa-3x fa-twitter text-white"></i></a>
-                            <a href="#" class="px-2"><i class="fab fa-3x fa-linkedin text-white"></i></a>
-                            <a href="#" class="px-2"><i class="fab fa-3x fa-github text-white"></i></a>
-
-                        </div>
-                    </div>*@
-
-                    </div>
-                </div>
             </div>
-            @*<footer class="">
-            <p>&copy; @DateTime.Now.Year -UpTop </p>
-        </footer>*@
-        </center>
+
+        </div>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    <script src="~/Scripts/alertify.min.js"></script>
 
-    @Scripts.Render("~/bundles/bootstrap")
+
+
+    <div style="position: relative; border-top: 2px solid #0094ff; opacity: .75;" class="text-dark font-weight-bold bg-light " id="message">
+        <div class="container">
+            <div class="row ">
+
+                <div class="col-md-8 text-right py-5" id="placeinfo">
+                    <h4 class="font-weight-bold" id="placename">اسم المكان</h4>
+                    <hr />
+                    عن المكان
+
+                </div>
+
+
+                <div class="col-md-4 text-right py-5">
+                    <h4 class="font-weight-bold">اتصل بنا</h4>
+                    <hr />
+                    <a href="#" id="call" target="_blank" class="text-decoration-none">
+                        <i class="fas fa-phone-square fa-3x"
+                           style="color: darkslategrey;"></i>
+                    </a>
+                    <a href="#" id="whats" target="_blank" class="text-decoration-none">
+                        <i class="fab fa-whatsapp-square fa-3x"
+                           style="color: #25D366;"></i>
+                    </a>
+                    <a href="#" id="face" target="_blank" class="text-decoration-none">
+                        <i class="fab fa-facebook-square fa-3x"
+                           style="color: #3b5998;"></i>
+                    </a>
+                    <a href="#" id="messenger" target="_blank" class="text-decoration-none">
+                        <i class="fab fa-facebook-messenger fa-3x"
+                           style="color: #00C6FF;"></i>
+                    </a>
+                    <a href="#" id="insta" target="_blank" class="text-decoration-none">
+                        <i class="fab fa-instagram-square fa-3x"
+                           style="color: #3f729b ;"></i>
+                    </a>
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="text-center text-light p-3" style="background-color: #27498C;">
+        <a href="https://fb.com/Gipsy.EG" target="_blank" class="font-weight-bold text-decoration-none text-light">Powered by Gipsy</a>
+    </div>
+
+    @*@Scripts.Render("~/bundles/jquery")
+        <script src="~/Scripts/alertify.min.js"></script>
+
+        @Scripts.Render("~/bundles/bootstrap")*@
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" integrity="sha256-x3YZWtRjM8bJqf48dFAv/qmgL68SI4jqNWeSLMZaMGA=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha256-WqU1JavFxSAMcLP2WIOI+GB2zWmShMI82mTpLDcqFUg=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Cairo&display=swap" rel="stylesheet" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
+
+
     @RenderSection("scripts", required: false)
 </body>
 </html>
@@ -454,4 +314,3 @@
     }
 </script>
 
- 
