@@ -1,7 +1,7 @@
 ﻿@model Stores.Models.CommonClasses.ClientWithExten
 
 @{
-    ViewBag.Title = "قائمه العملاء";
+    ViewBag.Title = "العملاء و الموردين";
 }
 
 <script>
@@ -10,7 +10,7 @@
     function AddNewCustomer() {
         $("#form")[0].reset();
         $("#Client_ID").val(0);
-        $("#ModalTitle").html("اضافه عميل جديد");
+        $("#ModalTitle").html("اضافه جديد");
         $("#ModalTitle").css("text-align:center ")
         $("#MyModal").modal();
 
@@ -101,118 +101,130 @@
         })
 
     }
-
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
 
 
 </script>
 
 <center>
 
-    <a href="#" class="btn btn-info" onclick="AddNewCustomer()">عميل جديد </a> <br /><br />
+    <a href="#" class="btn btn-primary mb-3" onclick="AddNewCustomer()">اضافة جديد </a>
+    <input class="form-control text-right mb-3" id="myInput" name="myInput" placeholder=".... بحث سريع" type="text">
 
 </center>
-<table class="table table-hover" id="myTable" style="text-align:center">
-    <tr class="table-heading " style="background-color:#40BCBA">
+<div class="table-responsive">
 
 
-        <th></th>
+    <table class="table table-hover table-striped table-bordered " id="myTable" style="text-align:center" dir="rtl">
+        <tr class=" ">
 
 
-        <th>
-            تفاصيل
-        </th>
-
-        <th>
-            الرقم القومى
-
-        </th>
-        <th>
-            اقل عدد فواتير
-        </th>
-        <th>
-            الحاله
-        </th>
-        <th>
-            النوع
-        </th>
-        <th>
-            العنوان
-        </th>
-        <th>
-            التليفون
-        </th>
-        <th>
-            الاسم
-
-        </th>
-    </tr>
+            <th></th>
 
 
-    @foreach (var item in Model.ClientsX)
-    {
-        <tr>
-            <td>
-                @*<a href="#" class="btn btn-info" onclick="EditClient(@item.Client_ID)"><span class='glyphicon glyphicon-trash'></span> تعديل</a>*@
+            <th>
+                تفاصيل
+            </th>
 
+            <th>
+                الرقم القومى
 
-                @Html.ActionLink("تعديل", "EditClient", new { id = item.Client_ID }, htmlAttributes: new { @class = "btn btn-info" })
-            </td>
+            </th>
+            <th>
+                اقل عدد فواتير
+            </th>
+            <th>
+                الحاله
+            </th>
+            <th>
+                النوع
+            </th>
+            <th>
+                العنوان
+            </th>
+            <th>
+                التليفون
+            </th>
+            <th>
+                الاسم
 
-
-            <td>
-                @Html.DisplayFor(modelItem => item.Comment)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.nationalID)
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.minimum_bills)
-            </td>
-            <td>
-                @{
-                    if (item.Active == true)
-                    {
-                        <p> مفعل</p>
-                    }
-                    else
-                    {
-                        <p>غير مفعل</p>
-                    }
-
-                }
-
-            </td>
-            <td>
-
-                @foreach (var items in Model.Clients_Type.Where(f => f.Clients_Type_id == item.Clients_Type_ID))
-                {
-                    @items.name
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-
-
-            <td>
-                @Html.DisplayFor(modelItem => item.phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-
+            </th>
         </tr>
-    }
 
-</table>
+
+        @foreach (var item in Model.ClientsX)
+        {
+            <tr>
+                <td>
+                    @*<a href="#" class="btn btn-info" onclick="EditClient(@item.Client_ID)"><span class='glyphicon glyphicon-trash'></span> تعديل</a>*@
+
+
+                    @Html.ActionLink("تعديل", "EditClient", new { id = item.Client_ID }, htmlAttributes: new { @class = "btn btn-info" })
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nationalID)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.minimum_bills)
+                </td>
+                <td>
+                    @{
+                        if (item.Active == true)
+                        {
+                            <p> مفعل</p>
+                        }
+                        else
+                        {
+                            <p>غير مفعل</p>
+                        }
+
+                    }
+
+                </td>
+                <td>
+
+                    @foreach (var items in Model.Clients_Type.Where(f => f.Clients_Type_id == item.Clients_Type_ID))
+                    {
+                        @items.name
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</div>
 
 
 <div class="modal fade" id="MyModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                @*<a href="#" class="close" data-dismiss="modal">&times;</a>*@
                 <h4 id="ModalTitle"></h4>
             </div>
             <div class="modal-body">
@@ -221,22 +233,22 @@
 
 
                         <div class="form-group">
-                            <label>اسم العميل</label>
+                            @*<label>اسم العميل</label>*@
 
-                            <input type="text" required name="name" id="name" placeholder="اسم العميل" class="form-control" required />
+                            <input type="text" required name="name" id="name" placeholder="الاسم" class="form-control" required />
                         </div>
                         <div class="form-group">
-                            <label>رقم التليفون</label>
-                            <input type="text" required name="phone" id="phone" placeholder=" رقم التليفون" class="form-control" />
+                            @*<label>رقم التليفون</label>*@
+                            <input type="text" required name="phone" id="phone" placeholder=" الهاتف" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label>العنوان</label>
+                            @*<label>العنوان</label>*@
                             <input type="text" name="Address" id="Address" placeholder="العنوان" class="form-control" />
                         </div>
                         <div class="form-group">
 
                             <select name="Clients_Type_ID" id="section" class="form-control" required="required">
-                                <option value=""> اختار الصنف</option>
+                                <option value=""> اختار النوع</option>
                                 @{
                                     foreach (var item in Model.Clients_Type)
                                     {
@@ -246,25 +258,23 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>اقل عدد فواتير</label>
-                            <input type="text" name="minimum_bills" id="minimum_bills" placeholder="عدد فواتير" class="form-control" />
+                            @*<label>اقل عدد فواتير</label>*@
+                            <input type="text" name="minimum_bills" id="minimum_bills" placeholder="اقل عدد فواتير" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label>رقم البطاقه</label>
-                            <input type="text" name="nationalID" id="nationalID" placeholder="رقم قومى" class="form-control" />
+                            @*<label>رقم البطاقه</label>*@
+                            <input type="text" name="nationalID" id="nationalID" placeholder="الرقم القومى" class="form-control" />
                         </div>
-                        <div class="form-group">
+                        <div class="">
                             <label>الحاله</label>
                             <input type="checkbox" name="Active" id="Active" value="true" placeholder="الحاله" class="" />
                         </div>
-
-                        <div class="form-group">
-                            <button class="btn btn-block btn-info" onclick="AddClient();" value="اضافه">اضافه</button>
-
-                        </div>
-
                     </fieldset>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                <button class="btn  btn-success" onclick="AddClient();" value="اضافه">حفظ</button>
             </div>
         </div>
     </div>

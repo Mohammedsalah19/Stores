@@ -52,7 +52,7 @@
 
     <style>
         body {
-            background-image: url('../Assets/Images/bg.jpg');
+            background-image: url('/Assets/Images/bg.jpg');
             background-repeat: no-repeat;
             background-size: cover;
             font-family: 'Cairo';
@@ -98,6 +98,14 @@
             height: 25vh;
             object-fit: cover;
         }
+
+        .icon{
+            width:30px!important;
+        }
+        .no-text-wrap {
+            overflow: hidden;
+            white-space: nowrap;
+        }
     </style>
 
 
@@ -106,126 +114,237 @@
 
 <body>
 
-
-    <nav class="navbar navbar-expand-lg shadow-sm  navbar-light bg-light" style="opacity:1;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light font-weight-bold shadowdown" id="mainnavbar"
+         style="transition: all 1s ease-out;">
         <div class="container-fluid">
             <a href="Index.html" class="navbar-brand font-weight-bolder">
-                <img class="img-fluid mr-2 animate__animated animate__swing animate__slower animate__repeat-2	2" src="../logo.png" id="logo" style="height: 40px" />
+                <img class="img-fluid animate__animated animate__swing animate__slower animate__repeat-2	2" src="/logo.png" id="logo" style="height: 40px" />
                 <span class="font-weight-bolder" id="brandName">اسم المكان</span>
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler navbar-toggler-left " id="menubutton" type="button" data-toggle="collapse"
+                    data-target=".navbarDarkSupportedContent" aria-controls="navbar2SupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <div class="collapse navbar-collapse navbarDarkSupportedContent">
+                @*<ul class="navbar-nav ml-auto">
+                        <li class="nav-item ">
+                            @Html.ActionLinkLocalization("English", "Index", "Locales", new { lang = "en_US" }, new { @class = "nav-link" })
 
-            <div class="collapse navbar-collapse" dir="rtl" id="navbarNavAltMarkup">
-                <ul class="navbar-nav ml-auto p-0" dir="rtl">
-                    @Html.Partial("_LoginPartial")
-                    <li class="border"></li>
+                        </li>
+                        <li class="nav-item ">
+                            @Html.ActionLinkLocalization("عربى", "Index", "Locales", new { lang = "ar_eg" }, new { @class = "nav-link" })
 
-                    <li class='nav-item  '>
-                        <a href='@Url.Action("Index", "Clients")' class='nav-link  font-weight-bold text-right'><i class="fas fa-home"></i>&nbsp;&nbsp;العملاء</a>
-                    </li>
-                    <li class="border"></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle font-weight-bold text-right" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-laptop-house"></i>&nbsp;&nbsp;الفواتير&nbsp;&nbsp;
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a href='@Url.Action("Purchases", "bills")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;فاتورة بيع</a>
-                            <div class='dropdown-divider'></div>
-                            <a href='@Url.Action("BuyBill", "bills")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;فاتورة شراء</a>
-                            <div class='dropdown-divider'></div>
-                            <a href='@Url.Action("ReturnBill", "Bills")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;فاتورة مرتجع</a>
-                            <div class='dropdown-divider'></div>
-                            <a href='@Url.Action("PriintFatoraWithID", "bills")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;طباعة فاتورة</a>
-                        </div>
-                    </li>
-                    <li class="border"></li>
-                    <li class='nav-item  '>
-                        <a href='@Url.Action("index", "Payments")' class='nav-link  font-weight-bold text-right'><i class="fas fa-home"></i>&nbsp;&nbsp;الدفعات المالية</a>
-                    </li>
-                    <li class="border"></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle font-weight-bold text-right" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-laptop-house"></i>&nbsp;&nbsp;المخازن&nbsp;&nbsp;
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a href='@Url.Action("index", "StoreHouse")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;المنتجات</a>
-                            <div class='dropdown-divider'></div>
-                            <a href='@Url.Action("Category", "StoreHouse")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;الأصناف</a>
-                            <div class='dropdown-divider'></div>
-                            <a href='@Url.Action("Notification", "StoreHouse")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;التنبيهات</a>
-                            <div class='dropdown-divider'></div>
-                            <a href='@Url.Action("Stores", "StoreHouse")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;المخازن</a>
-                        </div>
-                    </li>
-                    <li class="border"></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle font-weight-bold text-right" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-laptop-house"></i>&nbsp;&nbsp;المصروفات&nbsp;&nbsp;
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a href='@Url.Action("index", "Expenses")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;المصروفات</a>
-                            <div class='dropdown-divider'></div>
-                            <a href='@Url.Action("ExpensesType", "Expenses")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;انواع المصروفات</a>
-                        </div>
-                    </li>
-                    <li class="border"></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle font-weight-bold text-right" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-laptop-house"></i>&nbsp;&nbsp;التقارير&nbsp;&nbsp;
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a href='@Url.Action("EndDay", "Employee")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;التقرير اليومى</a>
-                            <div class='dropdown-divider'></div>
+                        </li>
 
-                            <a href='@Url.Action("fwater", "Reports")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;الفواتير</a>
-                            <div class='dropdown-divider'></div>
+                    </ul>*@
 
-                            <a href='@Url.Action("Products", "Reports")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;الأصناف</a>
-                            <div class='dropdown-divider'></div>
-                            <a href='@Url.Action("clients", "Reports")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;العملاء و الموردين</a>
-                            <div class='dropdown-divider'></div>
-                            <a href='@Url.Action("expenses", "Reports")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;المصروفات</a>
-                            <div class='dropdown-divider'></div>
-                            <a href='@Url.Action("payments", "Reports")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;الدفعات المالية</a>
-                        </div>
-                    </li>
-                    <li class="border"></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle font-weight-bold text-right" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-laptop-house"></i>&nbsp;&nbsp;الاعدادات&nbsp;&nbsp;
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a href='@Url.Action("index", "Employee")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;الموظفين</a>
-                            <div class='dropdown-divider'></div>
-
-                            <a href='@Url.Action("NewEmployee", "Employee")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;موظف جديد</a>
-                            <div class='dropdown-divider'></div>
-                            <a href='@Url.Action("PrintType", "Employee")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;الطابعات</a>
-                            <div class='dropdown-divider'></div>
-                            <a href='@Url.Action("PlaceInfo", "Home")' class='dropdown-item text-right font-weight-bold'><i class="fas fa-home"></i>&nbsp;&nbsp;معلومات المكان</a>
-                        </div>
-                    </li>
-                </ul>
-                <div class="form-inline my-2 my-lg-0" dir="ltr">
-
-                </div>
             </div>
+
+            <button class="navbar-toggler navbar-toggler-left slide-left  d-none d-lg-block float-right" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
         </div>
     </nav>
 
+    @*<div class="slide-left d-none d-lg-block bg-light position-absolute" style="width:66px;right:0;z-index:99999999999;">
 
-    <div class="container-fluid  text-primary font-weight-bold  mt-3 pt-4" style="" id="masterpagecontainer">
-        <div class="jumbotron shadow border border-primary font-weight-bold text-center py-4 " id="masteragejumbotron">
+            <div role="separator" class="dropdown-divider pt-0 mt-0"></div>
 
-            <div class=" " id="">
-                @RenderBody()
+            <div class="nav-link ">
+                <i class="icon fas fa-home"></i>
+            </div>
+            <div role="separator" class="dropdown-divider  pb-0 mb-0"></div>
+        </div>*@
 
+
+    <div class="row no-gutters" dir="rtl">
+        <div class="col-lg-auto shadowright bg-light" id="menu" style="padding: 0rem 1rem;">
+            <div class="container px-0 mx-0">
+                <nav class="collapse navbar-collapse d-lg-block navbarDarkSupportedContent font-weight-bolder text-right">
+
+                    <div role="separator" class="dropdown-divider pt-0 mt-0"></div>
+                    @Html.Partial("_LoginPartial")
+
+                    @*<div class="nav-link slide-left d-none d-lg-block">
+            <i class="icon fas fa-home"></i>
+        </div>
+        <div role="separator" class="dropdown-divider d-none d-lg-block "></div>*@
+                    <a href='@Url.Action("index", "Payments")' class='nav-link  font-weight-bold text-right no-text-wrap'><i class="icon fas fa-file-invoice-dollar"></i>&nbsp;&nbsp;الدفعات المالية</a>
+                    <div role="separator" class="dropdown-divider "></div>
+                    <a href='@Url.Action("Index", "Clients")' class='nav-link  font-weight-bold text-right no-text-wrap'><i class="icon fas fa-user"></i>&nbsp;&nbsp;العملاء و الموردين</a>
+                    <div role="separator" class="dropdown-divider "></div>
+
+
+
+                    <a class="nav-link dropdown-toggle font-weight-bold text-right  no-text-wrap text-decoration-none" href="#bills" role="button" data-toggle="collapse" aria-expanded="false">
+                        <i class="icon fas fa-file-invoice"></i>&nbsp;&nbsp;الفواتير&nbsp;&nbsp;
+                    </a>
+                    <div class="collapse " id="bills">
+                        <div class='dropdown-divider'></div>
+                        <a href='@Url.Action("Purchases", "bills")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-file-invoice"></i>&nbsp;&nbsp;فاتورة بيع</a>
+                        <div class='dropdown-divider'></div>
+                        <a href='@Url.Action("BuyBill", "bills")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-file-invoice"></i>&nbsp;&nbsp;فاتورة شراء</a>
+                        <div class='dropdown-divider'></div>
+                        <a href='@Url.Action("ReturnBill", "Bills")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-file-invoice"></i>&nbsp;&nbsp;فاتورة مرتجع</a>
+                        <div class='dropdown-divider'></div>
+                        <a href='@Url.Action("PriintFatoraWithID", "bills")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-file-invoice"></i>&nbsp;&nbsp;طباعة فاتورة</a>
+                    </div>
+
+                    <div role="separator" class="dropdown-divider"></div>
+
+                    <a class="nav-link dropdown-toggle font-weight-bold text-right  no-text-wrap text-decoration-none" href="#stores" role="button" data-toggle="collapse" aria-expanded="false">
+                        <i class="icon fas fa-cubes"></i>&nbsp;&nbsp;المخازن&nbsp;&nbsp;
+                    </a>
+                    <div class="collapse " id="stores">
+                        <div class='dropdown-divider'></div>
+                        <a href='@Url.Action("index", "StoreHouse")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-stream"></i>&nbsp;&nbsp;المنتجات</a>
+                        <div class='dropdown-divider'></div>
+                        <a href='@Url.Action("Category", "StoreHouse")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-boxes"></i>&nbsp;&nbsp;الأصناف</a>
+                        <div class='dropdown-divider'></div>
+                        <a href='@Url.Action("Notification", "StoreHouse")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-bell"></i>&nbsp;&nbsp;التنبيهات</a>
+                        <div class='dropdown-divider'></div>
+                        <a href='@Url.Action("Stores", "StoreHouse")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-warehouse"></i>&nbsp;&nbsp;المخازن</a>
+                    </div>
+
+                    <div role="separator" class="dropdown-divider"></div>
+
+
+                    <a class="nav-link dropdown-toggle font-weight-bold text-right  no-text-wrap text-decoration-none" href="#expenses" role="button" data-toggle="collapse" aria-expanded="false">
+                        <i class="icon fas fa-hand-holding-usd"></i>&nbsp;&nbsp;المصروفات&nbsp;&nbsp;
+                    </a>
+                    <div class="collapse " id="expenses">
+                        <div class='dropdown-divider'></div>
+                        <a href='@Url.Action("index", "Expenses")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-hand-holding-usd"></i>&nbsp;&nbsp;المصروفات</a>
+                        <div class='dropdown-divider'></div>
+                        <a href='@Url.Action("ExpensesType", "Expenses")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-funnel-dollar"></i>&nbsp;&nbsp;انواع المصروفات</a>
+                    </div>
+
+                    <div role="separator" class="dropdown-divider"></div>
+
+                    <a class="nav-link dropdown-toggle font-weight-bold text-right  no-text-wrap text-decoration-none" href="#report" role="button" data-toggle="collapse" aria-expanded="false">
+                        <i class="icon fas fa-search"></i>&nbsp;&nbsp;التقارير&nbsp;&nbsp;
+                    </a>
+                    <div class="collapse " id="report">
+                        <div class='dropdown-divider'></div>
+                        <a href='@Url.Action("EndDay", "Employee")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-hourglass-end"></i>&nbsp;&nbsp;التقرير اليومى</a>
+                        <div class='dropdown-divider'></div>
+
+                        <a href='@Url.Action("fwater", "Reports")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-file-invoice"></i>&nbsp;&nbsp;الفواتير</a>
+                        <div class='dropdown-divider'></div>
+
+                        <a href='@Url.Action("Products", "Reports")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-stream"></i>&nbsp;&nbsp;الأصناف</a>
+                        <div class='dropdown-divider'></div>
+                        <a href='@Url.Action("clients", "Reports")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-user"></i>&nbsp;&nbsp;العملاء و الموردين</a>
+                        <div class='dropdown-divider'></div>
+                        <a href='@Url.Action("expenses", "Reports")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-hand-holding-usd"></i>&nbsp;&nbsp;المصروفات</a>
+                        <div class='dropdown-divider'></div>
+                        <a href='@Url.Action("payments", "Reports")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-file-invoice-dollar"></i>&nbsp;&nbsp;الدفعات المالية</a>
+                    </div>
+
+                    <div role="separator" class="dropdown-divider"></div>
+
+                        <a class="nav-link dropdown-toggle font-weight-bold text-right  no-text-wrap text-decoration-none" href="#sittings" role="button" data-toggle="collapse" aria-expanded="false">
+                            <i class="icon fas fa-cog"></i>&nbsp;&nbsp;الاعدادات&nbsp;&nbsp;
+                        </a>
+                        <div class="collapse " id="sittings">
+                            <div class='dropdown-divider'></div>
+                            <a href='@Url.Action("index", "Employee")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-user-cog"></i>&nbsp;&nbsp;الموظفين</a>
+                            <div class='dropdown-divider'></div>
+
+                            <a href='@Url.Action("NewEmployee", "Employee")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-user-plus"></i>&nbsp;&nbsp;موظف جديد</a>
+                            <div class='dropdown-divider'></div>
+                            <a href='@Url.Action("PrintType", "Employee")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-print"></i>&nbsp;&nbsp;الطابعات</a>
+                            <div class='dropdown-divider'></div>
+                            <a href='@Url.Action("PlaceInfo", "Home")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-fingerprint"></i>&nbsp;&nbsp;معلومات المكان</a>
+                        </div>
+
+                    <div role="separator" class="dropdown-divider pb-0 mb-0 "></div>
+
+                </nav>
             </div>
 
         </div>
+        <div class="col" id="workspace" style="min-height:100vh;">
+            <div class="container-fluid  text-primary font-weight-bold  mt-3 pt-4" style="" id="masterpagecontainer">
+                <div class="jumbotron shadow border border-primary font-weight-bold text-center py-4" id="masteragejumbotron">
+
+                    <div class=" " id="">
+                        <h3 class="text-center font-weight-bold">@ViewBag.Title</h3>
+                        <hr />
+                        @RenderBody()
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
     </div>
+
+    @*<nav class="navbar navbar-expand-lg shadow-sm  navbar-light bg-light" style="opacity:1;" id="mainnavbar">
+            <div class="container-fluid">
+                <a href="Index.html" class="navbar-brand font-weight-bolder">
+                    <img class="img-fluid mr-2 animate__animated animate__swing animate__slower animate__repeat-2	2" src="../logo.png" id="logo" style="height: 40px" />
+                    <span class="font-weight-bolder" id="brandName">اسم المكان</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" dir="rtl" id="navbarNavAltMarkup">
+                    <ul class="navbar-nav ml-auto p-0" dir="rtl">
+                        @Html.Partial("_LoginPartial")
+                        <li class="border"></li>
+
+                        <li class='nav-item  '>
+                        </li>
+                        <li class="border"></li>
+                        <li class="nav-item dropdown">
+
+                        </li>
+                        <li class="border"></li>
+                        <li class='nav-item  '>
+                        </li>
+                        <li class="border"></li>
+                        <li class="nav-item dropdown">
+
+                        </li>
+                        <li class="border"></li>
+                        <li class="nav-item dropdown">
+
+                        </li>
+                        <li class="border"></li>
+                        <li class="nav-item dropdown">
+
+                        </li>
+                        <li class="border"></li>
+                        <li class="nav-item dropdown">
+
+                        </li>
+                    </ul>
+                    <div class="form-inline my-2 my-lg-0" dir="ltr">
+
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+
+        <div class="container-fluid  text-primary font-weight-bold  mt-3 pt-4" style="" id="masterpagecontainer">
+            <div class="jumbotron shadow border border-primary font-weight-bold text-center py-4 " id="masteragejumbotron">
+
+                <div class=" " id="">
+                    <h3 class="text-center font-weight-bold">@ViewBag.Title</h3>
+                    <hr />
+                    <br />
+                    @RenderBody()
+
+                </div>
+
+            </div>
+        </div>*@
 
 
 
@@ -295,10 +414,26 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
 
+    <script>
+        $(document).ready(function () {
+
+            $(".slide-left").click(function () {
+                $("#menu").animate({
+                    width: "toggle",
+                    opacity: "toggle"
+                });
+            });
+            //$('.slide-left').click(function () {
+            //    $("#menu").toggle("slide");
+            //});
+        });
+    </script>
 
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+
 
 <script>
     function w3_open() {

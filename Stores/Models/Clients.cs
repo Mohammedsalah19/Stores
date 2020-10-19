@@ -11,19 +11,19 @@ namespace Stores.Models
     {
         [Key]
         public int Client_ID { get; set; }
-        [DisplayName("اسم العميل")]
+        [DisplayName("الاسم")]
 
         public string name { get; set; }
-        [DisplayName("رقم التليفون")]
+        [DisplayName("الهاتف")]
 
         public string phone { get; set; }
-        [DisplayName("رقم البطاقه")]
+        [DisplayName("الرقم القومى")]
 
         public string nationalID { get; set; }
         [DisplayName("العنوان")]
 
         public string Address { get; set; }
-        [DisplayName("الوصف")]
+        [DisplayName("ملاحظة")]
 
         public string Comment { get; set; }
         [DisplayName("الحاله")]

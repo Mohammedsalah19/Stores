@@ -6,7 +6,7 @@
 
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
- 
+
 
 <script>
 
@@ -80,73 +80,75 @@
 
 </script>
 <center>
-    <p>
-        <a href="#" class="btn btn-info" onclick="AddNewCustomer(0)">دفعه جديده</a> <br /><br />
-    </p>
-    <div class="form-group">
-        <div class="col-md-12">
-            <input class="form-control text-right  text-box single-line" id="myInput" name="myInput" placeholder=".... بحث سريع" type="text">
-        </div>
-    </div>
+    <a href="#" class="btn btn-primary mb-3" onclick="AddNewCustomer(0)">دفعه جديده</a>
+
+    <input class="form-control text-right mb-3" id="myInput" name="myInput" placeholder=".... بحث سريع" type="text">
+
 </center>
-<table class="table table-hover" id="myTable" style="text-align:center">
-    <tr class="table-heading " style="background-color:#40BCBA">
-        <th>
-            التاريخ
-        </th>
-        <th>
-            اسم الموظف
-        </th>
-        <th>
-            المدفوع
-        </th>
-        <th>
-            اسم العميل او المورد
-        </th>
-        <th>
-            رقم الفاتوره
-        </th>
-        @*<th></th>*@
-    </tr>
-
-    @foreach (var item in Model.PaymentX)
-    {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.date)
-        </td>
 
 
-        <td>
-            @foreach (var items in Model.UsersX.Where(p => p.Id == item.user_id))
-            {
-                @items.name
-            }
-         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Payment_amount)
-        </td>
-        <td>
-            @foreach (var items in Model.ClientsX.Where(p=>p.Client_ID== item.client_id))
-            {
-                @items.name
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fatoraID)
-        </td>
-    
-    </tr>
-    }
+<div class="table-responsive">
 
-</table>
+
+    <table class="table table-hover table-striped table-bordered " id="myTable" style="text-align:center">
+        <tr class=" ">
+            <th>
+                التاريخ
+            </th>
+            <th>
+                اسم الموظف
+            </th>
+            <th>
+                المدفوع
+            </th>
+            <th>
+                اسم العميل او المورد
+            </th>
+            <th>
+                رقم الفاتوره
+            </th>
+            @*<th></th>*@
+        </tr>
+
+        @foreach (var item in Model.PaymentX)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.date)
+                </td>
+
+
+                <td>
+                    @foreach (var items in Model.UsersX.Where(p => p.Id == item.user_id))
+                    {
+                        @items.name
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Payment_amount)
+                </td>
+                <td>
+                    @foreach (var items in Model.ClientsX.Where(p => p.Client_ID == item.client_id))
+                    {
+                        @items.name
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fatoraID)
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</div>
 
 
 <div class="modal fade" id="MyModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                @*<a href="#" class="close" data-dismiss="modal">&times;</a>*@
                 <h4 id="ModalTitle"></h4>
             </div>
             <div class="modal-body">
@@ -177,19 +179,18 @@
                             </select>
 
                         </div>
-                        <div class="form-group">
-                            <label>المبلغ</label>
+                        <div class="">
+                            @*<label>المبلغ</label>*@
                             <input type="text" name="Payment_amount" id="Payment_amount" placeholder="المبلغ" class="form-control" required />
                         </div>
 
 
-                        <div class="form-group">
-                            <button class="btn btn-block btn-info" onclick="AddPayment();" id="SaveRecord" value="اضافه">اضافه</button>
-
-                        </div>
-
                     </fieldset>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                <button class="btn  btn-success" onclick="AddPayment();" id="SaveRecord" value="اضافه">حفظ</button>
             </div>
         </div>
     </div>

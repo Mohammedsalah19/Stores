@@ -59,6 +59,7 @@ namespace Stores.Controllers
             var model = _db.Users.Where(p => p.username == _users.username && p.Password == _users.Password && p.active==true).FirstOrDefault();
             if (model != null)
             {
+                Session["name"] = model.name;
                 Session["userName"] = model.username;
                 Session["userID"] = model.Id;
                 Session["flag"] = "true";

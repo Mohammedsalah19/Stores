@@ -6,17 +6,19 @@
         @Html.AntiForgeryToken()
 
         @*<a href='@Url.Action( "profile", "employees")' class='text-right font-weight-bold mr-2'><i class="fas fa-user-circle fa-2x"></i></a>*@
-        <li class='nav-item  '>
 
-            <a href='@Url.Action("LogOff", "Employee")' class='nav-link  font-weight-bold text-right'><i class="fas fa-sign-out-alt fa-lg"></i></a>
-        </li>
+        <a href='@Url.Action("Details", "Employee", new { id = Session["userID"] })' class='nav-link  font-weight-bold text-right no-text-wrap'><i class="icon fas fa-user-circle"></i>&nbsp;&nbsp;@Session["name"]</a>
+        <div role="separator" class="dropdown-divider"></div>
+        <a href='@Url.Action("LogOff", "Employee")' class='nav-link  font-weight-bold text-right no-text-wrap'><i class="icon fas fa-sign-out-alt"></i>&nbsp;&nbsp;تسجيل الخروج</a>
+
+        <div role="separator" class="dropdown-divider"></div>
+
     }
 }
 else
 {
-    <li class='nav-item  '>
 
-        <a href='@Url.Action( "Login", "Employee")' class='nav-link  font-weight-bold text-right'><i class="fas fa-sign-in-alt fa-2x"></i></a>
-    </li>
+    <a href='@Url.Action( "Login", "Employee")' class='nav-link  font-weight-bold text-right no-text-wrap'><i class="icon fas fa-sign-in-alt"></i>&nbsp;&nbsp;تسجيل الدخول</a>
+    <div role="separator" class="dropdown-divider"></div>
 
 }
