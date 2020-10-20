@@ -12,7 +12,7 @@ namespace Stores.Models
         [Key]
         public int Cate_ID { get; set; }
 
-        [DisplayName("اسم الصنف")]
+        [DisplayName("الاسم ")]
         public string name { get; set; }
         [DisplayName("الوصف")]
         public string description { get; set; }

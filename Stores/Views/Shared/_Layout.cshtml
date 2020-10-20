@@ -160,7 +160,7 @@
 
     <div class="row no-gutters" dir="rtl">
         <div class="col-lg-auto shadowright bg-light" id="menu" style="padding: 0rem 1rem;">
-            <div class="container px-0 mx-0">
+            <div class="">
                 <nav class="collapse navbar-collapse d-lg-block navbarDarkSupportedContent font-weight-bolder text-right">
 
                     <div role="separator" class="dropdown-divider pt-0 mt-0"></div>
@@ -198,13 +198,13 @@
                     </a>
                     <div class="collapse " id="stores">
                         <div class='dropdown-divider'></div>
-                        <a href='@Url.Action("index", "StoreHouse")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-stream"></i>&nbsp;&nbsp;المنتجات</a>
-                        <div class='dropdown-divider'></div>
-                        <a href='@Url.Action("Category", "StoreHouse")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-boxes"></i>&nbsp;&nbsp;الأصناف</a>
-                        <div class='dropdown-divider'></div>
                         <a href='@Url.Action("Notification", "StoreHouse")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-bell"></i>&nbsp;&nbsp;التنبيهات</a>
                         <div class='dropdown-divider'></div>
                         <a href='@Url.Action("Stores", "StoreHouse")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-warehouse"></i>&nbsp;&nbsp;المخازن</a>
+                        <div class='dropdown-divider'></div>
+                        <a href='@Url.Action("Category", "StoreHouse")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-boxes"></i>&nbsp;&nbsp;الاقسام</a>
+                        <div class='dropdown-divider'></div>
+                        <a href='@Url.Action("index", "StoreHouse")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-stream"></i>&nbsp;&nbsp;المنتجات</a>
                     </div>
 
                     <div role="separator" class="dropdown-divider"></div>
@@ -233,7 +233,7 @@
                         <a href='@Url.Action("fwater", "Reports")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-file-invoice"></i>&nbsp;&nbsp;الفواتير</a>
                         <div class='dropdown-divider'></div>
 
-                        <a href='@Url.Action("Products", "Reports")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-stream"></i>&nbsp;&nbsp;الأصناف</a>
+                        <a href='@Url.Action("Products", "Reports")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-stream"></i>&nbsp;&nbsp;المنتجات</a>
                         <div class='dropdown-divider'></div>
                         <a href='@Url.Action("clients", "Reports")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-user"></i>&nbsp;&nbsp;العملاء و الموردين</a>
                         <div class='dropdown-divider'></div>
@@ -251,12 +251,9 @@
                             <div class='dropdown-divider'></div>
                             <a href='@Url.Action("index", "Employee")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-user-cog"></i>&nbsp;&nbsp;الموظفين</a>
                             <div class='dropdown-divider'></div>
-
-                            <a href='@Url.Action("NewEmployee", "Employee")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-user-plus"></i>&nbsp;&nbsp;موظف جديد</a>
-                            <div class='dropdown-divider'></div>
                             <a href='@Url.Action("PrintType", "Employee")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-print"></i>&nbsp;&nbsp;الطابعات</a>
-                            <div class='dropdown-divider'></div>
-                            <a href='@Url.Action("PlaceInfo", "Home")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-fingerprint"></i>&nbsp;&nbsp;معلومات المكان</a>
+                            @*<div class='dropdown-divider'></div>
+                            <a href='@Url.Action("PlaceInfo", "Home")' class='dropdown-item text-right font-weight-bold'><i class="icon fas fa-fingerprint"></i>&nbsp;&nbsp;معلومات المكان</a>*@
                         </div>
 
                     <div role="separator" class="dropdown-divider pb-0 mb-0 "></div>
@@ -265,7 +262,7 @@
             </div>
 
         </div>
-        <div class="col" id="workspace" style="min-height:100vh;">
+        <div class="col" id="workspace" >
             <div class="container-fluid  text-primary font-weight-bold  mt-3 pt-4" style="" id="masterpagecontainer">
                 <div class="jumbotron shadow border border-primary font-weight-bold text-center py-4" id="masteragejumbotron">
 
@@ -420,6 +417,7 @@
             $(".slide-left").click(function () {
                 $("#menu").animate({
                     width: "toggle",
+                    height: "toggle",
                     opacity: "toggle"
                 });
             });

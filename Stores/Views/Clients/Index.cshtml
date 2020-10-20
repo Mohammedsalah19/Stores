@@ -119,10 +119,10 @@
     <input class="form-control text-right mb-3" id="myInput" name="myInput" placeholder=".... بحث سريع" type="text">
 
 </center>
-<div class="table-responsive">
+<div class="table-responsive" dir="rtl">
 
 
-    <table class="table table-hover table-striped table-bordered " id="myTable" style="text-align:center" dir="rtl">
+    <table class="table table-hover table-striped table-bordered " id="myTable" style="text-align:center" dir="ltr" >
         <tr class=" ">
 
 
@@ -221,7 +221,7 @@
 
 
 <div class="modal fade" id="MyModal">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 @*<a href="#" class="close" data-dismiss="modal">&times;</a>*@
@@ -284,7 +284,7 @@
 
 
 <div class="modal fade" id="EditModel">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <a href="#" class="close" data-dismiss="modal">&times;</a>
@@ -311,7 +311,7 @@
                         <div class="form-group">
 
                             <select name="Clients_Type_ID" id="section" class="form-control" required="required">
-                                <option value=""> اختار الصنف</option>
+                                <option value=""> اختار النوع</option>
                                 @{
                                     foreach (var item in Model.Clients_Type)
                                     {

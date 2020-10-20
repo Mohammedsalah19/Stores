@@ -36,14 +36,14 @@
 
     };
 
- 
+
 
     function ConfirmDelete(Store_Id) {
-         $.ajax({
+        $.ajax({
             type: "POST",
             url: "/StoreHouse/DeleteStore?Store_Id=" + Store_Id,
             success: function (result) {
-             
+
                 location.reload(true);
 
             }
@@ -54,85 +54,87 @@
 </script>
 
 <center>
-    <a href="#" class="btn btn-info" onclick="AddNewStore()">اضافه مخزن</a> <br /><br />
+    <a href="#" class="btn btn-primary mb-3" onclick="AddNewStore()">اضافه مخزن</a> 
 </center>
-<table class="table table-hover" id="myTable" style="text-align:center">
-    <tr class="table-heading " style="background-color:#40BCBA">
-        <th></th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
+<div class="table-responsive" dir="rtl">
 
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.place)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.name)
 
-        </th>
-    </tr>
+    <table class="table table-hover table-striped table-bordered " id="myTable" style="text-align:center" dir="ltr">
+        <tr class=" ">
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                <input type="submit" class='btn btn-danger' value="حذف" class="btn btn-info"  onclick="ConfirmDelete(@item.Store_Id)"/>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.place)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
 
-             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.place)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-
-            </td>
-
+            </th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <input type="submit" class='btn btn-danger' value="حذف" class="btn btn-info" onclick="ConfirmDelete(@item.Store_Id)" />
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.place)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</div>
 
 
 
 <div class="modal fade" id="MyModal">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                @*<a href="#" class="close" data-dismiss="modal">&times;</a>*@
                 <h4 id="ModalTitle"></h4>
             </div>
             <div class="modal-body">
                 <form id="form">
                     <fieldset id="SubmitForm2" class="text-right" style="direction:rtl">
                         <div class="form-group">
-                            <label>اسم المخزن</label>
+                            @*<label>اسم المخزن</label>*@
 
                             <input type="text" name="name" id="name" placeholder="اسم المخزن" class="form-control" required />
                         </div>
                         <div class="form-group">
-                            <label>العنوان</label>
+                            @*<label>العنوان</label>*@
                             <input type="text" name="place" id="place" placeholder="العنوان" class="form-control" required />
                         </div>
-                        <div class="form-group">
-                            <label>تفاصيل</label>
+                        <div class="">
+                            @*<label>تفاصيل</label>*@
                             <input type="text" name="Description" id="Description" placeholder="تفاصيل" class="form-control" />
                         </div>
 
 
-                        <div class="form-group">
-                            <button class="btn btn-block btn-info" onclick="Addstore();" id="SaveRecord" value="اضافه">اضافه</button>
-
-                        </div>
-
                     </fieldset>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                <button class="btn btn-success" onclick="Addstore();" id="SaveRecord" value="اضافه">حفظ</button>
             </div>
         </div>
     </div>
 </div>
 
- 

@@ -4454,7 +4454,7 @@
       SHOW: 'show'
     };
     var Selector = {
-      DIALOG: '.modal-dialog',
+      DIALOG: '.modal-dialog modal-dialog-centered',
       DATA_TOGGLE: '[data-toggle="modal"]',
       DATA_DISMISS: '[data-dismiss="modal"]',
       FIXED_CONTENT: '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top',

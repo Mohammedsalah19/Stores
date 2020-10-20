@@ -4,74 +4,79 @@
     ViewBag.Title = "التنبيهات";
 }
 <center>
-    <h4>الكميات النافذه</h4>
+    <h4>الكميات المنتهية</h4>
 
 </center>
-<table class="table table-hover" id="myTable" style="text-align:center">
-    <tr class="table-heading " style="background-color:#40BCBA">
-       
-        <th>
-            الحاله
-        </th>
-        <th>
-            اقل كميه
-        </th>
-   
-        <th>
-            الكميه الحالبه
-        </th>
-        <th>
+<br />
+<div class="table-responsive" dir="rtl">
 
-            المخزن
-        </th>
-        <th>
-            اسم المنتج 
-        </th>
-     </tr>
 
-    @foreach (var item in Model.ProPricX)
-    {
-        <tr>
-            <td>
+    <table class="table table-hover table-striped table-bordered table-sm" id="myTable" style="text-align:center" dir="ltr">
+        <tr class="table-heading " >
 
-                @if (item.active == true)
-                {
-                    <p> فعال</p>
+            <th>
+                الحاله
+            </th>
+            <th>
+                اقل كميه
+            </th>
 
-                }
-                else
-                {
-                    <p> غير فعال </p>
+            <th>
+                الكميه الحاليه
+            </th>
+            <th>
 
-                }
-
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Minmum)
-            </td>
-             
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-
-            </td>
-            <td>
-
-                @foreach (var items in Model.StorehousesX.Where(p => p.Store_Id == item.Store_Id))
-                {
-                    @items.name
-                }
- 
-            </td>
-            <td>
-                @foreach (var items in Model.ProductX.Where(p=>p.Pro_id==item.Pro_ID))
-                {
-                    @items.name
-                }
-
- 
-            </td>
-       
+                المخزن
+            </th>
+            <th>
+                اسم المنتج
+            </th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model.ProPricX)
+        {
+            <tr>
+                <td>
+
+                    @if (item.active == true)
+                    {
+                        <p> فعال</p>
+
+                    }
+                    else
+                    {
+                        <p> غير فعال </p>
+
+                    }
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Minmum)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+
+                </td>
+                <td>
+
+                    @foreach (var items in Model.StorehousesX.Where(p => p.Store_Id == item.Store_Id))
+                    {
+                        @items.name
+                    }
+
+                </td>
+                <td>
+                    @foreach (var items in Model.ProductX.Where(p => p.Pro_id == item.Pro_ID))
+                    {
+                        @items.name
+                    }
+
+
+                </td>
+
+            </tr>
+        }
+
+    </table>
+    </div>

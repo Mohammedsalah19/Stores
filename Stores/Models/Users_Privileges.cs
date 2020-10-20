@@ -23,7 +23,7 @@ namespace Stores.Models
         [DisplayName("فاتوره مرتجع")]
 
         public bool backbill { get; set; }
-        [DisplayName("الاصناف")]
+        [DisplayName("الاثسام")]
 
         public bool categories { get; set; }
         [DisplayName("المنتجات")]

@@ -5321,14 +5321,14 @@ button.close {
   overflow-y: auto;
 }
 
-.modal-dialog {
+.modal-dialog modal-dialog-centered {
   position: relative;
   width: auto;
   margin: 0.5rem;
   pointer-events: none;
 }
 
-.modal.fade .modal-dialog {
+.modal.fade .modal-dialog modal-dialog-centered {
   transition: -webkit-transform 0.3s ease-out;
   transition: transform 0.3s ease-out;
   transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
@@ -5337,17 +5337,17 @@ button.close {
 }
 
 @media screen and (prefers-reduced-motion: reduce) {
-  .modal.fade .modal-dialog {
+  .modal.fade .modal-dialog modal-dialog-centered {
     transition: none;
   }
 }
 
-.modal.show .modal-dialog {
+.modal.show .modal-dialog modal-dialog-centered {
   -webkit-transform: translate(0, 0);
   transform: translate(0, 0);
 }
 
-.modal-dialog-centered {
+.modal-dialog modal-dialog-centered-centered {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
@@ -5446,11 +5446,11 @@ button.close {
 }
 
 @media (min-width: 576px) {
-  .modal-dialog {
+  .modal-dialog modal-dialog-centered {
     max-width: 500px;
     margin: 1.75rem auto;
   }
-  .modal-dialog-centered {
+  .modal-dialog modal-dialog-centered-centered {
     min-height: calc(100% - (1.75rem * 2));
   }
   .modal-sm {

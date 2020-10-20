@@ -5,113 +5,114 @@
 }
 
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
- 
-<center>
-    <p>
-        <a href="@Url.Action("NewEmployee")" class="btn btn-default"><i class="fas fa-user-plus"></i> موظف جديد</a>
 
-    </p>
+<center>
+    <a href="@Url.Action("NewEmployee")" class="btn btn-primary mb-3"> اضافة جديد</a>
+
 
 
 </center>
-
-<table class="table table-hover" id="myTable" style="text-align:center">
-    <thead>
-        <tr class="table-heading " style="background-color:#40BCBA">
-
-            <th></th>
-
-            <th>
-                حاله الحساب
-            </th>
-            <th>
-                اسم الطابعه
-            </th>
-            <th>
-                كلمه المرور
-            </th>
-            <th>
-                التليفون
-            </th>
-            <th>
-                الاسم
-            </th>
-        </tr>
+<div class="table-responsive" dir="rtl">
 
 
-     </thead>
+    <table class="table table-hover table-striped table-bordered " id="myTable" style="text-align:center" dir="ltr">
+        <thead>
+            <tr class="">
 
-    <tbody>
-        @foreach (var item in Model.UserX)
-        {
-        <tr>
-            <td style="width:60px">
-                @foreach (var items in Model.PreviX.Where(h => h.User_ID == item.Id))
-                {
-                    <a href="@Url.Action("Privilage", new { id = items.id })" class="btn btn-default"><i class="fas fa-check-circle"></i> تعديل الصلاحيات</a>
-                }
+                <th></th>
 
-                <a href="@Url.Action("UserEdit", new { id = item.Id })" class="btn btn-default"><i class="fas fa-user-edit"></i>    تعديل</a>
-                <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-default"><i class="fas fa-info-circle"></i>    تفاصيل</a>
-
-
-            </td>
-
-            <td>
-                @{
-
-                    if (item.active == true)
-                    {
-                        <p>فعال</p>
-                    }
-                    else
-                    {
-                        <p>غير فعال</p>
-
-                    }
-                }
-
-                @Html.DisplayFor(modelItem => item.active)
-            </td>
-            <td>
-                @foreach (var items in Model.PrintTypeX.Where(p=>p.ID.ToString() == item.printer_name))
-                {
-                    @items.PrinterName
-                }
-
-             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.phone)
-            </td>
+                <th>
+                    حاله الحساب
+                </th>
+                <th>
+                    اسم الطابعه
+                </th>
+                <th>
+                    كلمه المرور
+                </th>
+                <th>
+                    التليفون
+                </th>
+                <th>
+                    الاسم
+                </th>
+            </tr>
 
 
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-        </tr>
-        }
-    </tbody>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.UserX)
+            {
+                <tr>
+                    <td style="width:60px">
+                        @foreach (var items in Model.PreviX.Where(h => h.User_ID == item.Id))
+                        {
+                            <a href="@Url.Action("Privilage", new { id = items.id })" class="btn btn-dark mb-2"> الصلاحيات</a>
+                        }
+
+                        <a href="@Url.Action("UserEdit", new { id = item.Id })" class="btn btn-warning mb-2">تعديل</a>
+                        <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-info mb-2">التفاصيل</a>
+
+
+                    </td>
+
+                    <td>
+                        @{
+
+                            if (item.active == true)
+                            {
+                                <p>فعال</p>
+                            }
+                            else
+                            {
+                                <p>غير فعال</p>
+
+                            }
+                        }
+
+                        @*@Html.DisplayFor(modelItem => item.active)*@
+                    </td>
+                    <td>
+                        @foreach (var items in Model.PrintTypeX.Where(p => p.ID.ToString() == item.printer_name))
+                        {
+                            @items.PrinterName
+                        }
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Password)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.phone)
+                    </td>
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                    </td>
+                </tr>
+            }
+        </tbody>
 
 
 
-</table>
-    
+    </table>
+</div>
 
- 
+
+
 
 
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <dixv class="modal-header">
+            <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h4 class="modal-title" id="myModalLabel">Add Employee</h4>
 
-            </dixv>
+            </div>
             <div class="modal-body">
                 <form>
                     <div class="form-group">
@@ -177,7 +178,7 @@
 
 
 <div class="modal fade" id="MyModal">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <a href="#" class="close" data-dismiss="modal">&times;</a>

@@ -66,22 +66,22 @@ namespace Stores.Controllers
         public JsonResult SavePaymentData(Payments model)
         {
             //bool result = true;
-         
 
-                try
-                {
-                    model.date = DateTime.Now;
-                    //model.user_id = int.Parse(Session["userID"].ToString());
-                    model.user_id = 50;
 
-                    _db.Payments.Add(model);
-                    _db.SaveChanges();
-                }
+            try
+            {
+                model.date = DateTime.Now;
+                model.user_id = int.Parse(Session["userID"].ToString());
+                //model.user_id = Session;
 
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                _db.Payments.Add(model);
+                _db.SaveChanges();
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
              
 
             return Json(JsonRequestBehavior.AllowGet);

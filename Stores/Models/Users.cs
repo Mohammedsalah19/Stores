@@ -23,10 +23,10 @@ namespace Stores.Models
         [DisplayName("اسم الموظف")]
 
         public string name { get; set; }
-        [DisplayName("رقم التليفون")]
+        [DisplayName("الهاتف")]
 
         public string phone { get; set; }
-        [DisplayName("رقم البطاقه")]
+        [DisplayName("الرقم القومى")]
 
         public string national_id { get; set; }
         [DisplayName("حاله الحساب")]
@@ -36,9 +36,11 @@ namespace Stores.Models
         [DisplayName("اسم الطابعه")]
 
         public string printer_name { get; set; }
-    //    public DateTime user_current_date { get; set; }
+        //    public DateTime user_current_date { get; set; }
 
         //pic path
+        [DisplayName("الصورة الشخصية ")]
+
         public string PicPath { get; set; }
 
         [NotMapped]

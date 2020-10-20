@@ -1,7 +1,7 @@
 ﻿@model Stores.Models.CommonClasses.ExpensesWithExten
 
 @{
-    ViewBag.Title = "مصروفات";
+    ViewBag.Title = "المصروفات";
 }
 
 
@@ -27,7 +27,7 @@
             $.ajax({
                 type: "Post",
                 //for local host
-             
+
                 url: '@Url.Action("AddExpenses","Expenses")',
                 // url: "/Expenses/AddExpenses",
                 data: data,
@@ -44,76 +44,76 @@
 
 </script>
 <center>
-    <p>
-        <a href="#" class="btn btn-info" onclick="AddNewExpenses()">مصروف جديد</a> <br />
-    </p>
+        <a href="#" class="btn btn-primary mb-3" onclick="AddNewExpenses()">مصروف جديد</a> <br />
 </center>
-
-<table class="table table-hover" id="myTable" style="text-align:center">
-    <tr class="table-heading " style="background-color:#40BCBA">
-        <th>
-            الوصف
-
-        </th>
-        <th>
-            التاريخ
-        </th>
-        <th>
-            الكميه
-
-        </th>
-        <th>
-            نوع المصروفات
-        </th>
-        <th>
-            اسم الموظف
-        </th>
-    </tr>
- 
-    @foreach (var item in Model.ExpensesX)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.comment)
-
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.amount)
-
-            </td>
-            <td>
-
-                @foreach (var items in Model.ExpensesTypeX.Where(f=>f.ExpensesType_ID==item.ExpensesType_ID))
-                {
-                    @items.name
-                }
-             </td>
-            <td>
+<div class="table-responsive" dir="rtl">
 
 
-                @foreach (var items in Model.UsersX.Where(f => f.Id == item.User_ID))
-                {
-                    @items.name
-                }
+    <table class="table table-hover table-striped table-bordered " id="myTable" style="text-align:center" dir="ltr">
+        <tr class="">
+            <th>
+                ملاحظة
+            </th>
+            <th>
+                التاريخ
+            </th>
+            <th>
+                الكميه
 
-            </td>
-
+            </th>
+            <th>
+                نوع المصروفات
+            </th>
+            <th>
+                اسم الموظف
+            </th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model.ExpensesX)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.comment)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.amount)
+
+                </td>
+                <td>
+
+                    @foreach (var items in Model.ExpensesTypeX.Where(f => f.ExpensesType_ID == item.ExpensesType_ID))
+                    {
+                        @items.name
+                    }
+                </td>
+                <td>
+
+
+                    @foreach (var items in Model.UsersX.Where(f => f.Id == item.User_ID))
+                    {
+                        @items.name
+                    }
+
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</div>
 
 
 
 <div class="modal fade" id="AddModel">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <a href="#" class="close" data-dismiss="modal">&times;</a>
-                <h4 id="ModalTitle">اضافه منتج</h4>
+                @*<a href="#" class="close" data-dismiss="modal">&times;</a>*@
+                <h4 id="ModalTitle">اضافه مصروف جديد</h4>
             </div>
             <div class="modal-body">
                 <form id="form" style="text-align:right;direction:rtl">
@@ -123,7 +123,7 @@
 
                         <div class="form-group">
                             <select name="cat" id="section" class="form-control" required="required">
-                                <option value=""> اختار الصنف</option>
+                                <option value=""> اختار نوع المصروف</option>
                                 @{
                                     foreach (var item in Model.ExpensesTypeX)
                                     {
@@ -134,23 +134,22 @@
                         </div>
                         <div class="form-group">
 
-                            <label> الكميه </label>
-                            <input type="text" name="amount" id="amount" value="" class="form-control" required />
+                            @*<label> الكميه </label>*@
+                            <input type="text" name="amount" id="amount" value="" placeholder="المبلغ" class="form-control" required />
                         </div>
 
-                        <div class="form-group">
-                            <label>تفاصيل </label>
-                            <input type="text" name="comment" id="comment" value="" class="form-control" />
+                        <div class="">
+                            @*<label>تفاصيل </label>*@
+                            <input type="text" name="comment" id="comment" value="" placeholder="ملاحظة" class="form-control" />
                         </div>
 
-
-
-                        <div class="form-group">
-                            <a href="#" class="btn btn-block btn-info" onclick="AddExpenses()">حفظ</a>
-                        </div>
 
                     </fieldset>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                <a href="#" class="btn btn-success" onclick="AddExpenses()">حفظ</a>
             </div>
         </div>
     </div>

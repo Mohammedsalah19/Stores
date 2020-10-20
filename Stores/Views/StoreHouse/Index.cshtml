@@ -1,7 +1,7 @@
 ﻿@model Stores.Models.CommonClasses.BillsWithExten
 
 @{
-    ViewBag.Title = "قائمه المنتجات";
+    ViewBag.Title = "المنتجات";
 }
 
 <script src="~/Scripts/jquery-3.3.1.js"></script>
@@ -31,9 +31,9 @@
                             "<td>" + data[i].barcode + "</td>" +
                             "<td>" + getActive(data[i].Pro_id) + "</td>" +
                             "<td>" + getCatName(data[i].Cate_ID) + "</td>" +
- 
-                             "<td>" + "<a href='#' class='btn btn-warning' onclick='goPrint(" + data[i].Pro_id + ")' ><span class='glyphicon glyphicon-edit'></span> تفعيل / الغاء التفعيل </a>" + "</td>" +
- 
+
+                            "<td>" + "<a href='#' class='btn btn-warning' onclick='goPrint(" + data[i].Pro_id + ")' ><span class='glyphicon glyphicon-edit'></span> تفعيل / الغاء التفعيل </a>" + "</td>" +
+
 
                             "</tr>";
                         SetData.append(Data);
@@ -45,24 +45,24 @@
     });
 
 
-    function goPrint(Pro_id ) {
+    function goPrint(Pro_id) {
         var names;
         var url = "/StoreHouse/GoEdit?Pro_id=" + Pro_id;
-  
+
         $.ajax({
             type: "GET",
             url: url,
-             success: function (data) {
-                 names = data;
-                 alert("تم التعديل بنجاح!..");
-                 window.location.href = "/StoreHouse/index";
+            success: function (data) {
+                names = data;
+                alert("تم التعديل بنجاح!..");
+                window.location.href = "/StoreHouse/index";
 
             }
 
         })
-     }
+    }
 
-    
+
 
     function TrueOrFalse(active) {
 
@@ -102,7 +102,7 @@
             url: url,
             async: false,
             success: function (data) {
-                 name = data;
+                name = data;
             }
         })
 
@@ -206,19 +206,14 @@
 </script>
 
 <center>
-    <p>
-        <a href="#" class="btn btn-info" onclick="AddNewProduct(0)">منتج جديد</a> <br />
-    </p>
-    <div class="form-group">
-        <div class="col-md-12">
-            <input class="form-control text-right  text-box single-line" id="myInput" name="myInput" placeholder=".... بحث سريع" type="text">
-        </div>
-    </div>
-</center>
 
-<center>
-    <select name="Cate_ID" id="section" class="form-control">
-        <option> اختار المنتج</option>
+    <a href="#" class="btn btn-primary  mb-3" onclick="AddNewProduct(0)">منتج جديد</a> <br />
+
+    <input class="form-control text-right mb-3" id="myInput" name="myInput" placeholder=".... بحث سريع" type="text">
+
+
+    <select name="Cate_ID" id="section" class="form-control mb-3">
+        <option> اختار القسم</option>
         @{
             foreach (var item in Model.prodCategoryX)
             {
@@ -227,51 +222,54 @@
         }
     </select>
 </center>
-<br />
-
-<table class="table table-hover" id="myTable" style="text-align:center">
-    <thead>
-        <tr class="table-heading " style="background-color:#40BCBA">
-            <th>
-                رقم المنتج
-            </th>
-            <th>
-                اسم المنتج
-            </th>
-            <th>
-                الباركود
-            </th>
-            <th>
-
-                الحاله
-
-            </th>
-            <th>
-                القسم
-
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-
-    <tbody id="SetStudentList">
-        <tr id="LoadingStatus" style="color:red"></tr>
-    </tbody>
+<div class="table-responsive" dir="rtl">
 
 
+    <table class="table table-hover table-striped table-bordered " id="myTable" style="text-align:center" dir="ltr">
 
-</table>
+        <thead>
+            <tr>
+                <th>
+                    رقم المنتج
+                </th>
+                <th>
+                    اسم المنتج
+                </th>
+                <th>
+                    الباركود
+                </th>
+                <th>
 
+                    الحاله
+
+                </th>
+                <th>
+                    القسم
+
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody id="SetStudentList">
+            <tr id="LoadingStatus" style="color:red"></tr>
+        </tbody>
+
+
+
+    </table>
+
+</div>
 
 
 @*edit record*@
 
 <div class="modal fade" id="EditModel">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <a href="#" class="close" data-dismiss="modal">&times;</a>
-                <h4 id="ModalTitle">تعديل ألمنتج</h4>
+                <h4 id="ModalTitle">تعديل المنتج</h4>
             </div>
             <div class="modal-body">
                 <form id="form" style="text-align:right;direction:rtl">
@@ -325,21 +323,21 @@
 
 
 <div class="modal fade" id="AddModel">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                @*<a href="#" class="close" data-dismiss="modal">&times;</a>*@
                 <h4 id="ModalTitle">اضافه منتج</h4>
             </div>
             <div class="modal-body">
                 <form id="form" style="text-align:right;direction:rtl">
                     <fieldset id="SubmitForm2">
-                  
+
 
 
                         <div class="form-group">
                             <select name="Cat" id="section" class="form-control" required="required">
-                                <option value=""> اختار الصنف</option>
+                                <option value=""> اختار القسم</option>
                                 @{
                                     foreach (var item in Model.prodCategoryX)
                                     {
@@ -348,49 +346,49 @@
                                 }
                             </select>
                         </div>
-                        
-                        
+
+
                         <div class="form-group">
-                            <label>اسم المنتج </label>
-                            <input type="text" name="name" id="name" value="" class="form-control" />
+                            @*<label></label>*@
+                            <input type="text" name="name" id="name" value="" placeholder="اسم المنتج " class="form-control" />
                         </div>
 
                         <div class="form-group">
-                            <label>التكلفه </label>
-                            <input type="text" name="cost" id="cost" value="" class="form-control" />
+                            @*<label> </label>*@
+                            <input type="text" name="cost" id="cost" value="" placeholder="التكلفه" class="form-control" />
                         </div>
 
                         <div class="form-group">
-                            <label>السعر</label>
-                            <input type="text" name="Price" id="Price" value="" class="form-control" />
+                            @*<label></label>*@
+                            <input type="text" name="Price" id="Price" value="" placeholder="السعر" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label>الكميه</label>
-                            <input type="text" name="Quantity" id="Quantity" value="" class="form-control" />
+                            @*<label></label>*@
+                            <input type="text" name="Quantity" id="Quantity" value="" placeholder="الكميه" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label>اقل كميه</label>
-                            <input type="text" name="Minmum" id="Minmum" value="" class="form-control" />
+                            @*<label></label>*@
+                            <input type="text" name="Minmum" id="Minmum" value="" placeholder="اقل كميه " class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label>الخصم</label>
-                            <input type="text" name="Discount" id="Discount" value="" class="form-control" />
+                            @*<label></label>*@
+                            <input type="text" name="Discount" id="Discount" value="" placeholder="الخصم" class="form-control" />
                         </div>
                         <div class="form-group" hidden>
                             <label>رقم المنتج</label>
                             <input type="text" name="Pro_ID" id="Pro_ID" value="" class="form-control" />
                         </div>
-                        <div class="form-group">
+                        <div class="">
                             <label>الحاله</label>
                             <input type="checkbox" name="active" id="active" value="True" class="" />
                         </div>
 
-                        <div class="form-group">
-                            <a href="#" class="btn btn-block btn-info" onclick="Addproduct()">حفظ</a>
-                        </div>
-
                     </fieldset>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                <a href="#" class="btn btn-success" onclick="Addproduct()">حفظ</a>
             </div>
         </div>
     </div>

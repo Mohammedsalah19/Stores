@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Stores.Models.ProductCategory>
 
 @{
-    ViewBag.Title = "الاصناف";
+    ViewBag.Title = "الاقسام";
 }
 
 
@@ -12,7 +12,7 @@
     function AddNewCate() {
         $("#form")[0].reset();
         $("#Client_ID").val(0);
-        $("#ModalTitle").html("اضافه صنف جديد");
+        $("#ModalTitle").html("اضافه قسم جديد");
         $("#ModalTitle").css("text-align:center ")
         $("#MyModal").modal();
 
@@ -61,77 +61,77 @@
 
 <center>
 
-    <div class="form-group">
-        <div class="col-md-12">
-            <a href="#" class="btn btn-info" onclick="AddNewCate(0)">صنف جديده</a> <br />
-        </div>
-    </div>
+            <a href="#" class="btn btn-primary mb-3" onclick="AddNewCate(0)">اضافة جديد</a>
 </center>
 
-<table class="table table-hover" id="myTable" style="text-align:center">
-    <tr class="table-heading " style="background-color:#40BCBA">
-        <th></th>
-        <th>
-            @Html.DisplayNameFor(model => model.description)
+<div class="table-responsive" dir="rtl">
 
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.name)
 
-        </th>
-        <th></th>
-    </tr>
+    <table class="table table-hover table-striped table-bordered " id="myTable" style="text-align:center" dir="ltr">
+        <tr class=" ">
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.description)
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                <input type="submit" class='btn btn-danger' value="حذف" class="btn btn-info" onclick="ConfirmDelete(@item.Cate_ID)" />
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
 
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.description)
-
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-
-            </td>
-
+            </th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <input type="submit" class='btn btn-danger' value="حذف" onclick="ConfirmDelete(@item.Cate_ID)" />
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.description)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</div>
 
 
 
 <div class="modal fade" id="MyModal">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                @*<a href="#" class="close" data-dismiss="modal">&times;</a>*@
                 <h4 id="ModalTitle"></h4>
             </div>
             <div class="modal-body">
                 <form id="form">
                     <fieldset id="SubmitForm2" class="text-right" style="direction:rtl">
                         <div class="form-group">
-                            <label>اسم المنتج</label>
+                            @*<label>الاسم</label>*@
 
-                            <input type="text" name="name" id="name" placeholder="اسم المنتج" class="form-control" required />
+                            <input type="text" name="name" id="name" placeholder="الاسم" class="form-control" required />
                         </div>
-                        <div class="form-group">
-                            <label>الوصف</label>
+                        <div class="">
+                            @*<label>الوصف</label>*@
                             <input type="text" name="description" id="description" placeholder="الوصف" class="form-control" required />
                         </div>
-                     
-                        <div class="form-group">
-                            <button class="btn btn-block btn-info" onclick="AddCate();" id="SaveRecord" value="اضافه">اضافه</button>
 
-                        </div>
+                       
 
                     </fieldset>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">إلغاء</button>
+                <button class="btn btn-success" onclick="AddCate();" id="SaveRecord" value="اضافه">حفظ</button>
             </div>
         </div>
     </div>

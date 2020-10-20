@@ -1,70 +1,84 @@
 ﻿@model Stores.Models.Users
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Model.name;
 }
 
+<style>
+    td.fitwidth {
+        width: 1px;
+        white-space: nowrap;
+    }
+</style>
+<div class="row">
+    <div class="col-md-auto text-center mb-3">
 
-
-
-<div class="card text-center">
-    <div class="card-header">
-        المعلومات الشخصيه
+        <img src="@Url.Content(Model.PicPath)" style="max-height:295px" class="img-fluid img-thumbnail rounded " />
 
     </div>
-    <div class="card-body">
-        <h5 class="card-title">
-            <img src="@Url.Content(Model.PicPath)" width="250" height="250" />
+    <div class="col-md text-right">
+        <table class="table table-striped table-bordered " style="text-align:right">
+           
+            <tbody class="h5 font-weight-bold">
+                <tr>
+                    <td class="fitwidth">الهاتف</td>
+                    <td>@Model.phone</td>
+                </tr>
+                <tr>
+                    <td class="fitwidth">الرقم القومى</td>
+                    <td>@Model.national_id</td>
+                </tr>
+                <tr>
+                    <td class="fitwidth">الطابعه</td>
+                    <td>@Model.printer_name</td>
+                </tr>
+                <tr>
+                    <td class="fitwidth">اسم المستخدم</td>
+                    <td>@Model.username</td>
+                </tr>
+                <tr>
+                    <td class="fitwidth">كلمة المرور</td>
+                    <td>@Model.Password</td>
+                </tr>
+                <tr>
+                    <td class="fitwidth">حاله الحساب</td>
+                    @{ if (@Model.active == true)
+                        {
+                            <td>فعال</td>
+                        }
+                        else
+                        {
 
-        </h5>
+                            <td>موقوف</td>
 
-        <p class="card-text">
-            الموظف :  @Model.name
-        </p>
+                        }
+                    }
+                </tr>
+            </tbody>
+        </table>
 
-        <p class="card-text">
-            اسم المستخدم : @Model.username
 
-        </p>
 
-        <p class="card-text">
-            رقم التليفون :  @Model.phone
-        </p>
 
-        <p class="card-text">
-            رقم البطاقه :  @Model.national_id
-
-            @*المكتب : @Model.OfficeX.Where(h => h.Id.ToString() == Model.EmpY.OfficeName).Select(p => p.OfficeName).FirstOrDefault()*@
-        </p>
-
-        <p class="card-text">
-            اسم الطابعه : @Model.printer_name
-        </p>
-
-        <p class="card-text">
-            كلمة المرور         : @Model.Password
-        </p>
-
-        <p class="card-text">
-              @{ if (@Model.active == true)
-                {
-        <p>حاله الحساب : فعال</p>
-            }
-            else
-            {
-
-        <p>   حاله الحساب :موقوف</p>
-               
-                }
-            }
-            </p>
-
-        </div>
-
+    </div>
 </div>
 
 
- 
-<div>
-    <a href="@Url.Action("index","Employee")" class="btn btn-default"><i class="fas fa-backward"></i> الرجوع</a>
-</div>
+@*<div class="card text-center">
+
+        <div class="card-body">
+            <h5 class="card-title">
+
+            </h5>
+
+
+
+            </div>
+
+    </div>
+
+
+
+    <div>
+        <a href="@Url.Action("index","Employee")" class="btn btn-default"><i class="fas fa-backward"></i> الرجوع</a>
+    </div>*@

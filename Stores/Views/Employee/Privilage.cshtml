@@ -1,10 +1,9 @@
 ﻿@model Stores.Models.Users_Privileges
 
 @{
-    ViewBag.Title = "Privilage";
+    ViewBag.Title = "صلاحيات المستخدمين";
 }
 
-<h2>Privilage</h2>
 
 
 @using (Html.BeginForm())
@@ -12,118 +11,115 @@
     @Html.AntiForgeryToken()
 
 
-    <div class="text-right" style="direction:rtl">
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
+<div class="text-right" style="direction:rtl">
+    <div class="form-group">
+        <div class=" ">
 
-                @Html.HiddenFor(model => model.id)
-                <div class="checkbox">
-                    <label>
-
-                        <input type="checkbox" id="notifacations" checked="@Model.notifacations" name="notifacations" value="True"> التنبيهات
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="payment" checked="@Model.payment" name="payment" value="True"> المبيعات
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="products" checked="@Model.products" name="products" value="True"> المشتريات
-                    </label>
-                </div>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="purchasebill" name="purchasebill" checked="@Model.purchasebill" value="True"> المرتجع
-                    </label>
-                </div>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="salesbill" name="salesbill" checked="@Model.salesbill" value="True"> المبيعات
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="sitting" name="sitting" checked="@Model.sitting" value="True"> الاعدادات
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="statistics" name="statistics" checked="@Model.statistics" value="True">  الاحصائيات
-
-                    </label>
-                </div>
-
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="users" name="users" checked="@Model.users" value="True"> المستخدمين
-
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="expenses_type" name="expenses_type" checked="@Model.expenses_type" value="True"> انواع المصروفات
-
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="expenses" name="expenses" checked="@Model.expenses" value="True">  المصروفات
-
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="endday" name="endday" checked="@Model.endday" value="True">  انهاء اليوم
-
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="clients" name="clients" checked="@Model.clients" value="True">   العملاء
-
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="categories" name="categories" checked="@Model.categories" value="True">  الاصناف
-
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="backbill" name="backbill" checked="@Model.backbill" value="True">  المرتجعات
-
-                    </label>
-                </div>
-
+            @Html.HiddenFor(model => model.id)
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="notifacations" checked="@Model.notifacations" name="notifacations" value="True"> التنبيهات
+                </label>
             </div>
-        </div>
 
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="حفظ" class="btn btn-default" />
+            <div class="checkbox ">
+                <label>
+                    <input type="checkbox" id="payment" checked="@Model.payment" name="payment" value="True"> المبيعات
+                </label>
             </div>
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="products" checked="@Model.products" name="products" value="True"> المشتريات
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="purchasebill" name="purchasebill" checked="@Model.purchasebill" value="True"> المرتجع
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="salesbill" name="salesbill" checked="@Model.salesbill" value="True"> المبيعات
+                </label>
+            </div>
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="sitting" name="sitting" checked="@Model.sitting" value="True"> الاعدادات
+                </label>
+            </div>
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="statistics" name="statistics" checked="@Model.statistics" value="True">  الاحصائيات
+
+                </label>
+            </div>
+
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="users" name="users" checked="@Model.users" value="True"> المستخدمين
+
+                </label>
+            </div>
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="expenses_type" name="expenses_type" checked="@Model.expenses_type" value="True"> انواع المصروفات
+
+                </label>
+            </div>
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="expenses" name="expenses" checked="@Model.expenses" value="True">  المصروفات
+
+                </label>
+            </div>
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="endday" name="endday" checked="@Model.endday" value="True">  انهاء اليوم
+
+                </label>
+            </div>
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="clients" name="clients" checked="@Model.clients" value="True">   العملاء
+
+                </label>
+            </div>
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="categories" name="categories" checked="@Model.categories" value="True">  الاقسام
+
+                </label>
+            </div>
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="backbill" name="backbill" checked="@Model.backbill" value="True">  المرتجعات
+
+                </label>
+            </div>
+
         </div>
     </div>
+    <hr />
+    <div class="">
+        <input type="submit" value="حفظ" class="btn btn-success" />
+
+        <a href="@Url.Action("index","Employee")" class="btn btn-secondary"> إلغاء</a>
+    </div>
+
+    
+</div>
 }
 
-<div>
-    <a href="@Url.Action("index","Employee")" class="btn btn-default"><i class="fas fa-backward"></i> الرجوع</a>
-</div>
 
 
 @section Scripts {

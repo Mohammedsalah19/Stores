@@ -392,7 +392,7 @@ namespace Stores.Controllers
                     _bill.Client_ID = ClintID.Client_ID;
 
                     Session["CLientID"] = ClintID.Client_ID;
-                    _bill.Cate_Id = 4;
+                    _bill.Cate_Id = 1;
 
                     _bill.User_ID = int.Parse(Session["userID"].ToString());
                     _bill.Viewed = true;
@@ -903,7 +903,7 @@ namespace Stores.Controllers
                     // get client id
                     var ClintID = _db.Clients.Where(p => p.name == Client_ID).FirstOrDefault();
                     _bill.Client_ID = ClintID.Client_ID;
-                    _bill.Cate_Id = 5;
+                    _bill.Cate_Id = 2;
 
                     _bill.User_ID = int.Parse(Session["userID"].ToString());
                     _bill.Viewed = true;
